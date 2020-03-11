@@ -6,7 +6,6 @@
 #include "stm32f10x.h"
 
 
-
 //SPI显示屏接口
 //LCD_RST
 #define SPILCD_RST_SET  GPIO_SetBits(GPIOB, GPIO_Pin_0)  //PB0    
@@ -22,18 +21,18 @@
 //LCD重要参数集
 typedef struct  
 { 					    
-	u16 width;			//LCD 宽度
-	u16 height;			//LCD 高度
-	u16 id;				//LCD ID
-	u8	wramcmd;		//开始写gram指令
-	u8  setxcmd;		//设置x坐标指令
-	u8  setycmd;		//设置y坐标指令	 
+	uint16_t width;			//LCD 宽度
+	uint16_t height;			//LCD 高度
+	uint16_t id;				//LCD ID
+	uint8_t	wramcmd;		//开始写gram指令
+	uint8_t  setxcmd;		//设置x坐标指令
+	uint8_t  setycmd;		//设置y坐标指令	 
 }_lcd_dev; 	  
 
 //LCD参数
 extern _lcd_dev lcddev;	
-extern u16  POINT_COLOR;
-extern u16  BACK_COLOR; 
+extern uint16_t  POINT_COLOR;
+extern uint16_t  BACK_COLOR; 
 
 //////////////////////////////////////////////////////////////////////////////////	 
 //-----------------LCD端口定义---------------- 
@@ -41,12 +40,12 @@ extern u16  BACK_COLOR;
 
 typedef struct
 {
-	u16 LCD_REG;
-	u16 LCD_RAM;
+	uint16_t LCD_REG;
+	uint16_t LCD_RAM;
 } LCD_TypeDef;
 //使用NOR/SRAM的 Bank1.sector4,地址位HADDR[27,26]=11 A10作为数据命令区分线 
 //注意设置时STM32内部会右移一位对其! 111110=0X3E			    
-#define LCD_BASE        ((u32)(0x60000000 | 0x0007FFFE))
+#define LCD_BASE        ((uint32_t)(0x60000000 | 0x0007FFFE))
 #define LCD             ((LCD_TypeDef *) LCD_BASE)
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -82,24 +81,24 @@ typedef struct
 void LCD_Init(void);			
 void LCD_DisplayOn(void);	
 void LCD_DisplayOff(void);													
-void LCD_Clear(u16 Color);	 												
-void LCD_SetCursor(u16 Xpos, u16 Ypos);							
-void LCD_DrawPoint(u16 x,u16 y);										
-void LCD_Fast_DrawPoint(u16 x,u16 y,u16 color);			
-void Draw_Circle(u16 x0,u16 y0,u8 r);								
-void LCD_DrawLine(u16 x1, u16 y1, u16 x2, u16 y2);	
-void LCD_DrawRectangle(u16 x1, u16 y1, u16 x2, u16 y2);
-void LCD_Fill(u16 sx,u16 sy,u16 ex,u16 ey,u16 color);		
-void LCD_Color_Fill(u16 sx,u16 sy,u16 ex,u16 ey,u16 *color);
-void LCD_ShowChar(u16 x,u16 y,u8 num,u8 size,u8 mode);			
-void LCD_ShowNum(u16 x,u16 y,u32 num,u8 len,u8 size);  			
-void LCD_ShowxNum(u16 x,u16 y,u32 num,u8 len,u8 size,u8 mode);
-void LCD_ShowString(u16 x,u16 y,u16 width,u16 height,u8 size,u8 *p);	
+void LCD_Clear(uint16_t Color);	 												
+void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos);							
+void LCD_DrawPoint(uint16_t x,uint16_t y);										
+void LCD_Fast_DrawPoint(uint16_t x,uint16_t y,uint16_t color);			
+void Draw_Circle(uint16_t x0,uint16_t y0,uint8_t r);								
+void LCD_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);	
+void LCD_DrawRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
+void LCD_Fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t color);		
+void LCD_Color_Fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t *color);
+void LCD_ShowChar(uint16_t x,uint16_t y,uint8_t num,uint8_t size,uint8_t mode);			
+void LCD_ShowNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size);  			
+void LCD_ShowxNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size,uint8_t mode);
+void LCD_ShowString(uint16_t x,uint16_t y,uint16_t width,uint16_t height,uint8_t size,uint8_t *p);	
 	  
-void showimage(u16 x,u16 y); 
-void LCD_WriteReg(u8 LCD_Reg, u16 LCD_RegValue);
+void showimage(uint16_t x,uint16_t y); 
+void LCD_WriteReg(uint8_t LCD_Reg, uint16_t LCD_RegValue);
 void LCD_WriteRAM_Prepare(void);
-void LCD_WR_DATA8(u8 da);   
+void LCD_WR_DATA8(uint8_t da);   
  
 void showhanzi16(unsigned int x,unsigned int y,unsigned char index);
 void showhanzi32(unsigned int x,unsigned int y,unsigned char index);						  		 

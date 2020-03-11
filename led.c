@@ -1,6 +1,6 @@
 #include "led.h"
 #include "stm32f10x_gpio.h"
-#include "stm32f10x_rcc.h"
+//#include "stm32f10x_rcc.h"
    
 //初始化PB5和PE5为输出口.并使能这两个口的时钟		    
 //LED IO初始化

@@ -19,8 +19,8 @@
 //在delay_us加入ucos上锁，防止由于ucos打断delay_us的执行，可能导致的延时不准。
 ////////////////////////////////////////////////////////////////////////////////// 	 
 void delay_init(void);
-void delay_ms(u16 nms);
-void delay_us(u32 nus);
+void delay_ms(uint16_t nms);
+void delay_us(uint32_t nus);
 
 #endif
 

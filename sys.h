@@ -55,7 +55,7 @@
 
 
 void NVIC_Configuration(void);
-void inttohex(u16 value,u8 *hex);
+void inttohex(uint16_t value,uint8_t *hex);
 
 
 #endif

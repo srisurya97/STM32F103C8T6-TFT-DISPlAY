@@ -1,9 +1,10 @@
 #include "spi.h"
-#include "usart.h"
 #include "stm32f10x_gpio.h"
-#include "stm32f10x_usart.h"
 #include "stm32f10x_spi.h"
-#include "stm32f10x_rcc.h"
+//#include "stm32f10x_rcc.h"
+//#include "stm32f10x_usart.h"
+//#include "usart.h"
+
 //以下是SPI模块的初始化代码，配置成主机模式，访问SD Card/W25X16/24L01/JF24C							  
 //SPI口初始化
 //这里针是对SPI2的初始化
@@ -14,7 +15,7 @@ void SPI1_Init(void)
 		SPI_InitTypeDef  SPI_InitStructure;
   
 		RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOA, ENABLE );//PORTA时钟使能 
-	  RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOB, ENABLE );
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE );
 		RCC_APB2PeriphClockCmd(	RCC_APB2Periph_SPI1,  ENABLE );//SPI1时钟使能 	
 		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7 ;	  //Pin_5 sck  pin7 MOSI
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;  //PA5/7/复用推挽输出 
@@ -22,9 +23,9 @@ void SPI1_Init(void)
 		GPIO_Init(GPIOA, &GPIO_InitStructure);
 		
 		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;  
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; 
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 
-    GPIO_Init(GPIOA, &GPIO_InitStructure);
+   		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; 
+		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 
+	        GPIO_Init(GPIOA, &GPIO_InitStructure);
 		GPIO_ResetBits(GPIOA, GPIO_Pin_4);//PA4	CS
 
 		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1;  // GPIO_Pin_4  
@@ -105,7 +106,7 @@ void SPI2_Init(void)
 	//SPI_BaudRatePrescaler_16  16分频  (SPI 4.5M@sys 72M)
 	//SPI_BaudRatePrescaler_256 256分频 (SPI 281.25K@sys 72M)
   
-void SPI2_SetSpeed(u8 SpeedSet)
+void SPI2_SetSpeed(uint8_t SpeedSet)
 	{
 		SPI2->CR1&=0XFFC7; 
 		SPI2->CR1|=SpeedSet;
@@ -115,9 +116,9 @@ void SPI2_SetSpeed(u8 SpeedSet)
 	//SPIx 读写一个字节
 	//TxData:要写入的字节
 	//返回值:读取到的字节
-u8 SPI2_ReadWriteByte(u8 TxData)
+uint8_t SPI2_ReadWriteByte(uint8_t TxData)
 	{
-		u8 retry=0;				 	
+		uint8_t retry=0;				 	
 		while (SPI_I2S_GetFlagStatus(SPI2, SPI_I2S_FLAG_TXE) == RESET)			//检查指定的SPI标志位设置与否:发送缓存空标志位
 			{
 				retry++;
@@ -134,40 +135,13 @@ u8 SPI2_ReadWriteByte(u8 TxData)
 		return SPI_I2S_ReceiveData(SPI2); //返回通过SPIx最近接收的数据					    
 	}
 
-u8 SPI_WriteByte(SPI_TypeDef* SPIx,u8 Byte)
+uint8_t SPI_WriteByte(SPI_TypeDef* SPIx,uint8_t Byte)
 	{
 		while((SPIx->SR&SPI_I2S_FLAG_TXE)==RESET);		//等待发送区空	  
 		SPIx->DR=Byte;	 	//发送一个byte   
 		while((SPIx->SR&SPI_I2S_FLAG_RXNE)==RESET);//等待接收完一个byte  
 		return SPIx->DR;          	     //返回收到的数据			
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

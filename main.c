@@ -1,19 +1,19 @@
 #include "led.h"
 #include "delay.h"
-//#include "key.h"
 #include "sys.h"
 #include "lcd.h"
-//#include "usart.h"	 
-//#include "24cxx.h"
-//#include "flash.h"
-//#include "touch.h"
 #include "spi.h"	
 #include "LCDFunctions.h"
 #include "stm32f10x.h"
 
+//#include "usart.h"	 
+//#include "24cxx.h"
+//#include "flash.h"
+//#include "touch.h"
+//#include "key.h"
 
-u8 state=0;
-void beepms(u16 va);
+uint8_t state=0;
+void beepms(uint16_t va);
 void xianshi(void);  
 void refshow(void);
 
@@ -44,7 +44,7 @@ void xianshi()
 
 void showqq()
 	{
-		u16 x,y; 
+		uint16_t x,y; 
 		x=0;
 		y=75;
 		while(y<lcddev.height-39)
@@ -84,7 +84,7 @@ void refshow(void)
 	}
 
 
-void jiance(u8 key) 
+void jiance(uint8_t key) 
 	{
 		if(key==1)	
 			{
@@ -106,7 +106,7 @@ void jiance(u8 key)
 
 	} 
 
-void beepms(u16 va)
+void beepms(uint16_t va)
 	{
 		beep=1;
 		delay_ms(va);
@@ -123,7 +123,7 @@ int Current = 2;
 
 int main(void)
 	{
-		
+		//PIN A0 for Nav and A1 for Back and A2 for Select
 		RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
 		//RCC->APB2ENR |= RCC_APB2ENR_IOPBEN;
 		//PORT A PINS 2, 1 and 0 set to input pushpull
@@ -134,8 +134,8 @@ int main(void)
 		GPIOB->CRL |= GPIO_CRL_CNF6_1;
 		GPIOB->CRL &= GPIO_CRL_CNF6_0;
 
-		//u16 i=0;	 
-		//u8 key=0;	
+		//uint16_t i=0;	 
+		//uint8_t key=0;	
 		delay_init();	    
     LCDBegin();
 		LCDSendString("D");
@@ -164,7 +164,12 @@ int main(void)
 		LCDSendString("GGING");
 		delay_ms(1000);
 		//LCD_Clear(BLACK);
-		while(1)
+		
+		
+
+		
+		
+	while(1)
 			{
 				
 					while(i == 2)
@@ -394,7 +399,7 @@ int main(void)
 					
 					
 				while(i == 7)
-						{
+						{ 
 							POINT_COLOR=RED;
 							LCD_DrawRectangle(1, 1, 170, 20);
 							LCD_ShowString(2,2,320,16,16,  "SHUT DOWN");
@@ -463,6 +468,14 @@ int main(void)
 						LED0=!LED0;
 					}
 			}	*/
+	
+	
+	
+	
+	
+   
+	
+	
 	}
 	
 	

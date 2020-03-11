@@ -23,8 +23,8 @@
 //V1.5修改说明 20120902
 //在delay_us加入ucos上锁，防止由于ucos打断delay_us的执行，可能导致的延时不准。
 ////////////////////////////////////////////////////////////////////////////////// 	 
-static u8  fac_us=0;//us延时倍乘数
-static u16 fac_ms=0;//ms延时倍乘数
+static uint8_t  fac_us=0;//us延时倍乘数
+static uint16_t fac_ms=0;//ms延时倍乘数
 #ifdef OS_CRITICAL_METHOD 	//如果OS_CRITICAL_METHOD定义了,说明使用ucosII了.
 //systick中断服务函数,使用ucos时用到
 void SysTick_Handler(void)
@@ -43,7 +43,7 @@ void delay_init()
 {
 
 #ifdef OS_CRITICAL_METHOD 	//如果OS_CRITICAL_METHOD定义了,说明使用ucosII了.
-	u32 reload;
+	uint32_t reload;
 #endif
 	SysTick_CLKSourceConfig(SysTick_CLKSource_HCLK_Div8);	//选择外部时钟  HCLK/8
 	fac_us=SystemCoreClock/8000000;	//为系统时钟的1/8  
@@ -57,18 +57,18 @@ void delay_init()
 	SysTick->LOAD=reload; 	//每1/OS_TICKS_PER_SEC秒中断一次	
 	SysTick->CTRL|=SysTick_CTRL_ENABLE_Msk;   	//开启SYSTICK    
 #else
-	fac_ms=(u16)fac_us*1000;//非ucos下,代表每个ms需要的systick时钟数   
+	fac_ms=(uint16_t)fac_us*1000;//非ucos下,代表每个ms需要的systick时钟数   
 #endif
 }								    
 
 #ifdef OS_CRITICAL_METHOD	//使用了ucos
 //延时nus
 //nus为要延时的us数.		    								   
-void delay_us(u32 nus)
+void delay_us(uint32_t nus)
 {		
-	u32 ticks;
-	u32 told,tnow,tcnt=0;
-	u32 reload=SysTick->LOAD;	//LOAD的值	    	 
+	uint32_t ticks;
+	uint32_t told,tnow,tcnt=0;
+	uint32_t reload=SysTick->LOAD;	//LOAD的值	    	 
 	ticks=nus*fac_us; 			//需要的节拍数	  		 
 	tcnt=0;
 	told=SysTick->VAL;        	//刚进入时的计数器值
@@ -86,7 +86,7 @@ void delay_us(u32 nus)
 }
 //延时nms
 //nms:要延时的ms数
-void delay_ms(u16 nms)
+void delay_ms(uint16_t nms)
 {	
 	if(OSRunning==TRUE)//如果os已经在跑了	    
 	{		  
@@ -96,13 +96,13 @@ void delay_ms(u16 nms)
 		}
 		nms%=fac_ms;				//ucos已经无法提供这么小的延时了,采用普通方式延时    
 	}
-	delay_us((u32)(nms*1000));	//普通方式延时,此时ucos无法启动调度.
+	delay_us((uint32_t)(nms*1000));	//普通方式延时,此时ucos无法启动调度.
 }
 #else
 
-void delay_us(u32 nus)
+void delay_us(uint32_t nus)
 	{
-		u32 temp;	    	 
+		uint32_t temp;	    	 
 		SysTick->LOAD=nus*fac_us; 
 		SysTick->VAL=0x00;        
 		SysTick->CTRL|=SysTick_CTRL_ENABLE_Msk ; 
@@ -122,10 +122,10 @@ void delay_us(u32 nus)
 //SYSCLK单位为Hz,nms单位为ms
 //对72M条件下,nms<=1864 
 
-void delay_ms(u16 nms)
+void delay_ms(uint16_t nms)
 	{
-		u32 temp;		   
-		SysTick->LOAD=(u32)nms*fac_ms;	//时间加载(SysTick->LOAD为24bit)
+		uint32_t temp;		   
+		SysTick->LOAD=(uint32_t)nms*fac_ms;	//时间加载(SysTick->LOAD为24bit)
 		SysTick->VAL =0x00;           
 		SysTick->CTRL|=SysTick_CTRL_ENABLE_Msk ;
 		
