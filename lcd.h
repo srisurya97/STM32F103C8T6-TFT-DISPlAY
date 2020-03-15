@@ -6,19 +6,18 @@
 #include "stm32f10x.h"
 
 
-//SPI显示屏接口
-//LCD_RST
-#define SPILCD_RST_SET  GPIO_SetBits(GPIOB, GPIO_Pin_0)  //PB0    
-#define SPILCD_RST_RESET GPIO_ResetBits(GPIOB, GPIO_Pin_0)//PB0  
-//LCD_RS//dc  
-#define SPILCD_RS_SET  GPIO_SetBits(GPIOB,  GPIO_Pin_1)//PC4     GPIOC,  GPIO_Pin_4
-#define SPILCD_RS_RESET  GPIO_ResetBits(GPIOB, GPIO_Pin_1)//PC4     GPIOC,  GPIO_Pin_4 
-//LCD_CS  
-#define SPILCD_CS_SET GPIO_SetBits(GPIOA,GPIO_Pin_4 )//PA4 
-#define SPILCD_CS_RESET  GPIO_ResetBits(GPIOA, GPIO_Pin_4)//PA4 
+// REdefine for LCD controls
+//LCD_RST PortB_0
+#define SPILCD_RST_SET  GPIO_SetBits(GPIOB, GPIO_Pin_0)     
+#define SPILCD_RST_RESET GPIO_ResetBits(GPIOB, GPIO_Pin_0)
+//LCD_RS/DC PortB_1  
+#define SPILCD_RS_SET  GPIO_SetBits(GPIOB,  GPIO_Pin_1)
+#define SPILCD_RS_RESET  GPIO_ResetBits(GPIOB, GPIO_Pin_1)
+//LCD_CS  PortA_4
+#define SPILCD_CS_SET GPIO_SetBits(GPIOA,GPIO_Pin_4 ) 
+#define SPILCD_CS_RESET  GPIO_ResetBits(GPIOA, GPIO_Pin_4)
 
   
-//LCD重要参数集
 typedef struct  
 { 					    
 	uint16_t width;			//LCD 宽度

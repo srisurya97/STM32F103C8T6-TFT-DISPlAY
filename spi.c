@@ -12,8 +12,9 @@ void SPI1_Init(void)
 		SPI_InitTypeDef  SPI_InitStructure;
   
 		RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;										   //Enabling Clock for PORTA
-    RCC->APB2ENR |= RCC_APB2ENR_IOPBEN;											 //Enabling Clock for PORTB
-		RCC_APB2PeriphClockCmd(	RCC_APB2Periph_SPI1,  ENABLE );  //Enabling Clock for SPI1
+    RCC->APB2ENR |= RCC_APB2ENR_IOPBEN;									  	 //Enabling Clock for PORTB
+		RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;										   //Enabling Clock for AFIO
+		RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;										   //Enabling Clock for SPI1
 		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_5 | GPIO_Pin_7 ;	 //Enabling Pin_5 for sck | pin7 for MOSI
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;  				 //Output mode Alternate PushPull  
 		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;				 //Speed 50MHz

@@ -123,16 +123,14 @@ int Current = 2;
 
 int main(void)
 	{
-		//PIN A0 for Nav and A1 for Back and A2 for Select
-		RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
+		SPI1_Init();
+		
+		//PIN A0 for Nav and A1 for Back and A2 for Select //PORT A PINS 2, 1 and 0 set to input pushpull
+		//RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
 		//RCC->APB2ENR |= RCC_APB2ENR_IOPBEN;
-		//PORT A PINS 2, 1 and 0 set to input pushpull
 		GPIOA->CRL &= ~(GPIO_CRL_MODE0| GPIO_CRL_MODE1 | GPIO_CRL_MODE2);
 		GPIOA->CRL |= (GPIO_CRL_CNF0_1|GPIO_CRL_CNF1_1 | GPIO_CRL_CNF2_1);
 		GPIOA->CRL &= ~(GPIO_CRL_CNF0_0|GPIO_CRL_CNF1_0 |GPIO_CRL_CNF2_0);	
-		//PORT B PINS 6 set to input pushpull
-		GPIOB->CRL |= GPIO_CRL_CNF6_1;
-		GPIOB->CRL &= GPIO_CRL_CNF6_0;
 
 		//uint16_t i=0;	 
 		//uint8_t key=0;	
@@ -151,7 +149,6 @@ int main(void)
 		
 		LCDSendString("B");
 				
-		SPI1_Init();
 		
 		LCDSendString("U");
 				
@@ -167,25 +164,24 @@ int main(void)
 		
 		
 
+		Current = 2;
 		
-		
-	while(1)
+		while(1)
 			{
-				
-					while(i == 2)
-						{ 
-							POINT_COLOR=RED;
-							LCD_DrawRectangle(1, 1, 170, 20);
-							LCD_ShowString(2,2,320,16,16,  "HOME");
-							POINT_COLOR=WHITE;
-							LCD_ShowString(1,33,320,16,16, ">> DUMMY MENU 1          <<");
-							LCD_ShowString(1,50,320,16,16, ">> DUMMY MENU 2          <<");
-							LCD_ShowString(1,66,320,16,16, ">> DUMMY MENU 3          <<");
-							LCD_ShowString(1,82,320,16,16, ">> SYSTEM SPECIFICATIONS <<");
-							LCD_ShowString(1,98,320,16,16, ">> EXIT                  <<");
+				while(i == 2)
+					{
+						POINT_COLOR=RED;
+						LCD_DrawRectangle(1, 1, 170, 20);
+						LCD_ShowString(2,2,320,16,16,  "HOME");
+						POINT_COLOR=WHITE;
+						LCD_ShowString(1,33,320,16,16, ">> DUMMY MENU 1          <<");
+						LCD_ShowString(1,50,320,16,16, ">> DUMMY MENU 2          <<");
+						LCD_ShowString(1,66,320,16,16, ">> DUMMY MENU 3          <<");
+						LCD_ShowString(1,82,320,16,16, ">> SYSTEM SPECIFICATIONS <<");
+						LCD_ShowString(1,98,320,16,16, ">> EXIT                  <<");
 							
 							POINT_COLOR=WHITE;
-							Current = 2;
+							
 						  delay_ms(100);
 							while( i == 2)
 								{
@@ -271,7 +267,7 @@ int main(void)
 															}
 															else { Current = 3;}
 																			
-										if(GPIOA -> IDR & GPIO_IDR_IDR2)
+										if(GPIOA -> IDR & GPIO_IDR_IDR1)
 												{	
 													if(Current > MAX) 
 														{
@@ -286,7 +282,7 @@ int main(void)
 												}
 											
 		
-									if(GPIOA -> IDR & GPIO_IDR_IDR1)
+									if(GPIOA -> IDR & GPIO_IDR_IDR2)
 										{
 											i = i - 1;
 											if(i <= MIN) i = 2;
@@ -309,7 +305,7 @@ int main(void)
 							
 							while( i == 3)
 								{
-									if(GPIOA -> IDR & GPIO_IDR_IDR1)
+									if(GPIOA -> IDR & GPIO_IDR_IDR2)
 										{
 											i = 2;
 											LCD_Clear(BLACK);
@@ -333,7 +329,7 @@ int main(void)
 							
 							while( i == 4)
 								{
-									if(GPIOA -> IDR & GPIO_IDR_IDR1)
+									if(GPIOA -> IDR & GPIO_IDR_IDR2)
 										{
 											i = 2;
 											LCD_Clear(BLACK);
@@ -357,7 +353,7 @@ int main(void)
 							
 							while( i == 5)
 								{
-									if(GPIOA -> IDR & GPIO_IDR_IDR1)
+									if(GPIOA -> IDR & GPIO_IDR_IDR2)
 										{
 											i = 2;
 											LCD_Clear(BLACK);
@@ -389,7 +385,7 @@ int main(void)
 							
 							while( i == 6)
 								{
-									if(GPIOA -> IDR & GPIO_IDR_IDR1)
+									if(GPIOA -> IDR & GPIO_IDR_IDR2)
 										{
 											i = 2;
 											LCD_Clear(BLACK);
@@ -420,7 +416,7 @@ int main(void)
 											if(i > MAX) i = MAX;
 										}
 		
-									if(GPIOA -> IDR & GPIO_IDR_IDR1)
+									if(GPIOA -> IDR & GPIO_IDR_IDR2)
 										{
 											i = 2;
 											LCD_Clear(BLACK);

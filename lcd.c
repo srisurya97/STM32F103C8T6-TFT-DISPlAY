@@ -15,18 +15,17 @@ uint16_t BACK_COLOR=0xFFFF;  //背景色
 //管理LCD重要参数
 _lcd_dev lcddev;
 	
-		   
-//写寄存器函数
-//regval:寄存器值
+
+//regval
 void LCD_WR_REG(uint16_t regval)
 	{
-		SPILCD_CS_RESET;  //LCD_CS=0
-    SPILCD_RS_RESET;
+		SPILCD_CS_RESET;									  //LCD_CS=0
+    SPILCD_RS_RESET;										//LCD_RS=0
 		SPI_WriteByte(SPI1,regval&0x00FF);
-		SPILCD_CS_SET;  //LCD_CS=1	   		 
+		SPILCD_CS_SET;  										//LCD_CS=1	   		 
 	}
-//写LCD数据
-//data:要写入的值
+
+//data
 void LCD_WR_DATA(uint16_t data)
 	{
 		SPILCD_CS_RESET;  //LCD_CS=0
@@ -52,27 +51,27 @@ void LCD_WR_REG_DATA(uint8_t LCD_Reg, uint16_t LCD_RegValue)
 		LCD_WR_REG(LCD_Reg);
 		LCD_WR_DATA(LCD_RegValue);
 	}
-//开始写GRAM
 
+//开始写GRAM
 void LCD_WriteRAM_Prepare(void)
 	{
 		LCD_WR_REG(lcddev.wramcmd);  
 	}	 
+
 //当mdk -O1时间优化时需要设置
 //延时i
-	
 void opt_delay(uint8_t i)
 	{
 		while(i--);
 	}  		 
-//LCD开启显示
 
+//LCD开启显示
 void LCD_DisplayOn(void)
 	{					   
 
 	}	 
-//LCD关闭显示
 
+//LCD关闭显示
 void LCD_DisplayOff(void)
 	{	   
 
@@ -569,32 +568,5 @@ void showimage(uint16_t x,uint16_t y)
 			}
 		}
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
