@@ -9,14 +9,33 @@ uint8_t MIN = 1; //Don't Change
 uint8_t MAX = 5; //Max Number of Menus
 uint8_t move = 1; // Dont Change
 
+typedef struct
+{
+	uint16_t Hometitle;
+	uint16_t Hometitlebg;
+	uint16_t textcolor;
+	uint16_t hovercolor;
+	uint16_t textcolor1;
+	
+}setdisplay;
 
 void menumain(void)
 	{
-		POINT_COLOR=WHITE;
-		LCD_Fill(0,0,239,20, TEAL);
+		//defining deplay settings & more
+		setdisplay defaultvals;
+		defaultvals.Hometitle = "H o M e";
+		defaultvals.Hometitlebg = TEAL;
+		defaultvals.textcolor = WHITE;
+	  defaultvals.hovercolor = BLACK; 
+		defaultvals.textcolor1 = GRAY;
+		
+		///////////
+		POINT_COLOR= defaultvals.textcolor;
+		LCD_Fill(0,0,239,20, defaultvals.Hometitlebg);
 		//LCD_DrawRectangle(1, 1, 170, 20);
-		LCD_ShowString(95,2,320,16,16,  "H O M E");
-		POINT_COLOR=WHITE;
+		LCD_ShowString(95,2,320,16,16, defaultvals.Hometitle);
+		POINT_COLOR=defaultvals.textcolor1;
+		LCD_Fill(0,30,219,120, WHITE);
 		LCD_ShowString(1,33,320,16,16, ">> DUMMY MENU 1          <<");
 		LCD_ShowString(1,50,320,16,16, ">> DUMMY MENU 2          <<");
 		LCD_ShowString(1,66,320,16,16, ">> DUMMY MENU 3          <<");
@@ -29,52 +48,55 @@ void menumain(void)
 
 void menuchoose(uint8_t choose)
 	{
+		setdisplay defaultvals;
+		defaultvals.hovercolor = BLACK;
+		defaultvals.textcolor1 = GRAY;
 	
 		switch(choose)
 		{
 			case 1:
-				POINT_COLOR=WHITE;
+				POINT_COLOR=defaultvals.textcolor1;
 				LCD_ShowString(1,98,320,16,16, ">> EXIT                  <<");
-				POINT_COLOR=BLUE;
+				POINT_COLOR=defaultvals.hovercolor;
 				LCD_ShowString(1,33,320,16,16, ">> DUMMY MENU 1          <<");
-				POINT_COLOR=WHITE;
+				POINT_COLOR=defaultvals.textcolor1;
 				LCD_ShowString(1,50,320,16,16, ">> DUMMY MENU 2          <<");
 			  break;
 			
 			case 2:
-				POINT_COLOR=WHITE;
+				POINT_COLOR=defaultvals.textcolor1;
 				LCD_ShowString(1,33,320,16,16, ">> DUMMY MENU 1          <<");
-				POINT_COLOR=BLUE;
+				POINT_COLOR= defaultvals.hovercolor;
 				LCD_ShowString(1,50,320,16,16, ">> DUMMY MENU 2          <<");
-				POINT_COLOR=WHITE;
+				POINT_COLOR=defaultvals.textcolor1;
 				LCD_ShowString(1,66,320,16,16, ">> DUMMY MENU 3          <<");
 				//POINT_COLOR=WHITE;
 			  break;
 			
 			case 3:
-				POINT_COLOR=WHITE;
+				POINT_COLOR=defaultvals.textcolor1;
 				LCD_ShowString(1,50,320,16,16, ">> DUMMY MENU 2          <<");
-		    POINT_COLOR=BLUE;
+		    POINT_COLOR=defaultvals.hovercolor;
 				LCD_ShowString(1,66,320,16,16, ">> DUMMY MENU 3          <<");
-				POINT_COLOR=WHITE;
+				POINT_COLOR=defaultvals.textcolor1;
 				LCD_ShowString(1,82,320,16,16, ">> SYSTEM SPECIFICATIONS <<");
 			  break;
 
 			case 4:
-				POINT_COLOR=WHITE;
+				POINT_COLOR=defaultvals.textcolor1;
 				LCD_ShowString(1,66,320,16,16, ">> DUMMY MENU 3          <<");
-				POINT_COLOR=BLUE;
+				POINT_COLOR=defaultvals.hovercolor;;
 				LCD_ShowString(1,82,320,16,16, ">> SYSTEM SPECIFICATIONS <<");
-				POINT_COLOR=WHITE;
+				POINT_COLOR=defaultvals.textcolor1;
 			  LCD_ShowString(1,98,320,16,16, ">> EXIT  								 <<");
 				break;
 			
 			case 5:
-				POINT_COLOR=WHITE;
+				POINT_COLOR=defaultvals.textcolor1;
 				LCD_ShowString(1,82,320,16,16, ">> SYSTEM SPECIFICATIONS <<");
-				POINT_COLOR=BLUE;
+				POINT_COLOR=defaultvals.hovercolor;;
 				LCD_ShowString(1,98,320,16,16, ">> EXIT  								 <<");
-			  POINT_COLOR=WHITE;
+			  POINT_COLOR=defaultvals.textcolor1;
 				LCD_ShowString(1,33,320,16,16, ">> DUMMY MENU 1          <<");
 			  break;
 			
