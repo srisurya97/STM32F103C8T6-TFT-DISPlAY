@@ -12,9 +12,10 @@ uint8_t move = 1; // Dont Change
 
 void menumain(void)
 	{
-		POINT_COLOR=RED;
-		LCD_DrawRectangle(1, 1, 170, 20);
-		LCD_ShowString(2,2,320,16,16,  "HOME");
+		POINT_COLOR=WHITE;
+		LCD_Fill(0,0,239,20, TEAL);
+		//LCD_DrawRectangle(1, 1, 170, 20);
+		LCD_ShowString(95,2,320,16,16,  "H O M E");
 		POINT_COLOR=WHITE;
 		LCD_ShowString(1,33,320,16,16, ">> DUMMY MENU 1          <<");
 		LCD_ShowString(1,50,320,16,16, ">> DUMMY MENU 2          <<");
@@ -85,11 +86,12 @@ void menuchoose(uint8_t choose)
 	void subwindowframe(uint8_t *title)
 		{
 			LCD_Clear(BLACK);
-			POINT_COLOR=RED;
-			LCD_DrawRectangle(1, 1, 170, 20);
-			LCD_ShowString(2,2,320,16,16,title);
+			POINT_COLOR=WHITE;
+			LCD_Fill(0,0,239,20,TEAL);
+			//LCD_DrawRectangle(1, 1, 170, 20);
+			LCD_ShowString(2,2,320,16,16, title);
 							
-			POINT_COLOR=GREEN;
+			POINT_COLOR=COBALT;
 			LCD_ShowString(5,300,320,16,16,"<<< BACK");
 			POINT_COLOR=WHITE;
 			

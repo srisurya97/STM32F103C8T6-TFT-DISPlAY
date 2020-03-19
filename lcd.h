@@ -63,6 +63,10 @@ typedef struct
 #define BROWN 			 		 0XBC40 //棕色
 #define BRRED 			 	   0XFC07 //棕红色
 #define GRAY  			 		 0X8430 //灰色
+#define COBALT					 0xAA00FF	
+#define INDIGO					 0xA20025
+#define AMBER						 0x008A00
+#define TEAL						 0x225
 //GUI颜色
 
 #define DARKBLUE      	 0X01CF	//深蓝色
