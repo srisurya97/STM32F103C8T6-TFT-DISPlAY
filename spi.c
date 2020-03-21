@@ -60,6 +60,15 @@ void SPI1_Init(void)
 				SPI_BaudRatePrescaler_256    (SPI 281.25K@sys 72M)  */
 	
 	}
+	
+	
+	uint8_t SPI_WriteByte(SPI_TypeDef* SPIx,uint8_t Byte)
+	{
+		while((SPIx->SR&SPI_I2S_FLAG_TXE)==RESET);		
+		SPIx->DR=Byte; 
+		while((SPIx->SR&SPI_I2S_FLAG_RXNE)==RESET);
+		return SPIx->DR;          	   
+	}
 
 										/////////////////Initilizing ports the SPI2 for Touch/////////////////
 /*
@@ -132,13 +141,7 @@ uint8_t SPI2_ReadWriteByte(uint8_t TxData)
 	}          */
 	
 
-uint8_t SPI_WriteByte(SPI_TypeDef* SPIx,uint8_t Byte)
-	{
-		while((SPIx->SR&SPI_I2S_FLAG_TXE)==RESET);		
-		SPIx->DR=Byte; 
-		while((SPIx->SR&SPI_I2S_FLAG_RXNE)==RESET);
-		return SPIx->DR;          	   
-	}
+
 
 
 

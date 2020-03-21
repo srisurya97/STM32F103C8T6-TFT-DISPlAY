@@ -14,9 +14,9 @@
 //All rights reserved
 ////////////////////////////////////////////////////////////////////////////////// 	  
 										  
-void SPI2_Init(void);			 //初始化SPI口
-void SPI2_SetSpeed(uint8_t SpeedSet); //设置SPI速度   
-uint8_t SPI2_ReadWriteByte(uint8_t TxData);//SPI总线读写一个字节
+void SPI2_Init(void);			 
+void SPI2_SetSpeed(uint8_t SpeedSet);   
+uint8_t SPI2_ReadWriteByte(uint8_t TxData);
 uint8_t SPI_WriteByte(SPI_TypeDef* SPIx,uint8_t Byte);
 void SPI1_Init(void);
  		 
