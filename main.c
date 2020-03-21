@@ -8,8 +8,16 @@
 #include "MenuFramework.h"
 
 
-int main(void)
+
+int main()
 	{
+		//Set your Menu Content titles here//
+		defaultvals.menu1 = "  DUMMY MENU 1" ;
+		defaultvals.menu2 = "  DUMMY MENU 2" ;
+		defaultvals.menu3 = "  DUMMY MENU 3" ;
+		defaultvals.menu4 = "  SYSTEM SPECIFICATIONS" ;
+		defaultvals.menu5 = "  EXIT";
+	
 		
 		SPI1_Init();
 		//PIN A0 for Nav and A1 for Back and A2 for Select //PORT A PINS 2, 1 and 0 set to input pushpull
@@ -22,67 +30,66 @@ int main(void)
 		delay_init();
 		LED_Init();			     
 		LCD_Init();
+
 		
+
 		while(1)
 			{
-								///////////////////////////MainMenu Navigation////////////////////////////////
-
-				Displaymenu();
-													
-					///////////////////////////Menu Selected////////////////////////////////
-					while (rem == 1)
-						{
-							subwindowframe("DUMMY MENU 1"); //Window frame for submenu 
+				Displaymenu(); //MainMenu Navigation//
+														
+				while (rem == 1) //Menu Selected//
+					{
+						subwindowframe(defaultvals.menu1); //Window frame for submenu 
 
 							//////////////Content Here///////////////
 						
-							while( rem == 1)
-								{
-									if(GPIOA -> IDR & GPIO_IDR_IDR2)  //Back to Mainmenu
-										{
-											rem = 0;
-										}		
-								}	
-						}
+						while( rem == 1)
+							{
+								if(GPIOA -> IDR & GPIO_IDR_IDR2)  //Back to Mainmenu
+									{
+										rem = 0;
+									}		
+							}	
+					}
 						
-					while (rem == 2)
-						{
-							subwindowframe("DUMMY MENU 2");
+				while (rem == 2)
+					{
+						subwindowframe(defaultvals.menu2);
 
 							//////////////Content Here///////////////
 
-							
-							while( rem == 2)
-								{
-									if(GPIOA -> IDR & GPIO_IDR_IDR2)  //Back to Mainmenu
-										{
-											rem = 0;
-										}
-									
-								}	
-						}
+						while( rem == 2)
+							{
+								if(GPIOA -> IDR & GPIO_IDR_IDR2)  //Back to Mainmenu
+									{
+										rem = 0;
+									}
+								
+							}	
+					}
 
-					while (rem == 3)
-						{
-							subwindowframe("DUMMY MENU 3");
+				while (rem == 3)
+					{
+						subwindowframe(defaultvals.menu3);
 	
 							//////////////Content Here///////////////
 
 							
-							while( rem == 3)
-								{
-									if(GPIOA -> IDR & GPIO_IDR_IDR2)  //Back to Mainmenu
-										{
-											rem = 0;
-										}
-								}	
+						while( rem == 3)
+							{
+								if(GPIOA -> IDR & GPIO_IDR_IDR2)  //Back to Mainmenu
+									{
+										rem = 0;
+									}
+							}	
 						}
 						
 				
 				while(rem == 4)
 						{
-							subwindowframe("SYSTEM SPECIFICATIONS");
-							POINT_COLOR=WHITE;
+							subwindowframe(defaultvals.menu4);
+							POINT_COLOR= defaultvals.textcolor1;  
+							LCD_Fill(0,30,239,150, defaultvals.bg); //defaultvals.bg);
 							LCD_ShowString(1,33,320,16,16, "CORE       -> ARM CORTEX M3");
 							LCD_ShowString(1,50,320,16,16, "MCU        -> STM32F103C8T6");
 							LCD_ShowString(1,66,320,16,16, "RAM/ROM    -> 20K/128K");
@@ -103,10 +110,10 @@ int main(void)
 					
 				while(rem == 5)
 						{ 
-							subwindowframe("EXIT");
-							POINT_COLOR=BLUE;
-							LCD_ShowString(1,33,320,16,16, "-> YES");
-							LCD_ShowString(1,50,320,16,16, "-> NO");
+							subwindowframe(defaultvals.menu5);
+							POINT_COLOR=defaultvals.hovercolor;
+							LCD_ShowString(1,33,320,16,16, ">> YES"); ///content///
+							LCD_ShowString(1,50,320,16,16, ">> NO");  ///content///
 							
 							while( rem == 5)
 								{
