@@ -37,7 +37,7 @@ extern setdisplay defaultvals;
 
 void subwindowframe(uint8_t *title);
 void Displaymenu (void);
-
+void backtomenu(void);
 
 
 

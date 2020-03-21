@@ -19,14 +19,14 @@ void menumain() //setdisplay *defaultvals
 		
 		POINT_COLOR= defaultvals.textcolor;
 		LCD_Fill(0,0,239,20, defaultvals.Hometitlebg);
-		LCD_ShowString(95,2,320,16,16, defaultvals.Hometitle);
+		LCD_ShowString(2,2,320,16,16, defaultvals.Hometitle);
 		POINT_COLOR=defaultvals.textcolor1;
-		LCD_Fill(0,30,219,120, defaultvals.bg);
-		LCD_ShowString(1,33,320,16,16, defaultvals.menu1);
-		LCD_ShowString(1,50,320,16,16, defaultvals.menu2);
-		LCD_ShowString(1,66,320,16,16, defaultvals.menu3);
-		LCD_ShowString(1,82,320,16,16, defaultvals.menu4);
-		LCD_ShowString(1,98,320,16,16, defaultvals.menu5);
+		LCD_Fill(2,30,219,120, defaultvals.bg);
+		LCD_ShowString(20,33,320,16,16, defaultvals.menu1);
+		LCD_ShowString(20,50,320,16,16, defaultvals.menu2);
+		LCD_ShowString(20,66,320,16,16, defaultvals.menu3);
+		LCD_ShowString(20,82,320,16,16, defaultvals.menu4);
+		LCD_ShowString(20,98,320,16,16, defaultvals.menu5);
 
 	}
 	
@@ -93,7 +93,7 @@ void menuchoose(uint8_t choose)
 			//LCD_DrawRectangle(1, 1, 170, 20);
 			LCD_ShowString(2,2,320,16,16, title);
 							
-			POINT_COLOR=COBALT;
+			POINT_COLOR=DARKBLUE;
 			LCD_ShowString(5,300,320,16,16,"<<< BACK");
 			
 		}
@@ -102,10 +102,9 @@ void menuchoose(uint8_t choose)
 	void Displaymenu (void)
 		{
 			
-			defaultvals.Hometitle = "H o M e";
 			defaultvals.Hometitlebg = TEAL;
 			defaultvals.textcolor = WHITE;
-			defaultvals.hovercolor = COBALT;//GRAY; 
+			defaultvals.hovercolor = DARKBLUE;//COBALT;//GRAY; 
 			defaultvals.textcolor1 = BLACK;
 			defaultvals.bg = WHITE;
 			defaultvals.titlebg = TEAL;
@@ -147,6 +146,13 @@ void menuchoose(uint8_t choose)
 		}
 	
 	
-	
+void backtomenu(void)
+	{
+		if(GPIOA -> IDR & GPIO_IDR_IDR2)  //Back to Mainmenu
+										{
+											rem = 0;
+										}
+		
+	}
 	
 	

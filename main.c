@@ -12,14 +12,16 @@
 int main()
 	{
 		//Set your Menu Content titles here//
-		defaultvals.menu1 = "  DUMMY MENU 1" ;
-		defaultvals.menu2 = "  DUMMY MENU 2" ;
-		defaultvals.menu3 = "  DUMMY MENU 3" ;
-		defaultvals.menu4 = "  SYSTEM SPECIFICATIONS" ;
-		defaultvals.menu5 = "  EXIT";
+		defaultvals.Hometitle = "HOME";
+		defaultvals.menu1 = "DUMMY MENU 1";
+		defaultvals.menu2 = "DUMMY MENU 2";
+		defaultvals.menu3 = "DUMMY MENU 3";
+		defaultvals.menu4 = "SYSTEM SPECIFICATIONS";
+		defaultvals.menu5 = "EXIT";
 	
 		
 		SPI1_Init();
+		
 		//PIN A0 for Nav and A1 for Back and A2 for Select //PORT A PINS 2, 1 and 0 set to input pushpull
 		//RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
 		//RCC->APB2ENR |= RCC_APB2ENR_IOPBEN;
@@ -31,44 +33,42 @@ int main()
 		LED_Init();			     
 		LCD_Init();
 
-		
-
 		while(1)
 			{
 				Displaymenu(); //MainMenu Navigation//
-														
-				while (rem == 1) //Menu Selected//
+													
+	////////////////				//Menu Selected//        //////////////////
+				while (rem == 1)      ///when menu1 selected 
 					{
 						subwindowframe(defaultvals.menu1); //Window frame for submenu 
 
+						
 							//////////////Content Here///////////////
+						
 						
 						while( rem == 1)
 							{
-								if(GPIOA -> IDR & GPIO_IDR_IDR2)  //Back to Mainmenu
-									{
-										rem = 0;
-									}		
+								backtomenu();		
 							}	
 					}
-						
-				while (rem == 2)
+				
+	///////////////////////////////    /////////////////// ////////////////////				
+				while (rem == 2)		///when menu2 selected
 					{
 						subwindowframe(defaultvals.menu2);
 
+						
 							//////////////Content Here///////////////
 
+						
 						while( rem == 2)
 							{
-								if(GPIOA -> IDR & GPIO_IDR_IDR2)  //Back to Mainmenu
-									{
-										rem = 0;
-									}
-								
+								backtomenu();
 							}	
 					}
 
-				while (rem == 3)
+	///////////////////////    //////////////////////////////// //////////////////////				
+				while (rem == 3)			///when menu3 selected
 					{
 						subwindowframe(defaultvals.menu3);
 	
@@ -77,15 +77,12 @@ int main()
 							
 						while( rem == 3)
 							{
-								if(GPIOA -> IDR & GPIO_IDR_IDR2)  //Back to Mainmenu
-									{
-										rem = 0;
-									}
+							  backtomenu();
 							}	
 						}
 						
-				
-				while(rem == 4)
+	/////////////// ///////////////////////////    //////////////////////////			
+				while(rem == 4)			///when menu4 selected
 						{
 							subwindowframe(defaultvals.menu4);
 							POINT_COLOR= defaultvals.textcolor1;  
@@ -100,15 +97,12 @@ int main()
 										
 							while( rem == 4)
 								{
-									if(GPIOA -> IDR & GPIO_IDR_IDR2)  //Back to Mainmenu
-										{
-											rem = 0;
-										}
+									backtomenu();
 								}
 						}				
 					
-					
-				while(rem == 5)
+	///////////////////////   //////////////////   ////////////////				
+				while(rem == 5)				///when menu5 selected
 						{ 
 							subwindowframe(defaultvals.menu5);
 							POINT_COLOR=defaultvals.hovercolor;
@@ -117,13 +111,10 @@ int main()
 							
 							while( rem == 5)
 								{
-									if(GPIOA -> IDR & GPIO_IDR_IDR2)  //Back to Mainmenu
-										{
-											rem = 0;
-										}
+									backtomenu();
 								}	
 						}
-						
+	/////////////////////  ////////////////////   //////////////////					
 
 			
 			LCD_Clear(BLACK);

@@ -20,12 +20,12 @@
   
 typedef struct  
 { 					    
-	uint16_t width;			//LCD 宽度
-	uint16_t height;			//LCD 高度
+	uint16_t width;			
+	uint16_t height;		
 	uint16_t id;				//LCD ID
 	uint8_t	wramcmd;		//开始写gram指令
-	uint8_t  setxcmd;		//设置x坐标指令
-	uint8_t  setycmd;		//设置y坐标指令	 
+	uint8_t  setxcmd;		
+	uint8_t  setycmd;			 
 }_lcd_dev; 	  
 
 //LCD参数
@@ -60,26 +60,24 @@ typedef struct
 #define GREEN         	 0x07E0
 #define CYAN          	 0x7FFF
 #define YELLOW        	 0xFFE0
-#define BROWN 			 		 0XBC40 //棕色
-#define BRRED 			 	   0XFC07 //棕红色
-#define GRAY  			 		 0X8430 //灰色
-#define COBALT					 0xAA00FF	
-#define INDIGO					 0xA20025
-#define AMBER						 0x008A00
+#define BROWN 			 		 0XBC40 
+#define BRRED 			 	   0XFC07 
+#define GRAY  			 		 0X8430 
+
 #define TEAL						 0x225
 //GUI颜色
 
-#define DARKBLUE      	 0X01CF	//深蓝色
-#define LIGHTBLUE      	 0X7D7C	//浅蓝色  
-#define GRAYBLUE       	 0X5458 //灰蓝色
+#define DARKBLUE      	 0X01CF	
+#define LIGHTBLUE      	 0X7D7C	  
+#define GRAYBLUE       	 0X5458 
 //以上三色为PANEL的颜色 
  
-#define LIGHTGREEN     	 0X841F //浅绿色
-//#define LIGHTGRAY        0XEF5B //浅灰色(PANNEL)
-#define LGRAY 			 		 0XC618 //浅灰色(PANNEL),窗体背景色
+#define LIGHTGREEN     	 0X841F 
+//#define LIGHTGRAY        0XEF5B 
+#define LGRAY 			 		 0XC618 
 
-#define LGRAYBLUE        0XA651 //浅灰蓝色(中间层颜色)
-#define LBBLUE           0X2B12 //浅棕蓝色(选择条目的反色)
+#define LGRAYBLUE        0XA651 
+#define LBBLUE           0X2B12 
 	    															  
 void LCD_Init(void);			
 void LCD_DisplayOn(void);	
