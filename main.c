@@ -11,14 +11,6 @@
 
 int main()
 	{
-		//Set your Menu Content titles here//
-		defaultvals.Hometitle = "HOME";
-		defaultvals.menu1 = "DUMMY MENU 1";
-		defaultvals.menu2 = "DUMMY MENU 2";
-		defaultvals.menu3 = "DUMMY MENU 3";
-		defaultvals.menu4 = "SYSTEM SPECIFICATIONS";
-		defaultvals.menu5 = "EXIT";
-	
 		
 		SPI1_Init();
 		
@@ -32,10 +24,14 @@ int main()
 		delay_init();
 		LED_Init();			     
 		LCD_Init();
+		
+		defaultvalsinit();
 
+		splashdisplay();	
+		LCD_Clear(BLACK);
 		while(1)
 			{
-				Displaymenu(); //MainMenu Navigation//
+				Displaymenu(); //MainMenu & selection & Navigation//
 													
 	////////////////				//Menu Selected//        //////////////////
 				while (rem == 1)      ///when menu1 selected 
@@ -87,13 +83,13 @@ int main()
 							subwindowframe(defaultvals.menu4);
 							POINT_COLOR= defaultvals.textcolor1;  
 							LCD_Fill(0,30,239,150, defaultvals.bg); //defaultvals.bg);
-							LCD_ShowString(1,33,320,16,16, "CORE       -> ARM CORTEX M3");
-							LCD_ShowString(1,50,320,16,16, "MCU        -> STM32F103C8T6");
-							LCD_ShowString(1,66,320,16,16, "RAM/ROM    -> 20K/128K");
-							LCD_ShowString(1,82,320,16,16, "SYSTEM CLK -> 72 MHz");
-							LCD_ShowString(1,98,320,16,16, "DISPLAY    -> 2.8 TFT SPI LCD");
-							LCD_ShowString(1,114,320,16,16,"RESOLUTION -> 240*320");
-							LCD_ShowString(1,130,320,16,16,"LCD 1602A  -> SIMPLE DEBUGGER");
+							LCD_ShowString(defaultvals.submenupaddingv,33,320,16,16, "CORE      ->ARM CORTEX M3");
+							LCD_ShowString(defaultvals.submenupaddingv,50,320,16,16, "MCU       ->STM32F103C8T6");
+							LCD_ShowString(defaultvals.submenupaddingv,66,320,16,16, "RAM/ROM   ->20K/128K");
+							LCD_ShowString(defaultvals.submenupaddingv,82,320,16,16, "SYSTEM CLK->72 MHz");
+							LCD_ShowString(defaultvals.submenupaddingv,98,320,16,16, "DISPLAY   ->2.8 TFT SPI LCD");
+							LCD_ShowString(defaultvals.submenupaddingv,114,320,16,16,"RESOLUTION->240*320");
+							LCD_ShowString(defaultvals.submenupaddingv,130,320,16,16,"LCD 1602A ->SIMPLE DEBUGGER");
 										
 							while( rem == 4)
 								{

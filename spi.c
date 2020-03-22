@@ -49,7 +49,7 @@ void SPI1_Init(void)
 		SPI_InitStructure.SPI_NSS = SPI_NSS_Soft;														//NSS信号由硬件（NSS管脚）还是软件（使用SSI位）管理:内部NSS信号有SSI位控制
 		SPI_InitStructure.SPI_BaudRatePrescaler =SPI_BaudRatePrescaler_2;		//SPI setting for 36MHz 
 		SPI_InitStructure.SPI_FirstBit = SPI_FirstBit_MSB;									//Setting for firstBit as MSB
-		SPI_InitStructure.SPI_CRCPolynomial = 7;														//CRC值计算的多项式
+		SPI_InitStructure.SPI_CRCPolynomial = 7;														//CRC
 		SPI_Init(SPI1, &SPI_InitStructure);  																//Configuring with above settings
  
 		SPI_Cmd(SPI1, ENABLE); 																							//SPI1 Enabled

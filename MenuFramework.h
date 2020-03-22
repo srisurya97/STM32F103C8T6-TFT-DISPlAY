@@ -28,15 +28,16 @@ typedef struct
 	uint16_t menu3;
 	uint16_t menu4;
 	uint16_t menu5;
+	uint8_t  submenupaddingv;
 	
 }setdisplay;
 
 extern setdisplay defaultvals;
 
-
-
-void subwindowframe(uint8_t *title);
+void defaultvalsinit(void);
+void splashdisplay(void);
 void Displaymenu (void);
+void subwindowframe(uint8_t *title);
 void backtomenu(void);
 
 
