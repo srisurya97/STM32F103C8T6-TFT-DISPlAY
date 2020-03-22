@@ -16,12 +16,12 @@ setdisplay defaultvals;
 void defaultvalsinit(void)
 {
 	//Set your Menu Content titles here//
-		defaultvals.Hometitle = "HOME";
-		defaultvals.menu1 = "DUMMY MENU 1";
-		defaultvals.menu2 = "DUMMY MENU 2";
-		defaultvals.menu3 = "DUMMY MENU 3";
-		defaultvals.menu4 = "SYSTEM SPECIFICATIONS";
-		defaultvals.menu5 = "EXIT";
+	defaultvals.Hometitle = "HOME";
+	defaultvals.menu1 = "DUMMY MENU 1";
+	defaultvals.menu2 = "DUMMY MENU 2";
+	defaultvals.menu3 = "DUMMY MENU 3";
+	defaultvals.menu4 = "SYSTEM SPECIFICATIONS";
+	defaultvals.menu5 = "EXIT";
 	//Set Text & Background colors
 	defaultvals.Hometitlebg = TEAL;
 	defaultvals.textcolor = WHITE;
@@ -38,30 +38,30 @@ void splashdisplay(void)
 	LCD_Clear(BLACK);
 	POINT_COLOR=defaultvals.textcolor;
 	LCD_ShowString(1, 1, 320, 16, 16, "Startup processes:" );
-	delay_ms(75);
+	delay_ms(50);
 	LCD_ShowString(1, 32, 320, 16, 16, "Spi Init( );" ); 
-	delay_ms(75);
+	delay_ms(50);
 	LCD_ShowString(1, 48, 320, 16, 16, "Spi Started" );
-	delay_ms(75);
+	delay_ms(50);
 	LCD_ShowString(1, 64, 320, 16, 16, "Led Init( );" );
-	delay_ms(75);
+	delay_ms(50);
 	LCD_ShowString(1, 80, 320, 16, 16, "Led Started" );
-	delay_ms(75);
+	delay_ms(50);
 	LCD_ShowString(1, 96, 320, 16, 16, "Lcd Init( );" );
-	delay_ms(75);
+	delay_ms(50);
 	LCD_ShowString(1, 112, 320, 16, 16, "Lcd Started" );
-	delay_ms(75);
+	delay_ms(50);
 	LCD_ShowString(1, 128, 320, 16, 16, "Defaultvals Init( );" );
-	delay_ms(75);	
+	delay_ms(50);	
 	LCD_ShowString(1, 144, 320, 16, 16, "Defaultvals Configured" );
-	delay_ms(75);
-	LCD_ShowString(1, 160, 320, 16, 16, "Loading     [                ]" );
-	delay_ms(75);
-	for (load = 105; load<=225;load++){
+	delay_ms(50);
+	LCD_ShowString(1, 160, 320, 16, 16, "Loading  [                ]" );
+	delay_ms(50);
+	for (load = 80; load<=201;load++){
 	LCD_ShowString(load, 160, 320, 16, 16, "|" );
 	delay_ms(10);
 	}
-	delay_ms(400);
+	delay_ms(200);
 	
 }	
 
