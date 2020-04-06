@@ -28,7 +28,9 @@ typedef struct
 	uint16_t menu3;
 	uint16_t menu4;
 	uint16_t menu5;
+	uint16_t menu6;
 	uint8_t  submenupaddingv;
+	uint16_t ver;
 	
 }setdisplay;
 

@@ -4,7 +4,7 @@
 #include "delay.h"	   
 #include "spi.h"	
 #include "stm32f10x.h"
-#include "stm32f10x_spi.h"
+//#include "stm32f10x_spi.h"
 //#include "usart.h"	  				 
 				 
 				 
@@ -26,7 +26,7 @@ void LCD_WR_REG(uint16_t regval)
 	}
 
 //data
-void LCD_WR_DATA(uint16_t data)
+void LCD_WR_DATA(uint16_t data)      ////////////////////DATA
 	{
 		SPILCD_CS_RESET;  //LCD_CS=0
 		SPILCD_RS_SET;	
@@ -35,7 +35,7 @@ void LCD_WR_DATA(uint16_t data)
 		SPILCD_CS_SET;  //LCD_CS=1		
 	}
 
-void LCD_WR_DATA8(uint8_t da)   
+void LCD_WR_DATA8(uint8_t da)     ////////////DATA8   
 	{
 		SPILCD_CS_RESET;  //LCD_CS=0
 		SPILCD_RS_SET;				    	   
@@ -109,7 +109,7 @@ void LCD_Init(void)
    	LCD_REST=1;		 
 		delay_ms(50); // delay 20 ms 
 
-		SPILCD_RST_RESET ;	//LCD_RST=0	 //SPI接口复位
+		SPILCD_RST_RESET ;	//LCD_RST=0	 //SPI
 		delay_ms(20); // delay 20 ms 
     SPILCD_RST_SET ;	//LCD_RST=1		
 		delay_ms(20);
@@ -173,7 +173,7 @@ void LCD_Init(void)
 		LCD_WR_DATA8(0x00);   
 		LCD_WR_DATA8(0x18); 
 	 
-		LCD_WR_REG(0xB6);    // Display Function Control 
+		LCD_WR_REG(0xB6);    // Display Function Control B6
 		LCD_WR_DATA8(0x0A); 
 		LCD_WR_DATA8(0xA2); 
 	
@@ -450,7 +450,7 @@ void LCD_ShowChar(uint16_t x,uint16_t y,uint8_t num,uint8_t size,uint8_t mode)
 				for(t=0;t<size;t++)
 				{   
 					if(size==12)temp=asc2_1206[num][t];  //调用1206字体
-					else temp=asc2_1608[num][t];		 //调用1608字体 	                          
+					else temp=asc2_1608[num][t];		 //调用1608字体         
 	        for(t1=0;t1<8;t1++)
 					{			    
 		        if(temp&0x80)LCD_DrawPoint(x,y); 
@@ -560,7 +560,7 @@ void showimage(uint16_t x,uint16_t y)
 			LCD_WriteRAM_Prepare();     			//开始写入GRAM	
 			for(j=0;j<40;j++)
 			{
-				da=qqimage[k*2+1];
+				da=qqimage[k*2+1]; //qqimage
 				da<<=8;
 				da|=qqimage[k*2]; 
 				LCD_WR_DATA(da);					

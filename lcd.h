@@ -4,18 +4,18 @@
 #include "sys.h" 
 #include "stdlib.h"
 #include "stm32f10x.h"
-
+#include "spi.h"
 
 // REdefine for LCD controls
 //LCD_RST PortB_0
-#define SPILCD_RST_SET  GPIO_SetBits(GPIOB, GPIO_Pin_0)     
-#define SPILCD_RST_RESET GPIO_ResetBits(GPIOB, GPIO_Pin_0)
+#define SPILCD_RST_SET  GPIO_SetBit(GPIOB, GPIO_Pin_0)     
+#define SPILCD_RST_RESET GPIO_ResetBit(GPIOB, GPIO_Pin_0)
 //LCD_RS/DC PortB_1  
-#define SPILCD_RS_SET  GPIO_SetBits(GPIOB,  GPIO_Pin_1)
-#define SPILCD_RS_RESET  GPIO_ResetBits(GPIOB, GPIO_Pin_1)
+#define SPILCD_RS_SET   GPIO_SetBit(GPIOB,  GPIO_Pin_1)   //Data
+#define SPILCD_RS_RESET  GPIO_ResetBit(GPIOB, GPIO_Pin_1) //REG
 //LCD_CS  PortA_4
-#define SPILCD_CS_SET GPIO_SetBits(GPIOA,GPIO_Pin_4 ) 
-#define SPILCD_CS_RESET  GPIO_ResetBits(GPIOA, GPIO_Pin_4)
+#define SPILCD_CS_SET GPIO_SetBit(GPIOA,GPIO_Pin_4 ) 
+#define SPILCD_CS_RESET  GPIO_ResetBit(GPIOA, GPIO_Pin_4)
 
   
 typedef struct  
@@ -99,7 +99,8 @@ void LCD_ShowString(uint16_t x,uint16_t y,uint16_t width,uint16_t height,uint8_t
 void showimage(uint16_t x,uint16_t y); 
 void LCD_WriteReg(uint8_t LCD_Reg, uint16_t LCD_RegValue);
 void LCD_WriteRAM_Prepare(void);
-void LCD_WR_DATA8(uint8_t da);   
+
+void LCD_WR_DATA8(uint8_t da);  //   
  
 void showhanzi16(unsigned int x,unsigned int y,unsigned char index);
 void showhanzi32(unsigned int x,unsigned int y,unsigned char index);						  		 

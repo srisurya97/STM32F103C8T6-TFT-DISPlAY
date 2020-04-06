@@ -40,7 +40,7 @@ int main()
 
 						
 							//////////////Content Here///////////////
-						
+						//showimage(240, 320);
 						
 						while( rem == 1)
 							{
@@ -110,6 +110,23 @@ int main()
 									backtomenu();
 								}	
 						}
+						
+	/////////////////// ////////////////// //////////////////////////					
+				while(rem == 6)				///when menu5 selected
+						{ 
+							subwindowframe("Photos");
+							
+							showimage(20,20);
+						  
+							
+							while( rem == 6)
+								{
+									backtomenu();
+								}	
+						}
+		
+				
+						
 	/////////////////////  ////////////////////   //////////////////					
 
 			
