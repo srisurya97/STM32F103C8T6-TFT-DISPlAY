@@ -4,8 +4,6 @@
 #include "delay.h"	   
 #include "spi.h"	
 #include "stm32f10x.h"
-//#include "stm32f10x_spi.h"
-//#include "usart.h"	  				 
 				 
 				 
 //LCD的画笔颜色和背景色	   
@@ -103,10 +101,10 @@ void LCD_DrawPoint(uint16_t x,uint16_t y)
 //初始化lcd
 
 void LCD_Init(void)
-	{ 	 	
-		LCD_REST=0;		 
+	{ 	
+		SPILCD_RST_RESET ;  //LCD_REST=0;		 
 		delay_ms(50); // delay 20 ms 
-   	LCD_REST=1;		 
+   	SPILCD_RST_SET ;   //LCD_REST=1;		 
 		delay_ms(50); // delay 20 ms 
 
 		SPILCD_RST_RESET ;	//LCD_RST=0	 //SPI

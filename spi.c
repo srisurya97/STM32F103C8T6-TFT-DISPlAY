@@ -1,9 +1,5 @@
 #include "spi.h"
 
-//#include "stm32f10x_spi.h"
-//#include "stm32f10x_rcc.h"
-//#include "stm32f10x_usart.h"
-//#include "usart.h"
 
 void GPIO_SetBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
 {
@@ -17,14 +13,10 @@ void GPIO_ResetBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
 }
                          /////////////////ports settings for SPI with TFT & Initialization/////////////////
 void SPI1_Init(void)
-	{
-		
-		SPI_InitTypeDef  SPI_InitStructure;
-  
+	{  
 		RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;										///Enabling Clock for PORTA
     RCC->APB2ENR |= RCC_APB2ENR_IOPBEN;									  ///Enabling Clock for PORTB
 		RCC->APB2ENR |= RCC_APB2ENR_SPI1EN;										///Enabling Clock for SPI1
-		RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;										///Enabling Clock for AFIO
 		
 		//////sck --> Pin A5 | MOSI  --> Pin A7 |
 		GPIOA->CRL |= GPIO_CRL_CNF5_1 | GPIO_CRL_CNF7_1;      ///Set to Alt pushpull  

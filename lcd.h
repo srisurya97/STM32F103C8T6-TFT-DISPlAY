@@ -1,7 +1,7 @@
 #ifndef __LCD_H
 #define __LCD_H		
 
-#include "sys.h" 
+
 #include "stdlib.h"
 #include "stm32f10x.h"
 #include "spi.h"
@@ -35,7 +35,7 @@ extern uint16_t  BACK_COLOR;
 
 //////////////////////////////////////////////////////////////////////////////////	 
 //-----------------LCD¶Ë¿Ú¶¨Òå---------------- 
-#define	LCD_REST PBout(1) //LCD REST    		 PB1 	    
+//#define	LCD_REST BIT_ADDR(GPIOB_ODR_Addr,n) //LCD REST    		 PB1 	    
 
 typedef struct
 {

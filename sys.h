@@ -1,6 +1,8 @@
 #ifndef __SYS_H
 #define __SYS_H	
+
 #include "stm32f10x.h"
+/*
 //0,不支持ucos
 //1,支持ucos
 #define SYSTEM_SUPPORT_UCOS		0		//定义系统文件夹是否支持UCOS
@@ -53,7 +55,7 @@
 #define PGin(n)    BIT_ADDR(GPIOG_IDR_Addr,n)  //输入
 
 
-
+*/
 void NVIC_Configuration(void);
 void inttohex(uint16_t value,uint8_t *hex);
 
