@@ -26,17 +26,17 @@ void SPI1_Init(void)
 		/////LCD_CS  ---> Pin A4
 		GPIOA->CRL &= ~GPIO_CRL_CNF4;													///Set to General pushpull
 		GPIOA->CRL |= GPIO_CRL_MODE4;     								    ///Set to Output 50Mhz Speed 
-		GPIO_ResetBit(GPIOA, GPIO_Pin_4);									    ///Configure PA4 for LCD_CS. Defined in lcd.h for LCD_CS
+		GPIO_ResetBit(GPIOA, GPIO_BRR_BR4);									    ///Configure PA4 for LCD_CS. Defined in lcd.h for LCD_CS
 
 		/////LCD_DC ---->B1
 		GPIOB->CRL &= ~GPIO_CRL_CNF1;													///Set to General pushpull
 		GPIOB->CRL |= GPIO_CRL_MODE1;     								    ///Set to Output 50Mhz Speed 
-		GPIO_ResetBit(GPIOB, GPIO_Pin_1);											///Configure PA1 for LCD_DC. Defined in lcd.h for LCD_DC
+		GPIO_ResetBit(GPIOB, GPIO_BRR_BR1);											///Configure PA1 for LCD_DC. Defined in lcd.h for LCD_DC
 
 		/////LCD_RST ----->B0
 		GPIOB->CRL &= ~GPIO_CRL_CNF0;													///Set to General pushpull
 		GPIOB->CRL |= GPIO_CRL_MODE0;     								    ///Set to Output 50Mhz Speed 
-		GPIO_ResetBit(GPIOB, GPIO_Pin_0);											///Configure PB0 for LCD_RST. Defined in lcd.h for LCD_RST
+		GPIO_ResetBit(GPIOB, GPIO_BRR_BR0);											///Configure PB0 for LCD_RST. Defined in lcd.h for LCD_RST
 
 
 													/////////////////Settings SPI1 for Display/////////////////

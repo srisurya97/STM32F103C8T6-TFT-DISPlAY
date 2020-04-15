@@ -8,14 +8,14 @@
 
 // REdefine for LCD controls
 //LCD_RST PortB_0
-#define SPILCD_RST_SET  GPIO_SetBit(GPIOB, GPIO_Pin_0)     
-#define SPILCD_RST_RESET GPIO_ResetBit(GPIOB, GPIO_Pin_0)
+#define SPILCD_RST_SET  GPIO_SetBit(GPIOB, GPIO_BSRR_BS0)     
+#define SPILCD_RST_RESET GPIO_ResetBit(GPIOB, GPIO_BRR_BR0)
 //LCD_RS/DC PortB_1  
-#define SPILCD_RS_SET   GPIO_SetBit(GPIOB,  GPIO_Pin_1)   //Data
-#define SPILCD_RS_RESET  GPIO_ResetBit(GPIOB, GPIO_Pin_1) //REG
+#define SPILCD_RS_SET   GPIO_SetBit(GPIOB,  GPIO_BSRR_BS1)   //Data
+#define SPILCD_RS_RESET  GPIO_ResetBit(GPIOB, GPIO_BRR_BR1) //REG
 //LCD_CS  PortA_4
-#define SPILCD_CS_SET GPIO_SetBit(GPIOA,GPIO_Pin_4 ) 
-#define SPILCD_CS_RESET  GPIO_ResetBit(GPIOA, GPIO_Pin_4)
+#define SPILCD_CS_SET GPIO_SetBit(GPIOA,GPIO_BSRR_BS4 ) 
+#define SPILCD_CS_RESET  GPIO_ResetBit(GPIOA, GPIO_BRR_BR4)
 
   
 typedef struct  

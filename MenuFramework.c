@@ -46,10 +46,10 @@ void defaultvalsinit(void)
 void splashloadanimation(void)
 {
 	//163
-	volatile static int load = 53;
+	static int load = 53;
 	LCD_ShowString(1, line20, 320, 16, 12, "Loading [                   ]" );
 
-	volatile int abc = load + 21;
+	int abc = load + 21;
 	//Load Animation//
 	for (;load<=abc;load++){
 	LCD_ShowString(load, line20, 320, 16, 12, "|" );

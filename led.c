@@ -1,6 +1,6 @@
 #include "led.h"
 #include "spi.h"
-
+#include "stm32f10x.h"
 
 void LED_Init(void)
 	{ 	
@@ -11,7 +11,7 @@ void LED_Init(void)
 		GPIOA->CRL &= ~GPIO_CRL_CNF3;													///Set to General pushpull
 		GPIOA->CRL |= GPIO_CRL_MODE3;     								    ///Set to Output 50Mhz Speed 
 	
-		GPIO_SetBit(GPIOA,GPIO_Pin_3);
+		GPIO_SetBit(GPIOA,GPIO_BSRR_BS3);
  
 	}
  
