@@ -26,7 +26,7 @@ void LCD_WR_REG(uint16_t regval)
 //data
 void LCD_WR_DATA(uint16_t data)      ////////////////////DATA
 	{
-		SPILCD_CS_RESET;  //LCD_CS=0
+		SPILCD_CS_RESET;  //LCD_CS=0 slave selected
 		SPILCD_RS_SET;	
 		SPI_WriteByte(SPI1,data>>8);
 		SPI_WriteByte(SPI1,data);
@@ -107,10 +107,10 @@ void LCD_Init(void)
    	SPILCD_RST_SET ;   //LCD_REST=1;		 
 		delay_ms(50); // delay 20 ms 
 
-		SPILCD_RST_RESET ;	//LCD_RST=0	 //SPI
+/*  SPILCD_RST_RESET ;	//LCD_RST=0	 //SPI
 		delay_ms(20); // delay 20 ms 
     SPILCD_RST_SET ;	//LCD_RST=1		
-		delay_ms(20);
+		delay_ms(20);   */
 
 		lcddev.width=240;
 		lcddev.height=320;

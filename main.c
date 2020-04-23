@@ -5,35 +5,51 @@
 #include "LCDFunctions.h"
 #include "stm32f10x.h"
 #include "MenuFramework.h"
-
-
+#include "keynav.h"
+#include "touch.h"
 
 int main()
 	{
 		SPI1_Init();
-		navsupport3key();
 		delay_init();
+		delay_ms(2000); //for proper lcd initialization
 		LED_Init();			     
 		LCD_Init();
 		defaultvalsinit();
-		splashdisplay();	
-		LCD_Clear(BLACK);
+		splashdisplay();
+		navsupport3key();
 		while(1)
 			{
-				Displaymenu(); //MainMenu & selection & Navigation//
-													
+				if (rem == 100)
+				{
+					LCD_Clear(BLACK);
+					Displaymenu(); //MainMenu & selection & Navigation//
+					rem = 0;
+				}
+				
+				while(rem == 0)
+				{
+					// can be used for live tiles in home menu
+					livetiles();
+					
+				}
+					
+								
 	////////////////				//Menu Selected//        //////////////////
 				while (rem == 1)      ///when menu1 selected 
 					{
 						subwindowframe(defaultvals.menu1); //Window frame for submenu 
-
+										
+						
 						
 							//////////////Content Here///////////////
 						//showimage(240, 320);
 						
 						while( rem == 1)
 							{
-								backtomenu();		
+								
+								//buttonnooption();
+								//backtomenu();		
 							}	
 					}
 				
@@ -41,14 +57,14 @@ int main()
 				while (rem == 2)		///when menu2 selected
 					{
 						subwindowframe(defaultvals.menu2);
-
+						
 						
 							//////////////Content Here///////////////
-
 						
-						while( rem == 2)
+					 while( rem == 2)
 							{
-								backtomenu();
+								//buttonnooption();
+								//backtomenu();
 							}	
 					}
 
@@ -56,13 +72,16 @@ int main()
 				while (rem == 3)			///when menu3 selected
 					{
 						subwindowframe(defaultvals.menu3);
-	
+						
 							//////////////Content Here///////////////
-
-							
-						while( rem == 3)
+						//TP_Init();	
+						TP_Adjust();	
+						
+				    while( rem == 3)
 							{
-							  backtomenu();
+								LCD_ShowString(1, line10, 320, 16, 16, "[  ] Defaultvals Configured" );
+								//buttonnooption();
+							  //backtomenu();
 							}	
 						}
 						
@@ -80,10 +99,12 @@ int main()
 							LCD_ShowString(defaultvals.submenupaddingv,line8,320,16,16, "RESOLUTION->240*320");
 							LCD_ShowString(defaultvals.submenupaddingv,line9,320,16,16, "LCD 1602A ->SIMPLE DEBUGGER");
 										
+							
 							while( rem == 4)
 								{
-									backtomenu();
-								}
+									//buttonnooption();
+									//backtomenu();
+								}  
 						}				
 					
 	///////////////////////   //////////////////   ////////////////				
@@ -94,9 +115,11 @@ int main()
 							LCD_ShowString(1,33,320,16,16, ">> YES"); ///content///
 							LCD_ShowString(1,50,320,16,16, ">> NO");  ///content///
 							
+							
 							while( rem == 5)
 								{
-									backtomenu();
+									//buttonnooption();
+									//backtomenu();
 								}	
 						}
 						
@@ -105,12 +128,14 @@ int main()
 						{ 
 							subwindowframe("Photos");
 							
+							
 							showimage(20,20);
 						  
 							
 							while( rem == 6)
 								{
-									backtomenu();
+									//buttonnooption();
+									//backtomenu();
 								}	
 						}
 		
@@ -119,7 +144,7 @@ int main()
 	/////////////////////  ////////////////////   //////////////////					
 
 			
-			LCD_Clear(BLACK);
+//			LCD_Clear(BLACK);
 		}
 	
 	

@@ -1,34 +1,28 @@
-#include<stdio.h>
-#include"stm32f10x.h"
-#include"lcd.h"
-#include"MenuFramework.h"
-#include"delay.h"
+#include <stdio.h>
+#include "stm32f10x.h"
+#include "lcd.h"
+#include "MenuFramework.h"
+#include "delay.h"
+#include "keynav.h"
 
-uint8_t rem;      //=0; 
+uint8_t rem =100; 
 uint8_t MIN = 1;  //Don't Change
 uint8_t MAX = 6;  //Max Number of Menus
-//uint8_t move = 1; // Dont Change
+uint8_t move = 1; // Dont Change
 		
+
+
 setdisplay defaultvals;
 
-void navsupport3key(void)
-{
-	//PIN A0 for Nav and A1 for Back and A2 for Select //PORT A PINS 2, 1 and 0 set to input pushpull
-		//RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
-		//RCC->APB2ENR |= RCC_APB2ENR_IOPBEN;
-		GPIOA->CRL &= ~(GPIO_CRL_MODE0| GPIO_CRL_MODE1 | GPIO_CRL_MODE2);
-		GPIOA->CRL |= (GPIO_CRL_CNF0_1|GPIO_CRL_CNF1_1 | GPIO_CRL_CNF2_1);
-		GPIOA->CRL &= ~(GPIO_CRL_CNF0_0|GPIO_CRL_CNF1_0 |GPIO_CRL_CNF2_0);	
-}
 
 
 void defaultvalsinit(void)
 {
 	//Set your Menu Content titles here//
 	defaultvals.Hometitle = "HOME";
-	defaultvals.menu1 = "DUMMY MENU 1";
-	defaultvals.menu2 = "DUMMY MENU 2";
-	defaultvals.menu3 = "CALCULATOR";
+	defaultvals.menu1 = "Dummy Menu 1";
+	defaultvals.menu2 = "TEXT EDITOR";
+	defaultvals.menu3 = "Touch Calibration";
 	defaultvals.menu4 = "SYSTEM SPECIFICATIONS";
 	defaultvals.menu5 = "EXIT";
 	defaultvals.menu6 = "Photos";
@@ -46,7 +40,7 @@ void defaultvalsinit(void)
 void splashloadanimation(void)
 {
 	//163
-	static int load = 53;
+	static int load = 54;
 	LCD_ShowString(1, line20, 320, 16, 12, "Loading [                   ]" );
 
 	int abc = load + 21;
@@ -60,7 +54,7 @@ void splashloadanimation(void)
 
 void splashdisplay(void)
 {
-	LCD_Clear(BLACK);
+	//LCD_Clear(BLACK);
 	POINT_COLOR=defaultvals.textcolor;
 	LCD_ShowString(1, line1, 320, 16, 16, "Startup processes:" );
 	delay_ms(25);
@@ -237,24 +231,17 @@ void menuchoose(uint8_t choose)
 			LCD_ShowString(5,line20,320,16,16,"<<< BACK");   //302
 			
 		}
-	
-/* void livetiles(void)
-{						
-						static int m = 3;
-						LCD_Fill(m,123,m,123,BRED);
-						showimage(m,123);
-						if(m<53){	m= m+2;}
-						else {m=3;}
-}       */
+
 		
-	void Displaymenu (void)
+void Displaymenu (void)
 		{
-			static uint8_t move = 1; // Dont Change //default select line
+			//static uint8_t move = 1; // Dont Change //default select line
 			
 			////////////MainMenu Navigation////////////
 				menumain(); //&defaultvals						 //Display MainMenu
 				menuchoose(move);		//Chooses SubMenu
-				while(1)
+				
+		/*	  while(1)
 					{
 						//livetiles();
 						
@@ -286,15 +273,49 @@ void menuchoose(uint8_t choose)
 								break;
 							}	
 					}
-			
-		}
+			*/
+		
+	}
 	
-	
-void backtomenu(void)
+/*void backtomenu(void)
 	{
 		if(GPIOA -> IDR & GPIO_IDR_IDR2)  //Back to Mainmenu
 										{
 											rem = 0;
 										}
+	}*/  
+
+ void livetiles(void)
+{						
+		static int m = 3;
+		//LCD_Fill(m,123,m,123,BRED);
+	  
+		LCD_Fill(3, 123, 103, 216, BRRED);
+		POINT_COLOR=defaultvals.textcolor;
+		LCD_ShowString(5,200,320,16,16, defaultvals.menu6);
+	
+	  showimage(m,123);
+		delay_ms(5000);
+	  
+	  if(m<53)
+		{
+			m= m+5;
+		}
+		else {m=3;}
 		
-	}
+}       
+
+/*
+void buttonnooption(void)
+{
+	if(nooption == 1) 
+							{	
+								POINT_COLOR=RED;
+								LCD_ShowString(70,line20,320,16,16,"No Option");   //302
+								delay_ms(1000);
+								POINT_COLOR=BLACK;
+								LCD_ShowString(70,line20,320,16,16,"No Option");   //302
+							
+								uint8_t nooption = 0;
+							}
+}*/

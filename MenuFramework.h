@@ -4,9 +4,9 @@
 #include "stm32f10x.h"
 
 extern uint8_t rem; //=0; 
-//extern uint8_t MIN; // = 1; //Don't Change
-//extern uint8_t MAX; // = 5; //Max Number of Menus
-//extern uint8_t move; // = 1; // Dont Change
+extern uint8_t MIN; // = 1; //Don't Change
+extern uint8_t MAX; // = 5; //Max Number of Menus
+extern uint8_t move; // = 1; // Dont Change
 
 
 //defining deplay settings & more
@@ -68,13 +68,10 @@ void defaultvalsinit(void);
 void splashdisplay(void);
 void Displaymenu (void);
 void subwindowframe(uint8_t *title);
-void backtomenu(void);
-void navsupport3key(void);
-
-
-
-
-
+void menuchoose(uint8_t choose);
+//void backtomenu(void);
+//void buttonnooption(void);
+void livetiles(void);
 
 
 #endif

@@ -23,6 +23,11 @@ void SPI1_Init(void)
 		GPIOA->CRL &= ~(GPIO_CRL_CNF5_0 | GPIO_CRL_CNF7_0);		///Set to Alt pushpull  
 		GPIOA->CRL |= GPIO_CRL_MODE5 | GPIO_CRL_MODE7;        ///Set to Output 50Mhz Speed 
 		
+		/////MISO--->A6
+		GPIOA->CRL &= ~GPIO_CRL_CNF6_1; 											///Float input
+		GPIOA->CRL |= GPIO_CRL_CNF6_0;
+		GPIOA->CRL &= ~GPIO_CRL_MODE6;                        ///set to Input mode
+		
 		/////LCD_CS  ---> Pin A4
 		GPIOA->CRL &= ~GPIO_CRL_CNF4;													///Set to General pushpull
 		GPIOA->CRL |= GPIO_CRL_MODE4;     								    ///Set to Output 50Mhz Speed 
@@ -44,7 +49,7 @@ void SPI1_Init(void)
 		//Baudrateprescaler/2@36Mhz  //8bit data frame //MSBFIRST //SPI FullDuplex
 		//The clock polarity high when idle // 2nd clock transistion is the first data capture edge
 		//SPI set to mastermode
-		//Software slave management  NSS control with software		
+		//Software slave management NSS(bit high) control with software		
 		SPI1->CR1 |= ((uint16_t)0x0307);  //0x0307
 		SPI1->CR2 |= ((uint16_t)0x00C0);  //Interrupt flag enable
 		SPI1->CR1 |= ((uint16_t)0x0040);  //Enable SPI1 
