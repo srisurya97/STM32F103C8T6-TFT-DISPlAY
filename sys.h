@@ -3,6 +3,7 @@
 
 #include "stm32f10x.h"
 
+/*
 #define SYSTEM_SUPPORT_UCOS		0
 
 #define BITBAND(addr, bitnum) ((addr & 0xF0000000)+0x2000000+((addr &0xFFFFF)<<5)+(bitnum<<2)) 
@@ -22,7 +23,7 @@
 #define PBout(n)   BIT_ADDR(GPIOB_ODR_Addr,n)  //Êä³ö 
 #define PBin(n)    BIT_ADDR(GPIOB_IDR_Addr,n)  //ÊäÈë 
 
-
+*/
 
 
 

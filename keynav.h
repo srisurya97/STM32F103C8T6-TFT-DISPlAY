@@ -3,19 +3,10 @@
 
 #include "stm32f10x.h"
 
-#define testsuccessfull LCD_ShowString(1, line10, 320, 16, 16, "Tested" );
+#define testsuccessfull LCD_ShowString(130, line20, 320, 16, 16, "Back Interrupt" );
 
-
+//void chooosenext (void);
 void navsupport3key(void);
-
-//extern uint8_t nooption;
-
-//void EXTI0_IRQ_IRQHandler(void);
-//void EXTI1_IRQ_IRQHandler(void);
-//void EXTI2_IRQ_IRQHandler(void);
-
-
-
 
 
 

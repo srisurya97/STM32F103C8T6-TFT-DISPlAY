@@ -15,9 +15,8 @@
 #define SPILCD_RS_RESET  GPIO_ResetBit(GPIOB, GPIO_BRR_BR1) //REG
 //LCD_CS  PortA_4
 #define SPILCD_CS_SET GPIO_SetBit(GPIOA,GPIO_BSRR_BS4 ) 
-#define SPILCD_CS_RESET  GPIO_ResetBit(GPIOA, GPIO_BRR_BR4)
-
-  
+#define SPILCD_CS_RESET  GPIO_ResetBit(GPIOA, GPIO_BRR_BR4)	
+	
 typedef struct  
 { 					    
 	uint16_t width;			
@@ -48,7 +47,6 @@ typedef struct
 #define LCD             ((LCD_TypeDef *) LCD_BASE)
 //////////////////////////////////////////////////////////////////////////////////
 
-//画笔颜色
 #define WHITE         	 0xFFFF
 #define BLACK         	 0x0000	  
 #define BLUE         	 	 0x001F  
@@ -63,19 +61,14 @@ typedef struct
 #define BROWN 			 		 0XBC40 
 #define BRRED 			 	   0XFC07 
 #define GRAY  			 		 0X8430 
-
+#define MetalicGrey      0x2945
 #define TEAL						 0x225
-//GUI颜色
-
 #define DARKBLUE      	 0X01CF	
 #define LIGHTBLUE      	 0X7D7C	  
 #define GRAYBLUE       	 0X5458 
-//以上三色为PANEL的颜色 
- 
 #define LIGHTGREEN     	 0X841F 
 //#define LIGHTGRAY        0XEF5B 
 #define LGRAY 			 		 0XC618 
-
 #define LGRAYBLUE        0XA651 
 #define LBBLUE           0X2B12 
 	    															  

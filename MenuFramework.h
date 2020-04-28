@@ -7,9 +7,6 @@ extern uint8_t rem; //=0;
 extern uint8_t MIN; // = 1; //Don't Change
 extern uint8_t MAX; // = 5; //Max Number of Menus
 extern uint8_t move; // = 1; // Dont Change
-
-
-//defining deplay settings & more
 		
 typedef struct
 {
@@ -60,8 +57,6 @@ extern setdisplay defaultvals;
 #define line18 ((lineht*17)+1)		 //273
 #define line19 ((lineht*18)+1)		 //289
 #define line20 ((lineht*19)+1)		 //305 use this line for size12font //Max for lineht15.9
-//#define line21 321
-//#define line22 337
 
 
 void defaultvalsinit(void);
@@ -69,9 +64,7 @@ void splashdisplay(void);
 void Displaymenu (void);
 void subwindowframe(uint8_t *title);
 void menuchoose(uint8_t choose);
-//void backtomenu(void);
-//void buttonnooption(void);
 void livetiles(void);
-
+void selectXmark(uint8_t selectvals);
 
 #endif

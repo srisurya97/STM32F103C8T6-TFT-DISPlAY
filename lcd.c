@@ -6,13 +6,11 @@
 #include "stm32f10x.h"
 				 
 				 
-//LCD的画笔颜色和背景色	   
-uint16_t POINT_COLOR=0x0000;	//画笔颜色
-uint16_t BACK_COLOR=0xFFFF;  //背景色 
+uint16_t POINT_COLOR=0x0000;
+uint16_t BACK_COLOR=0xFFFF; 
 
-//管理LCD重要参数
 _lcd_dev lcddev;
-	
+
 
 //regval
 void LCD_WR_REG(uint16_t regval)
@@ -40,9 +38,6 @@ void LCD_WR_DATA8(uint8_t da)     ////////////DATA8
 		SPI_WriteByte(SPI1,da);	
 		SPILCD_CS_SET;  //LCD_CS=1   			 
 	}					   
-//写寄存器
-//LCD_Reg:寄存器地址
-//LCD_RegValue:要写入的数据
 
 void LCD_WR_REG_DATA(uint8_t LCD_Reg, uint16_t LCD_RegValue)
 	{
@@ -50,34 +45,26 @@ void LCD_WR_REG_DATA(uint8_t LCD_Reg, uint16_t LCD_RegValue)
 		LCD_WR_DATA(LCD_RegValue);
 	}
 
-//开始写GRAM
 void LCD_WriteRAM_Prepare(void)
 	{
 		LCD_WR_REG(lcddev.wramcmd);  
 	}	 
 
-//当mdk -O1时间优化时需要设置
-//延时i
 void opt_delay(uint8_t i)
 	{
 		while(i--);
 	}  		 
 
-//LCD开启显示
 void LCD_DisplayOn(void)
 	{					   
 
 	}	 
 
-//LCD关闭显示
 void LCD_DisplayOff(void)
 	{	   
 
 	}   
 
-//设置光标位置
-//Xpos:横坐标
-//Ypos:纵坐标
 void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos)
 	{
     LCD_WR_REG(lcddev.setxcmd); 
@@ -88,17 +75,12 @@ void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos)
 		LCD_WR_DATA8(Ypos&0XFF);
 	} 	  
 
-//画点
-//x,y:坐标
-//POINT_COLOR:此点的颜色
-
 void LCD_DrawPoint(uint16_t x,uint16_t y)
 	{
 		LCD_SetCursor(x,y);
-		LCD_WriteRAM_Prepare();	//开始写入GRAM
+		LCD_WriteRAM_Prepare();	
 		LCD_WR_DATA(POINT_COLOR); 
-	} 
-//初始化lcd
+	}
 
 void LCD_Init(void)
 	{ 	
@@ -224,25 +206,20 @@ void LCD_Init(void)
 		LCD_Clear(BLACK); 
 	
 	}  
-//清屏函数
-//color:要清屏的填充色
 
 void LCD_Clear(uint16_t color)
 	{
 		uint32_t index=0;      
 		uint32_t totalpoint=lcddev.width;
-		totalpoint*=lcddev.height; 	//得到总点数
-		LCD_SetCursor(0x00,0x0000);	//设置光标位置 
-		LCD_WriteRAM_Prepare();     //开始写入GRAM	 	  
+		totalpoint*=lcddev.height; 	
+		LCD_SetCursor(0x00,0x0000);	
+		LCD_WriteRAM_Prepare();     
 		for(index=0;index<totalpoint;index++)
 		{
 			LCD_WR_DATA(color);
 		}
 
 	}  
-//在指定区域内填充单个颜色
-//(sx,sy),(ex,ey):填充矩形对角坐标,区域大小为:(ex-sx+1)*(ey-sy+1)   
-//color:要填充的颜色
 	
 void LCD_Fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t color)
 	{          
@@ -251,14 +228,11 @@ void LCD_Fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t color)
 		xlen=ex-sx+1;	   
 		for(i=sy;i<=ey;i++)
 		{									   
-			LCD_SetCursor(sx,i);      				//设置光标位置 
-			LCD_WriteRAM_Prepare();     			//开始写入GRAM	  
-			for(j=0;j<xlen;j++)LCD_WR_DATA(color);	//设置光标位置 	    
+			LCD_SetCursor(sx,i);   
+			LCD_WriteRAM_Prepare();
+			for(j=0;j<xlen;j++)LCD_WR_DATA(color);	
 		}
 	}  
-//在指定区域内填充指定颜色块			 
-//(sx,sy),(ex,ey):填充矩形对角坐标,区域大小为:(ex-sx+1)*(ey-sy+1)   
-//color:要填充的颜色
 	
 void LCD_Color_Fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t *color)
 	{  
@@ -268,14 +242,11 @@ void LCD_Color_Fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t *co
 		height=ey-sy+1;		
 		for(i=0;i<height;i++)
 		{
-			LCD_SetCursor(sx,sy+i);   	//设置光标位置 
-			LCD_WriteRAM_Prepare();     //开始写入GRAM
-			for(j=0;j<width;j++)LCD->LCD_RAM=color[i*height+j];//写入数据 
+			LCD_SetCursor(sx,sy+i);   	
+			LCD_WriteRAM_Prepare();     
+			for(j=0;j<width;j++)LCD->LCD_RAM=color[i*height+j];
 		}	  
 	}  
-//画线
-//x1,y1:起点坐标
-//x2,y2:终点坐标  
 	
 void LCD_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
 	{
@@ -311,8 +282,6 @@ void LCD_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
 				} 
 		}  
 	}    
-//画矩形	  
-//(x1,y1),(x2,y2):矩形的对角坐标
 	
 void LCD_DrawRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
 	{
@@ -321,16 +290,13 @@ void LCD_DrawRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
 		LCD_DrawLine(x1,y2,x2,y2);
 		LCD_DrawLine(x2,y1,x2,y2);
 	}
-//在指定位置画一个指定大小的圆
-//(x,y):中心点
-//r    :半径
 	
 void Draw_Circle(uint16_t x0,uint16_t y0,uint8_t r)
 	{
 		int a,b;
 		int di;
 		a=0;b=r;	  
-		di=3-(r<<1);             //判断下个点位置的标志
+		di=3-(r<<1);
 		while(a<=b)
 			{
 				LCD_DrawPoint(x0+a,y0-b);             //5
@@ -351,7 +317,6 @@ void Draw_Circle(uint16_t x0,uint16_t y0,uint8_t r)
 				} 						    
 			}
 	} 	
-//在指定位置显示一个汉字(16*16大小)
 	
 void showhanzi16(unsigned int x,unsigned int y,unsigned char index)	
 	{  
@@ -361,7 +326,7 @@ void showhanzi16(unsigned int x,unsigned int y,unsigned char index)
 		for(j=0;j<16;j++)
 		{
 			LCD_SetCursor(x,y+j);
-			LCD_WriteRAM_Prepare();	//开始写入GRAM
+			LCD_WriteRAM_Prepare();
 			for(k=0;k<2;k++)
 			{
 				for(i=0;i<8;i++)
@@ -379,7 +344,6 @@ void showhanzi16(unsigned int x,unsigned int y,unsigned char index)
 			}
 		}
 	}	
-//在指定位置显示一个汉字(32*32大小)
 	
 void showhanzi32(unsigned int x,unsigned int y,unsigned char index)	
 	{  
@@ -389,7 +353,7 @@ void showhanzi32(unsigned int x,unsigned int y,unsigned char index)
 		for(j=0;j<32;j++)
 		{
 			LCD_SetCursor(x,y+j);
-			LCD_WriteRAM_Prepare();	//开始写入GRAM
+			LCD_WriteRAM_Prepare();
 			for(k=0;k<4;k++)
 			{
 				for(i=0;i<8;i++)
@@ -407,11 +371,6 @@ void showhanzi32(unsigned int x,unsigned int y,unsigned char index)
 			}
 		}
 	}													  
-//在指定位置显示一个字符
-//x,y:起始坐标
-//num:要显示的字符:" "--->"~"
-//size:字体大小 12/16
-//mode:叠加方式(1)还是非叠加方式(0)
 
 void LCD_ShowChar(uint16_t x,uint16_t y,uint8_t num,uint8_t size,uint8_t mode)
 	{  							  
@@ -474,12 +433,6 @@ uint32_t LCD_Pow(uint8_t m,uint8_t n)
 		while(n--)result*=m;    
 		return result;
 	}			 
-//显示数字,高位为0,则不显示
-//x,y :起点坐标	 
-//len :数字的位数
-//size:字体大小
-//color:颜色 
-//num:数值(0~4294967295);	 
 
 void LCD_ShowNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size)
 	{         	
@@ -500,15 +453,6 @@ void LCD_ShowNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size)
 				LCD_ShowChar(x+(size/2)*t,y,temp+'0',size,0); 
 		}
 	} 
-//显示数字,高位为0,还是显示
-//x,y:起点坐标
-//num:数值(0~999999999);	 
-//len:长度(即要显示的位数)
-//size:字体大小
-//mode:
-//[7]:0,不填充;1,填充0.
-//[6:1]:保留
-//[0]:0,非叠加显示;1,叠加显示.
 	
 void LCD_ShowxNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size,uint8_t mode)
 	{  
@@ -555,10 +499,10 @@ void showimage(uint16_t x,uint16_t y)
 		for(i=0;i<40;i++)
 		{	
 			LCD_SetCursor(x,y+i);
-			LCD_WriteRAM_Prepare();     			//开始写入GRAM	
+			LCD_WriteRAM_Prepare();
 			for(j=0;j<40;j++)
 			{
-				da=qqimage[k*2+1]; //qqimage
+				da=qqimage[k*2+1];
 				da<<=8;
 				da|=qqimage[k*2]; 
 				LCD_WR_DATA(da);					

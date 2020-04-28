@@ -9,31 +9,27 @@ uint8_t rem =100;
 uint8_t MIN = 1;  //Don't Change
 uint8_t MAX = 6;  //Max Number of Menus
 uint8_t move = 1; // Dont Change
-		
-
 
 setdisplay defaultvals;
-
-
 
 void defaultvalsinit(void)
 {
 	//Set your Menu Content titles here//
 	defaultvals.Hometitle = "HOME";
 	defaultvals.menu1 = "Dummy Menu 1";
-	defaultvals.menu2 = "TEXT EDITOR";
+	defaultvals.menu2 = "Dummy Menu 2";
 	defaultvals.menu3 = "Touch Calibration";
-	defaultvals.menu4 = "SYSTEM SPECIFICATIONS";
-	defaultvals.menu5 = "EXIT";
+	defaultvals.menu4 = "System Specifications";
+	defaultvals.menu5 = "Exit";
 	defaultvals.menu6 = "Photos";
-	defaultvals.ver = "Ver 0.1";
+	defaultvals.ver = "Ver 0.3";
 	//Set Text & Background colors
-	defaultvals.Hometitlebg = TEAL;
+	defaultvals.Hometitlebg = MetalicGrey;
 	defaultvals.textcolor = WHITE;
-	defaultvals.hovercolor = DARKBLUE;//COBALT;//GRAY; 
+	defaultvals.hovercolor = BLACK;
 	defaultvals.textcolor1 = BLACK;
 	defaultvals.bg = WHITE;
-	defaultvals.titlebg = TEAL;
+	defaultvals.titlebg = MetalicGrey;
 	defaultvals.submenupaddingv = 5;
 }
 
@@ -59,47 +55,32 @@ void splashdisplay(void)
 	LCD_ShowString(1, line1, 320, 16, 16, "Startup processes:" );
 	delay_ms(25);
 	LCD_ShowString(190, line20, 320, 16, 12, defaultvals.ver);
-
 		splashloadanimation();
-
-	
 	LCD_ShowString(1, line3, 320, 16, 16, "[  ] Spi Init( );" ); 
 	delay_ms(25);
-	
 	LCD_ShowString(1, line4, 320, 16, 16, "[  ] Spi Started" );
 	POINT_COLOR=GREEN;
 	LCD_ShowString(1, line4, 320, 16, 16, " OK" );
 	POINT_COLOR=WHITE;
 	delay_ms(25);
-	
 		splashloadanimation();
-	
-	
 	LCD_ShowString(1, line5, 320, 16, 16, "[  ] Led Init( );" );
 	delay_ms(25);
 	delay_ms(25);
-	
 	LCD_ShowString(1, line6, 320, 16, 16, "[  ] Led Started" );
 	delay_ms(25);
 	POINT_COLOR=GREEN;
 	LCD_ShowString(1, line6, 320, 16, 16, " OK" );
 	POINT_COLOR=WHITE;
-	
 		splashloadanimation();
-
-	
 	LCD_ShowString(1, line7, 320, 16, 16, "[  ] Lcd Init( );" );
 	delay_ms(25);
-	
 	LCD_ShowString(1, line8, 320, 16, 16, "[  ] Lcd Started" );
 	delay_ms(25);
 	POINT_COLOR=GREEN;
 	LCD_ShowString(1, line8, 320, 16, 16, " OK" );
 	POINT_COLOR=WHITE;
-
 	splashloadanimation();
-	
-
 	LCD_ShowString(1, line9, 320, 16, 16, "[  ] Defaultvals Init( );" );
 	delay_ms(25);	
 	LCD_ShowString(1, line10, 320, 16, 16, "[  ] Defaultvals Configured" );
@@ -107,10 +88,7 @@ void splashdisplay(void)
 	POINT_COLOR=GREEN;
 	LCD_ShowString(1, line10, 320, 16, 16, " OK" );
 	POINT_COLOR=WHITE;
-	
 		splashloadanimation();
-
-	
 	LCD_ShowString(1, line11, 320, 16, 16, "[  ] navsupport3key( );" );
 	delay_ms(25);	
 	LCD_ShowString(1, line12, 320, 16, 16, "[  ] navsupport3key Configured" );
@@ -118,18 +96,11 @@ void splashdisplay(void)
 	POINT_COLOR=GREEN;
 	LCD_ShowString(1, line12, 320, 16, 16, " OK" );
 	POINT_COLOR=WHITE;
-	//delay_ms(25);
-	
-	
 	delay_ms(103);
-	
 }	
 
-
 void menumain() // HOME SCREEN
-	{
-		
-		//int firstpos = 33;		
+	{	
 		POINT_COLOR= defaultvals.textcolor;
 		LCD_Fill(0,0,239,18, defaultvals.Hometitlebg);
 		LCD_ShowString(2,line1,320,16,16, defaultvals.Hometitle);
@@ -141,14 +112,10 @@ void menumain() // HOME SCREEN
 		LCD_ShowString(20,line6,320,16,16, defaultvals.menu4);       //82
 		LCD_ShowString(20,line7,320,16,16, defaultvals.menu5);       //98
 		
-		
 		LCD_Fill(3, 123, 103, 216, BRRED);
 		POINT_COLOR=defaultvals.textcolor;
 		LCD_ShowString(5,200,320,16,16, defaultvals.menu6);
-		
-		
 	}
-	
 
 void menuchoose(uint8_t choose)
 	{
@@ -200,7 +167,6 @@ void menuchoose(uint8_t choose)
 				LCD_ShowString(3,line7,320,16,16, ">>");
 			  //POINT_COLOR=defaultvals.textcolor;
 				//LCD_ShowString(3,line3,320,16,16, ">>");
-			  
 				POINT_COLOR=defaultvals.textcolor;
 				LCD_ShowString(5,200,320,16,16, defaultvals.menu6);
 				break;
@@ -209,38 +175,74 @@ void menuchoose(uint8_t choose)
 				POINT_COLOR=defaultvals.textcolor;
 				LCD_ShowString(3,line7,320,16,16, ">>");
 			
-				POINT_COLOR=BLACK;
+				POINT_COLOR=defaultvals.hovercolor;
 				LCD_ShowString(5,200,320,16,16, defaultvals.menu6);
 				break;
-		
-			
 		}
 		
 	}
-	
-	
+
 	void subwindowframe(uint8_t *title)
 		{
 			LCD_Clear(BLACK);
 			POINT_COLOR=defaultvals.textcolor;
 			LCD_Fill(0,0,239,20,defaultvals.titlebg);
-			//LCD_DrawRectangle(1, 1, 170, 20);
+			//LCD_DrawRectangle(220, 0, 239, 20);
+			LCD_ShowString(226,line1+1,20,16,16, "X");
 			LCD_ShowString(2,line1,320,16,16, title);
-							
-			POINT_COLOR=DARKBLUE;
-			LCD_ShowString(5,line20,320,16,16,"<<< BACK");   //302
-			
+			//POINT_COLOR=DARKBLUE;
+			//LCD_ShowString(5,line20,320,16,16,"<<< BACK");
 		}
 
+void selectXmark(uint8_t selectvalue)
+{
+	if(selectvalue == 1)
+	{
+	LCD_Fill(219,0,239,20,RED);
+	POINT_COLOR=defaultvals.textcolor1;
+	}
+	else
+		{
+			LCD_Fill(219,0,239,20,defaultvals.titlebg);
+			POINT_COLOR=WHITE;
+		}
+		
+	LCD_ShowString(226,line1+1,20,16,16, "X");	
+	//POINT_COLOR=defaultvals.textcolor;
+	//LCD_DrawRectangle(220, 0, 239, 20);	
+}	
 		
 void Displaymenu (void)
 		{
 			//static uint8_t move = 1; // Dont Change //default select line
 			
 			////////////MainMenu Navigation////////////
-				menumain(); //&defaultvals						 //Display MainMenu
-				menuchoose(move);		//Chooses SubMenu
-				
+				menumain();         //Display MainMenu
+				menuchoose(move);		//Chooses SubMenu		
+		}
+
+void livetiles(void)
+{						
+		static int m = 3;
+		LCD_Fill(3, 123, 103, 216, BRRED);
+		if(move==6)POINT_COLOR=BLACK;
+		else POINT_COLOR=defaultvals.textcolor; 
+		LCD_ShowString(5,200,320,16,16, defaultvals.menu6);
+	  showimage(m,123);
+	  if(m<60)
+		{
+			m= m+30;
+		}
+		else {m=3;}
+		delay_ms(5000);
+} 
+
+
+
+
+
+
+/////////////////////////////////Backup Codes////////////////////////////////////
 		/*	  while(1)
 					{
 						//livetiles();
@@ -273,39 +275,15 @@ void Displaymenu (void)
 								break;
 							}	
 					}
-			*/
-		
-	}
 	
-/*void backtomenu(void)
+void backtomenu(void)
 	{
 		if(GPIOA -> IDR & GPIO_IDR_IDR2)  //Back to Mainmenu
 										{
 											rem = 0;
 										}
-	}*/  
+	}
 
- void livetiles(void)
-{						
-		static int m = 3;
-		//LCD_Fill(m,123,m,123,BRED);
-	  
-		LCD_Fill(3, 123, 103, 216, BRRED);
-		POINT_COLOR=defaultvals.textcolor;
-		LCD_ShowString(5,200,320,16,16, defaultvals.menu6);
-	
-	  showimage(m,123);
-		delay_ms(5000);
-	  
-	  if(m<53)
-		{
-			m= m+5;
-		}
-		else {m=3;}
-		
-}       
-
-/*
 void buttonnooption(void)
 {
 	if(nooption == 1) 
