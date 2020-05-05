@@ -1,5 +1,5 @@
 #include "spi.h"
-
+#include "stm32f10x.h"
 
 void GPIO_SetBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
 {
@@ -62,9 +62,9 @@ void SPI1_Init(void)
 	
 	uint8_t SPI_WriteByte(SPI_TypeDef* SPIx,uint8_t Byte)
 	{
-		while((SPIx->SR&SPI_I2S_FLAG_TXE)==RESET);		
+		while((SPIx->SR&SPI_SR_TXE)==RESET);		
 		SPIx->DR=Byte; 
-		while((SPIx->SR&SPI_I2S_FLAG_RXNE)==RESET);
+		while((SPIx->SR&SPI_SR_RXNE)==RESET);
 		return SPIx->DR;          	   
 	}
 

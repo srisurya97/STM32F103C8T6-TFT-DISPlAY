@@ -5,7 +5,9 @@
 #include "delay.h"
 
 //uint8_t nooption;
-volatile uint8_t selectvals=0;
+static uint8_t selectvals=0;
+uint8_t MIN = 1;  //Don't Change
+uint8_t MAX = 4;  //Max Number of Menus
 
 void interruptsettings(void)
 {
@@ -40,12 +42,12 @@ void navsupport3key(void)
 void choosenext (void)
 {
 	 delay_ms(250);
-	 if(!(EXTI->PR & EXTI_PR_PR0)&&(rem == 0)) //Choose Next
+	 if((!(EXTI->PR & EXTI_PR_PR0))&&(rem == 0)) //Choose Next
 			{
 				move ++;
 				if(move > MAX) 
 					{
-						move = MIN;
+						move = MAX;
 					}
 				menuchoose(move);
 				
@@ -64,7 +66,7 @@ void choosenext (void)
 void selectingmenu(void)
 {
 	delay_ms(250);	
-	  if (!(EXTI->PR & EXTI_PR_PR0)&&(rem == 0)) //Selecting the Submenu
+	  if ((!(EXTI->PR & EXTI_PR_PR0))&&(rem == 0)) //Selecting the Submenu
 			{
 				rem= move;
 			}	
@@ -83,7 +85,7 @@ void selectingmenu(void)
 
 void chooseprevious(void)
 {
-	delay_ms(350);
+	delay_ms(250);
 	if((!(EXTI->PR & EXTI_PR_PR0))&&(rem == 0)) //Choose Previous
 	   {
 			 move = move - 1;
@@ -102,7 +104,7 @@ void chooseprevious(void)
 						selectXmark(selectvals);
 					}
 			}
-   else {POINT_COLOR=WHITE; testsuccessfull; }		
+   else { }		
 }
 
 void EXTI0_IRQHandler(void)

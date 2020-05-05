@@ -4,8 +4,8 @@
 #include "stm32f10x.h"
 
 extern uint8_t rem; //=0; 
-extern uint8_t MIN; // = 1; //Don't Change
-extern uint8_t MAX; // = 5; //Max Number of Menus
+//extern uint8_t MIN; // = 1; //Don't Change
+//extern uint8_t MAX; // = 5; //Max Number of Menus
 extern uint8_t move; // = 1; // Dont Change
 		
 typedef struct
@@ -18,6 +18,7 @@ typedef struct
 	uint16_t textcolor1;
 	uint16_t textcolor2;
 	uint16_t hovercolor;
+	uint16_t tilescolor;
 	uint16_t bg;
 	uint16_t subtextcolor;
 	uint16_t menu1;
@@ -29,10 +30,21 @@ typedef struct
 	uint16_t menu7;
 	uint16_t menu8;
 	uint16_t menu9;
-	uint8_t  submenupaddingv;
 	uint16_t ver;
-	
+	uint8_t  submenupaddingv;
+	uint8_t  mainmenupaddingv;
 }setdisplay;
+
+typedef struct
+{
+	uint8_t tileX;
+	uint8_t tileY;
+	uint8_t tileExpand; 
+	uint16_t tileColor;
+	uint16_t tileName;
+}tiledefine;
+
+
 
 extern setdisplay defaultvals;
 

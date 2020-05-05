@@ -122,6 +122,8 @@ void LCD_Init(void)
 		LCD_WR_DATA8(0x00); 
 		LCD_WR_DATA8(0x34); 
 		LCD_WR_DATA8(0x02); 
+		
+		
 	 
 		LCD_WR_REG(0xF7);  
 		LCD_WR_DATA8(0x20); 
@@ -384,7 +386,7 @@ void LCD_ShowChar(uint16_t x,uint16_t y,uint8_t num,uint8_t size,uint8_t mode)
 				for(t=0;t<size;t++)
 				{   
 					if(size==12)temp=asc2_1206[num][t];  
-					else temp=asc2_1608[num][t];		  	                          
+						else temp=asc2_1608[num][t];		  	                         
 	        for(t1=0;t1<8;t1++)
 					{			    
 		        if(temp&0x80)POINT_COLOR=colortemp;
@@ -408,6 +410,7 @@ void LCD_ShowChar(uint16_t x,uint16_t y,uint8_t num,uint8_t size,uint8_t mode)
 				{   
 					if(size==12)temp=asc2_1206[num][t];  //调用1206字体
 					else temp=asc2_1608[num][t];		 //调用1608字体         
+	
 	        for(t1=0;t1<8;t1++)
 					{			    
 		        if(temp&0x80)LCD_DrawPoint(x,y); 

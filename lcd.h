@@ -61,7 +61,10 @@ typedef struct
 #define BROWN 			 		 0XBC40 
 #define BRRED 			 	   0XFC07 
 #define GRAY  			 		 0X8430 
-#define MetalicGrey      0x2945
+#define MetalicGrey      0x1061//0x2945
+#define LightRed         0xDA49
+#define SelectRed					0xCA08
+#define VoiletBlue			 0x42AF
 #define TEAL						 0x225
 #define DARKBLUE      	 0X01CF	
 #define LIGHTBLUE      	 0X7D7C	  
