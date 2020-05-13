@@ -1,40 +1,15 @@
-#ifndef __DELAY_H
-#define __DELAY_H 			   
+#ifndef DELAY_H
+#define DELAY_H
 
 #include "stm32f10x.h"
 
+void delayinit(void);
+void delay_ms(uint16_t ms);
+void delay_us(uint16_t us);
 
-void delay_init(void);
-void delay_ms(uint16_t nms);
-void delay_us(uint32_t nus);
+
+
+
+
 
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

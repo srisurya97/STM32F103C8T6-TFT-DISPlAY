@@ -41,7 +41,8 @@ void navsupport3key(void)
 
 void choosenext (void)
 {
-	 delay_ms(250);
+	for(uint32_t i=0;i<250000;i++);//delay_ms(250);	
+		
 	 if((!(EXTI->PR & EXTI_PR_PR0))&&(rem == 0)) //Choose Next
 			{
 				move ++;
@@ -60,32 +61,45 @@ void choosenext (void)
 					selectXmark(selectvals);
 				}
 			}
-	else { }		
+	else {
+
+					}		
 }
 
 void selectingmenu(void)
 {
-	delay_ms(250);	
+	for(uint32_t i=0;i<250000;i++);//delay_ms(250);	
 	  if ((!(EXTI->PR & EXTI_PR_PR0))&&(rem == 0)) //Selecting the Submenu
 			{
+				
 				rem= move;
 			}	
 		
-			else if ((!(EXTI->PR & EXTI_PR_PR0))&&((rem == 1 )||(rem == 2 )||(rem == 3 )||(rem == 4 )||(rem == 5 )||(rem == 6 )))
-				{
-					if(selectvals==1)
+				else if ((!(EXTI->PR & EXTI_PR_PR0))&&((rem == 1 )))
 					{
-						rem=100;
-						selectvals=0;
+						if(selectvals==1)
+							{
+								ADC1->CR2 &= ~ADC_CR2_ADON;
+								rem=100;
+								selectvals=0;
+							}
 					}
-				}
+					
+					else if ((!(EXTI->PR & EXTI_PR_PR0))&&((rem == 2 )||(rem == 3 )||(rem == 4 )||(rem == 5 )||(rem == 6 )))
+						{
+							if(selectvals==1)
+								{
+									rem=100;
+									selectvals=0;
+								}
+						}
 			
 		else { }	
 }
 
 void chooseprevious(void)
 {
-	delay_ms(250);
+	for(uint32_t i=0;i<250000;i++);//delay_ms(250);	
 	if((!(EXTI->PR & EXTI_PR_PR0))&&(rem == 0)) //Choose Previous
 	   {
 			 move = move - 1;
@@ -110,7 +124,7 @@ void chooseprevious(void)
 void EXTI0_IRQHandler(void)
  {
 		EXTI->PR |= EXTI_PR_PR0;
-		choosenext();
+	 	choosenext();
  }
 
  void EXTI1_IRQHandler(void)

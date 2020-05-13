@@ -6,16 +6,14 @@
 #include "stm32f10x.h"
 #include "MenuFramework.h"
 #include "keynav.h"
+#include "ADC.h"
 
 
 
 int main()
 	{
-		const char splash[] = { "abc"
-								 "def"
-								 "ghi"	 };
-
-		delay_init();
+	
+		delayinit();
 		delay_ms(100); //for proper lcd initialization
 		SPI1_Init();
 		LED_Init();			     
@@ -43,13 +41,12 @@ int main()
 				if(rem == 1)				///when menu5 selected
 						{ 
 							subwindowframe(defaultvals.menu1);
-							showimage(6,27);
-							
-							POINT_COLOR=WHITE;
-							LCD_ShowString(defaultvals.submenupaddingv,line6,320,16,16,splash);
-							
+							adcinit();
+						  
+														
 							while( rem == 1)
 								{
+									ADCConvert();
 									//////////////////////////////////////
 								}	
 						}

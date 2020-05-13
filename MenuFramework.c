@@ -20,7 +20,7 @@ void defaultvalsinit(void)
 {
 	//Set your Menu Content titles and more//
 	defaultvals.Hometitle = "H O M E";
-	defaultvals.menu1 = "Photos";
+	defaultvals.menu1 = "VoltMeter";
 	defaultvals.menu2 = "About System";
 	defaultvals.menu3 = "Dummy Menu 3";
 	defaultvals.menu4 = "Dummy Menu 4";
@@ -50,7 +50,7 @@ void defaultvalsinit(void)
 	tile2define.tileName = defaultvals.menu2;
 	
 	tile3define.tileX= tile1define.tileX;//5;
-	tile3define.tileY= tile1define.tileY+tile1define.tileExpand+5;//line10+4;
+	tile3define.tileY= tile1define.tileY+(tile1define.tileExpand/2)+5;//line10+4;
 	tile3define.tileExpand= tile1define.tileExpand;//110;
 	tile3define.tileColor= LightRed;
 	tile3define.tileName = defaultvals.menu3;
@@ -118,17 +118,17 @@ void splashdisplay(void)
 
 void tiles(uint8_t tileStartX,uint8_t tileStartY,uint8_t tileExpand, uint16_t tileColor,uint8_t *tileName)
 {
-	LCD_Fill(tileStartX, tileStartY, tileStartX+tileExpand, tileStartY+tileExpand, tileColor);
+	LCD_Fill(tileStartX, tileStartY, tileStartX+tileExpand, tileStartY+tileExpand/2, tileColor);
 	POINT_COLOR=defaultvals.textcolor;
-	LCD_ShowString(tileStartX+4,(tileStartY+tileExpand)-18,tileStartY+tileExpand,tileStartX+tileExpand,16, tileName);
+	LCD_ShowString(tileStartX+4,(tileStartY+(tileExpand/2))-18,tileStartY+tileExpand,tileStartX+tileExpand,16, tileName);
 }
 
 void selecttile(uint8_t tileStartX,uint8_t tileStartY,uint8_t tileExpand, uint8_t *selectcolor)
 {
 	POINT_COLOR = selectcolor;
-	LCD_DrawRectangle(tileStartX,tileStartY,tileStartX+tileExpand,tileStartY+tileExpand);
-	LCD_DrawRectangle(tileStartX+1,tileStartY+1,tileStartX+tileExpand-1,tileStartY+tileExpand-1);
-	LCD_DrawRectangle(tileStartX+2,tileStartY+2,tileStartX+tileExpand-2,tileStartY+tileExpand-2);
+	LCD_DrawRectangle(tileStartX,tileStartY,tileStartX+tileExpand,tileStartY+tileExpand/2);
+	LCD_DrawRectangle(tileStartX+1,tileStartY+1,tileStartX+tileExpand-1,(tileStartY+tileExpand/2)-1);
+	LCD_DrawRectangle(tileStartX+2,tileStartY+2,tileStartX+tileExpand-2,(tileStartY+tileExpand/2)-2);
 }
 
 void menumain() // HOME SCREEN
