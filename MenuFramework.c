@@ -6,8 +6,6 @@
 #include "keynav.h"
 
 uint8_t rem =100; 
-//uint8_t MIN = 1;  //Don't Change
-//uint8_t MAX = 4;  //Max Number of Menus
 uint8_t move = 0; // Dont Change
 
 setdisplay defaultvals;
@@ -20,10 +18,10 @@ void defaultvalsinit(void)
 {
 	//Set your Menu Content titles and more//
 	defaultvals.Hometitle = "H O M E";
-	defaultvals.menu1 = "VoltMeter";
-	defaultvals.menu2 = "About System";
+	defaultvals.menu1 = "ADCoperations";
+	defaultvals.menu2 = "Dummy Menu 2";
 	defaultvals.menu3 = "Dummy Menu 3";
-	defaultvals.menu4 = "Dummy Menu 4";
+	defaultvals.menu4 = "About System";
 	defaultvals.menu5 = "Dummy Menu 5";
 	defaultvals.menu6 = "Dummy Menu 6";
 	defaultvals.ver = "Ver 0.6";
@@ -39,7 +37,7 @@ void defaultvalsinit(void)
 	
 	tile1define.tileX= 5;
 	tile1define.tileY= line3;
-	tile1define.tileExpand= 110;//110
+	tile1define.tileExpand= (lcddev.width/2)-7;//110
 	tile1define.tileColor= LightRed;
 	tile1define.tileName = defaultvals.menu1;
 	
@@ -66,9 +64,9 @@ void splashloadanimation(void)
 {
 	//163
 	static int load = 54;
-	LCD_ShowString(1, line20, 320, 16, 12, "Loading [                   ]");
+	LCD_ShowString(1, line20, 320, 16, 12, "Loading [                    ]");
 
-	int abc = load + 21;
+	int abc = load + (113/6);
 	//Load Animation//
 	for (;load<=abc;load++){
 	LCD_ShowString(load, line20, 320, 16, 12, "|" );
@@ -112,6 +110,11 @@ void splashdisplay(void)
 	LCD_ShowString(1, line12, 320, 16, 16, "[  ] navsupport3key Configured" );
 	POINT_COLOR=GREEN;
 	LCD_ShowString(1, line12, 320, 16, 16, " OK" );
+	POINT_COLOR=WHITE;
+	splashloadanimation();
+	LCD_ShowString(1, line13, 320, 16, 16, "[  ] Delay Configured" );
+	POINT_COLOR=GREEN;
+	LCD_ShowString(1, line13, 320, 16, 16, " OK" );
 	POINT_COLOR=WHITE;
 	delay_ms(93);
 }	
@@ -192,7 +195,36 @@ void menuchoose(uint8_t choose)
 				LCD_ShowString(5,200,320,16,16, defaultvals.menu6);
 				break;
 		*/
-	 }
+		///////For ADC Operations Mode select/////
+			case 7:
+				ONOFFSwitch(100,line3,1);
+			  ONOFFSwitch(100,line6,0);
+				ONOFFSwitch(100,line9,0);
+//			  ONOFFSwitch(100,line12,0);
+				break;
+				
+			case 8:
+				ONOFFSwitch(100,line3,0);
+				ONOFFSwitch(100,line6,1);
+				ONOFFSwitch(100,line9,0);
+//				ONOFFSwitch(100,line12,0);
+				break;
+			
+			case 9:
+			 	ONOFFSwitch(100,line3,0);
+				ONOFFSwitch(100,line6,0);
+				ONOFFSwitch(100,line9,1);		
+			  ONOFFSwitch(100,line12,0);
+				break;
+			
+			case 10:
+			 	ONOFFSwitch(100,line3,0);
+				ONOFFSwitch(100,line6,0);
+				ONOFFSwitch(100,line9,0);		
+			  ONOFFSwitch(100,line12,1);
+				break;
+		
+		}
 	}
 
 void subwindowframe(uint8_t *title)
@@ -217,8 +249,29 @@ void selectXmark(uint8_t selectvalue)
 			POINT_COLOR=WHITE;
 		}
 	LCD_ShowString(226,line1+1,20,16,16, "X");	
+}
+
+void ONOFFSwitch(uint8_t x1,uint8_t y1, uint8_t ONOFF)
+{
+	if(ONOFF==1)
+	{
+		LCD_Fill(x1,y1-1,x1+38,y1+18,BLACK);
+		LCD_Fill(x1+1,y1+1,x1+37,y1+16,GREEN);
+		LCD_Fill(x1+28,y1-1,x1+38,y1+18,WHITE);
+		POINT_COLOR=BLACK;
+		LCD_ShowString(x1+3,y1,40,16,16,"ON");
+		
+	}
+	else
+		{
+			LCD_Fill(x1,y1-1,x1+38,y1+18,BLACK);
+			LCD_Fill(x1+1,y1+1,x1+37,y1+16,RED);
+			LCD_Fill(x1,y1-1,x1+10,y1+18,WHITE);
+			POINT_COLOR=BLACK;
+			LCD_ShowString(x1+14,y1,40,16,16,"OFF");
+		}
 	
-}	
+}
 		
 void Displaymenu (void)
 		{

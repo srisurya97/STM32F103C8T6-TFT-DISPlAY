@@ -4,9 +4,7 @@
 #include "stm32f10x.h"
 
 extern uint8_t rem; //=0; 
-//extern uint8_t MIN; // = 1; //Don't Change
-//extern uint8_t MAX; // = 5; //Max Number of Menus
-extern uint8_t move; // = 1; // Dont Change
+extern uint8_t move; // Dont Change
 		
 typedef struct
 {
@@ -78,5 +76,6 @@ void subwindowframe(uint8_t *title);
 void menuchoose(uint8_t choose);
 void livetiles(void);
 void selectXmark(uint8_t selectvals);
+void ONOFFSwitch(uint8_t x1,uint8_t y1,uint8_t ONOFF);
 
 #endif

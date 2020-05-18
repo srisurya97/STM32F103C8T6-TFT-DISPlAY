@@ -3,11 +3,9 @@
 #include "keynav.h"
 #include "lcd.h"
 #include "delay.h"
+#include "ADC.h"
 
-//uint8_t nooption;
-static uint8_t selectvals=0;
-uint8_t MIN = 1;  //Don't Change
-uint8_t MAX = 4;  //Max Number of Menus
+static uint8_t selectvals=2;
 
 void interruptsettings(void)
 {
@@ -40,11 +38,10 @@ void navsupport3key(void)
 }
 
 void choosenext (void)
-{
-	for(uint32_t i=0;i<250000;i++);//delay_ms(250);	
-		
-	 if((!(EXTI->PR & EXTI_PR_PR0))&&(rem == 0)) //Choose Next
+{		
+	 if(rem == 0) //Choose Next
 			{
+				uint8_t MAX = 4;  //Max Number of Menus
 				move ++;
 				if(move > MAX) 
 					{
@@ -53,90 +50,155 @@ void choosenext (void)
 				menuchoose(move);
 				
 			}
-			else if ((!(EXTI->PR & EXTI_PR_PR0))&&((rem == 1 )||(rem == 2 )||(rem == 3 )||(rem == 4 )||(rem == 5 )||(rem == 6 )))
-			{
-				selectvals=0;
-				if(selectvals==0)
+			else if (rem == 1 )
 				{
-					selectXmark(selectvals);
+					uint8_t MAX = 6;  //Max Number of Menus
+					selectvals++;
+					if(selectvals>MAX){selectvals=MAX;}
+					if(selectvals==1 || selectvals==2)
+						{
+							selectXmark(selectvals);
+							ONOFFSwitch(100,line3,0);
+							ONOFFSwitch(100,line6,0);
+							ONOFFSwitch(100,line9,0);
+							ONOFFSwitch(100,line12,0);
+						}	
+						else
+							{
+								menuchoose(selectvals+4);
+							}
 				}
-			}
-	else {
+				else if (((rem == 2 )||(rem == 3 )||(rem == 4 )||(rem == 5 )||(rem == 6 )))
+					{
+						selectvals=2;
+						selectXmark(selectvals);
+					}
+					else
+						{
 
-					}		
+						}		
 }
 
 void selectingmenu(void)
 {
-	for(uint32_t i=0;i<250000;i++);//delay_ms(250);	
-	  if ((!(EXTI->PR & EXTI_PR_PR0))&&(rem == 0)) //Selecting the Submenu
+	  if (rem == 0)   //Selecting the Submenu 
 			{
-				
+				uint8_t MIN = 1;  //Don't Change
+				uint8_t MAX = 4;  //Max Number of Menus
 				rem= move;
-			}	
-		
-				else if ((!(EXTI->PR & EXTI_PR_PR0))&&((rem == 1 )))
+			}
+			else if (rem == 1 )
+				{
+					if(selectvals==1)
+						{
+							ADC1->CR2 &= ~ADC_CR2_ADON;
+							selectvals=2;
+							rem=100;
+						}
+					if(selectvals==3)
+						{
+							mode = 0;
+							rem = 7;
+						}
+					if(selectvals==4)
+						{
+							mode = 1;
+							rem = 8;
+						}
+					if(selectvals==5)
+						{
+							mode = 2;
+							rem = 9;
+						}
+					if(selectvals==6)
+						{
+							mode = 2;
+							rem = 10;
+						}
+				}
+				else if (((rem == 2 )||(rem == 3 )||(rem == 4 )||(rem == 5 )||(rem == 6 ))) 
 					{
 						if(selectvals==1)
 							{
-								ADC1->CR2 &= ~ADC_CR2_ADON;
+								selectvals=2;
 								rem=100;
-								selectvals=0;
 							}
 					}
-					
-					else if ((!(EXTI->PR & EXTI_PR_PR0))&&((rem == 2 )||(rem == 3 )||(rem == 4 )||(rem == 5 )||(rem == 6 )))
+					else
 						{
-							if(selectvals==1)
-								{
-									rem=100;
-									selectvals=0;
-								}
-						}
-			
-		else { }	
+
+						}	
 }
 
 void chooseprevious(void)
 {
-	for(uint32_t i=0;i<250000;i++);//delay_ms(250);	
-	if((!(EXTI->PR & EXTI_PR_PR0))&&(rem == 0)) //Choose Previous
-	   {
-			 move = move - 1;
-			 if(move < MIN) 
-				 {
-					 move = 1;
-				 }
-			 menuchoose(move);		//Chooses SubMenu	 
-		 }	
-		 
-		else if ((!(EXTI->PR & EXTI_PR_PR0))&&((rem == 1 )||(rem == 2 )||(rem == 3 )||(rem == 4 )||(rem == 5 )||(rem == 6 )))
-			{	
-				selectvals=1;
-				if(selectvals==1)
+	if(rem == 0)
+		{
+			uint8_t MIN = 1;  //Don't Change
+			move = move - 1;
+			if(move < MIN) 
+				{
+					move = 1;
+				}
+			menuchoose(move);		//Chooses SubMenu	 
+		}
+		else if (rem == 1 )
+			{
+				uint8_t MIN = 1;
+				selectvals--;
+				if(selectvals<MIN){selectvals=MIN;}				
+    		if(selectvals==1 || selectvals==2)
 					{
 						selectXmark(selectvals);
+						ONOFFSwitch(100,line3,0);
+						ONOFFSwitch(100,line6,0);
+						ONOFFSwitch(100,line9,0);
 					}
+					else
+						{
+							menuchoose(selectvals+4);
+						}				
 			}
-   else { }		
+			else if ((rem == 2 )||(rem == 3 )||(rem == 4 )||(rem == 5 )||(rem == 6 ))
+				{
+					selectvals=1;
+					selectXmark(selectvals);
+				}
+				else if((rem == 7) || (rem == 8) || (rem == 9) || (rem == 10))
+					{
+						ADC1->CR2 &= ~ADC_CR2_ADON;
+						rem=1;
+						selectvals=2;
+					}
+					else 
+						{
+					
+						
+						}		
 }
 
 void EXTI0_IRQHandler(void)
  {
-		EXTI->PR |= EXTI_PR_PR0;
-	 	choosenext();
+	 EXTI->PR |= EXTI_PR_PR0;
+	 static uint8_t debounce=0;
+	 debounce++;
+	 if(debounce ==2) { debounce=0;	choosenext();}
  }
 
  void EXTI1_IRQHandler(void)
  {
 	 EXTI->PR |= EXTI_PR_PR1;
-	 selectingmenu();
+	 static uint8_t debounce=0;
+	 debounce++;
+	 if(debounce ==2)	{ debounce=0; selectingmenu();}
  }
  
  void EXTI2_IRQHandler(void)
  {
 	EXTI->PR |= EXTI_PR_PR2;
-	chooseprevious();
+	static uint8_t debounce=0;
+	 debounce++;
+	 if(debounce ==2)	{debounce=0; chooseprevious();}
  }
 
 
