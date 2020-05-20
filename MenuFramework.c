@@ -64,12 +64,12 @@ void splashloadanimation(void)
 {
 	//163
 	static int load = 54;
-	LCD_ShowString(1, line20, 320, 16, 12, "Loading [                    ]");
+	LCD_ShowString(1, lcddev.height-17, 320, 16, 12, "Loading [                    ]"); //line 20
 
 	int abc = load + (113/6);
 	//Load Animation//
 	for (;load<=abc;load++){
-	LCD_ShowString(load, line20, 320, 16, 12, "|" );
+	LCD_ShowString(load, lcddev.height-17, 320, 16, 12, "|" ); //line 20
 	delay_ms(2);
 	}
 	
@@ -231,8 +231,8 @@ void subwindowframe(uint8_t *title)
 	{
 		LCD_Clear(BLACK);
 		POINT_COLOR=defaultvals.textcolor;
-		LCD_Fill(0,0,239,20,defaultvals.titlebg);
-		LCD_ShowString(226,line1+1,20,16,16, "X");
+		LCD_Fill(0,0,lcddev.width-1,20,defaultvals.titlebg); //239
+		LCD_ShowString(lcddev.width-14,line1+1,20,16,16, "X"); //226
 		LCD_ShowString(defaultvals.submenupaddingv,line1,320,16,16, title);
 	}
 
@@ -240,15 +240,15 @@ void selectXmark(uint8_t selectvalue)
 {
 	if(selectvalue == 1)
 	{
-	LCD_Fill(219,0,239,20,RED);
+	LCD_Fill(lcddev.width-21,0,lcddev.width-1,20,RED);  //219 //239
 	POINT_COLOR=defaultvals.textcolor1;
 	}
 	else
 		{
-			LCD_Fill(219,0,239,20,defaultvals.titlebg);
+			LCD_Fill(lcddev.width-21,0,lcddev.width-1,20,defaultvals.titlebg);    //219 //239
 			POINT_COLOR=WHITE;
 		}
-	LCD_ShowString(226,line1+1,20,16,16, "X");	
+	LCD_ShowString(lcddev.width-14,line1+1,20,16,16, "X");	 //226
 }
 
 void ONOFFSwitch(uint8_t x1,uint8_t y1, uint8_t ONOFF)
@@ -276,7 +276,7 @@ void ONOFFSwitch(uint8_t x1,uint8_t y1, uint8_t ONOFF)
 void Displaymenu (void)
 		{
 			//static uint8_t move = 1; // Dont Change //default select line
-
+				
 			////////////MainMenu Navigation////////////
 				menumain();         //Display MainMenu
 				menuchoose(move);		//Chooses SubMenu		

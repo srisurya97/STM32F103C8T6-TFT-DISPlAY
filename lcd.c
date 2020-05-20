@@ -55,15 +55,6 @@ void opt_delay(uint8_t i)
 		while(i--);
 	}  		 
 
-void LCD_DisplayOn(void)
-	{					   
-
-	}	 
-
-void LCD_DisplayOff(void)
-	{	   
-
-	}   
 
 void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos)
 	{
@@ -88,11 +79,6 @@ void LCD_Init(void)
 		delay_ms(50); // delay 20 ms 
    	SPILCD_RST_SET ;   //LCD_REST=1;		 
 		delay_ms(50); // delay 20 ms 
-
-/*  SPILCD_RST_RESET ;	//LCD_RST=0	 //SPI
-		delay_ms(20); // delay 20 ms 
-    SPILCD_RST_SET ;	//LCD_RST=1		
-		delay_ms(20);   */
 
 		lcddev.width=240;
 		lcddev.height=320;
@@ -122,8 +108,6 @@ void LCD_Init(void)
 		LCD_WR_DATA8(0x00); 
 		LCD_WR_DATA8(0x34); 
 		LCD_WR_DATA8(0x02); 
-		
-		
 	 
 		LCD_WR_REG(0xF7);  
 		LCD_WR_DATA8(0x20); 
@@ -157,10 +141,10 @@ void LCD_Init(void)
 	 
 		LCD_WR_REG(0xB6);    // Display Function Control B6
 		LCD_WR_DATA8(0x0A); 
-		LCD_WR_DATA8(0xA2); 
-	
-	 
-	 
+		LCD_WR_DATA8(0xA2);   //A2
+		
+		
+		
 		LCD_WR_REG(0xF2);    // 3Gamma Function Disable 
 		LCD_WR_DATA8(0x00); 
 	 
@@ -223,6 +207,85 @@ void LCD_Clear(uint16_t color)
 
 	}  
 	
+void LCD_Set_Rotation(unsigned char rotation)
+	{
+		LCD_WR_REG(0x36);
+		switch (rotation) 
+			{
+				case 0:
+					LCD_WR_DATA8(0x08); //UpDown
+					
+					LCD_WR_REG (0x2a); // column set
+					LCD_WR_DATA8 (0x00);
+					LCD_WR_DATA8(0x00);
+					LCD_WR_DATA8(0x00);
+					LCD_WR_DATA8(0xF0); //EF
+					lcddev.width = 240;	
+				
+					LCD_WR_REG (0x2b);  // page address set
+					LCD_WR_DATA8 (0x00);
+					LCD_WR_DATA8 (0x00);
+					LCD_WR_DATA8 (0x01);
+					LCD_WR_DATA8 (0x40); //3F
+					lcddev.height = 320;	
+					
+					break;
+				case 1:
+					LCD_WR_DATA8(0x68); //LeftRight  68
+					LCD_WR_REG (0x2a); // column set
+					LCD_WR_DATA8 (0x00);
+					LCD_WR_DATA8 (0x00);
+					LCD_WR_DATA8 (0x01);
+					LCD_WR_DATA8 (0x40); //3F
+					lcddev.width = 320;
+					
+					LCD_WR_REG (0x2b); // page address set
+					LCD_WR_DATA8 (0x00);
+					LCD_WR_DATA8(0x00);
+					LCD_WR_DATA8(0x00);
+					LCD_WR_DATA8(0xF0); //EF
+					lcddev.height = 240;
+				
+					break;
+				case 2:
+					LCD_WR_DATA8(0xD8); //DownUp
+					
+					LCD_WR_REG (0x2a); // column set
+					LCD_WR_DATA8 (0x00);
+					LCD_WR_DATA8(0x00);
+					LCD_WR_DATA8(0x00);
+					LCD_WR_DATA8(0xF0); //EF
+					lcddev.width = 240;
+					
+					LCD_WR_REG (0x2b); // page address set
+					LCD_WR_DATA8 (0x00);
+					LCD_WR_DATA8 (0x00);
+					LCD_WR_DATA8 (0x01);
+					LCD_WR_DATA8 (0x40); //3F
+					lcddev.height = 320;
+					
+					break;
+				case 3:
+					LCD_WR_DATA8(0xA8); //RightLeft
+					LCD_WR_REG (0x2a); // column set
+					LCD_WR_DATA8 (0x00);
+					LCD_WR_DATA8 (0x00);
+					LCD_WR_DATA8 (0x01);
+					LCD_WR_DATA8 (0x40); //3F
+					lcddev.width = 320;
+					
+					LCD_WR_REG (0x2b); // page address set
+					LCD_WR_DATA8 (0x00);
+					LCD_WR_DATA8(0x00);
+					LCD_WR_DATA8(0x00);
+					LCD_WR_DATA8(0xF0); //EF
+					lcddev.height = 240;
+					
+					break;
+			}	
+	}
+
+	
 void LCD_Fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t color)
 	{          
 		uint16_t i,j;
@@ -236,19 +299,7 @@ void LCD_Fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t color)
 		}
 	}  
 	
-void LCD_Color_Fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t *color)
-	{  
-		uint16_t height,width;
-		uint16_t i,j;
-		width=ex-sx+1; 		
-		height=ey-sy+1;		
-		for(i=0;i<height;i++)
-		{
-			LCD_SetCursor(sx,sy+i);   	
-			LCD_WriteRAM_Prepare();     
-			for(j=0;j<width;j++)LCD->LCD_RAM=color[i*height+j];
-		}	  
-	}  
+
 	
 void LCD_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
 	{
@@ -320,59 +371,7 @@ void Draw_Circle(uint16_t x0,uint16_t y0,uint8_t r)
 			}
 	} 	
 	
-void showhanzi16(unsigned int x,unsigned int y,unsigned char index)	
-	{  
-		unsigned char i,j,k;
-		const unsigned char *temp=hanzi16;    
-		temp+=index*32;	
-		for(j=0;j<16;j++)
-		{
-			LCD_SetCursor(x,y+j);
-			LCD_WriteRAM_Prepare();
-			for(k=0;k<2;k++)
-			{
-				for(i=0;i<8;i++)
-				{
-					if((*temp&(1<<i))!=0)
-						{
-							LCD_WR_DATA(POINT_COLOR);
-						}
-						else
-							{
-								LCD_WR_DATA(BACK_COLOR);
-							}   
-				}
-				temp++;
-			}
-		}
-	}	
-	
-void showhanzi32(unsigned int x,unsigned int y,unsigned char index)	
-	{  
-		unsigned char i,j,k;
-		const unsigned char *temp=hanzi32;    
-		temp+=index*128;	
-		for(j=0;j<32;j++)
-		{
-			LCD_SetCursor(x,y+j);
-			LCD_WriteRAM_Prepare();
-			for(k=0;k<4;k++)
-			{
-				for(i=0;i<8;i++)
-				{ 		     
-					if((*temp&(1<<i))!=0)
-						{
-							LCD_WR_DATA(POINT_COLOR);
-						}
-						else
-							{
-								LCD_WR_DATA(BACK_COLOR);
-							}   
-				}
-				temp++;
-			}
-		}
-	}													  
+
 
 void LCD_ShowChar(uint16_t x,uint16_t y,uint8_t num,uint8_t size,uint8_t mode)
 	{  							  
@@ -492,26 +491,6 @@ void LCD_ShowString(uint16_t x,uint16_t y,uint16_t width,uint16_t height,uint8_t
         x+=size/2;
         p++;
 			}  
-	}
-
-void showimage(uint16_t x,uint16_t y) 
-	{  
-		uint16_t i,j,k;
-		uint16_t da;
-		k=0;
-		for(i=0;i<40;i++)
-		{	
-			LCD_SetCursor(x,y+i);
-			LCD_WriteRAM_Prepare();
-			for(j=0;j<40;j++)
-			{
-				da=qqimage[k*2+1];
-				da<<=8;
-				da|=qqimage[k*2]; 
-				LCD_WR_DATA(da);					
-				k++;  			
-			}
-		}
 	}
 
 

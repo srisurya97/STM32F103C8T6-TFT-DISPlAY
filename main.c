@@ -7,34 +7,39 @@
 #include "MenuFramework.h"
 #include "keynav.h"
 #include "ADC.h"
+#include "images.h"
+
 
 
 
 int main()
 	{
+		uint32_t m=0;
 		delayinit();
 		delay_ms(100); //for proper lcd initialization
 		SPI1_Init();
 		LED_Init();			     
 		LCD_Init();
+		//LCD_Set_Rotation(0);
 		defaultvalsinit();
 		splashdisplay();
 		navsupport3key();
 		while(1)
 			{
 				if (rem == 100)
-				{
-					LCD_Clear(BLACK);
-					Displaymenu(); //MainMenu & selection & Navigation//
-					rem = 0;
-				}
+					{
+						LCD_Clear(BLACK);
+						defaultvalsinit();
+						Displaymenu(); //MainMenu & selection & Navigation//
+						rem = 0;
+					}
 				
 				while(rem == 0)
-				{
+					{
 					// can be used for live tiles in home menu
 					//livetiles();
 					
-				}
+					}
 								
 	////////////////				//Menu Selected//        //////////////////
 				if(rem == 1)
@@ -58,9 +63,9 @@ int main()
 							ONOFFSwitch(100,line12,0);
 							
 							
-							LCD_Fill(60,290,157,301,WHITE);
+							LCD_Fill(60,line15,157,line16,WHITE);
 							POINT_COLOR=BLACK;
-							LCD_ShowString(61,290,159,16,12,"Turn ON to Start");	
+							LCD_ShowString(61,line15,159,16,12,"Turn ON to Start");	
 							
 							
 							while( rem == 1)
@@ -115,7 +120,8 @@ int main()
 				if(rem == 2)			///when menu4 selected
 						{
 							subwindowframe(defaultvals.menu2);
-										
+							
+								
 							while( rem == 2)
 								{
 									//////////////////////////////////////////////
@@ -148,9 +154,20 @@ int main()
 						LCD_ShowString(defaultvals.submenupaddingv,line7,320,16,16, "ADC RESOLUTION->12 bit");
 						LCD_ShowString(defaultvals.submenupaddingv,line8,320,16,16, "DISPLAY   ->2.8 TFT SPI LCD");	
 						LCD_ShowString(defaultvals.submenupaddingv,line9,320,16,16, "DISPLAY RESOLUTION->240*320");	
-						
-						LCD_ShowString(defaultvals.submenupaddingv,line11,320,16,16, "CORE TEMPERATURE:");	
-						LCD_ShowString(defaultvals.submenupaddingv,line12,320,16,16, "SYSTEM UPTIME:");	
+						LCD_ShowString(defaultvals.submenupaddingv,line10,320,16,16, "CORE TEMPERATURE:");	
+						LCD_ShowString(defaultvals.submenupaddingv,line11,320,16,16, "SYSTEM UPTIME:");	
+						LCD_ShowString(defaultvals.submenupaddingv,line12,320,16,16, "SCREEN ROTATION");
+						if(lcddev.height==240 || lcddev.width==320)
+							{
+								ONOFFSwitch(140,line12,1);
+							}
+							else
+								{
+									ONOFFSwitch(140,line12,0);
+								}
+							
+							
+									
 							//////////////Content Here///////////////
 						
 						while( rem == 4)
@@ -179,6 +196,8 @@ int main()
 							subwindowframe(defaultvals.menu6);
 
 							
+
+	
 							while( rem == 6)
 								{
 									////////////////////////////////////

@@ -14,9 +14,11 @@ void adcinit(void)
 	RCC->APB2ENR |= RCC_APB2ENR_ADC1EN | RCC_APB2ENR_AFIOEN | RCC_APB2ENR_IOPAEN ; //ADC,AltFunc,GPIOA Clock Enable
 	
 	//A5 Pin Config
-	GPIOA->CRL &= ~(GPIO_CRL_MODE5 | GPIO_CRL_CNF5_0); //Input mode
-	GPIOA->CRL |= GPIO_CRL_CNF5_1; //Input PushPull
+	GPIOA->CRL &= ~GPIO_CRL_MODE5; //Input mode
 	
+	GPIOA->CRL &= ~GPIO_CRL_CNF5_0;
+	GPIOA->CRL |= GPIO_CRL_CNF5_1; //Input PushPull
+	//GPIOA->CRL &= ~GPIO_CRL_CNF5;
 	
 	ADC1->CR1 |=ADC_CR1_EOCIE; //Enable Interrupt
 	ADC1->CR2 |= ADC_CR2_CONT; //Set to Continous Mode
@@ -30,9 +32,12 @@ void adcinit(void)
 		{
 			RCC->AHBENR|= RCC_AHBENR_DMA1EN;
 			//A6 Pin Config
-			GPIOA->CRL &= ~(GPIO_CRL_MODE6 | GPIO_CRL_CNF6_0); //Input mode
+			GPIOA->CRL &= ~GPIO_CRL_MODE6; //Input mode
+			
+			GPIOA->CRL &= ~GPIO_CRL_CNF6_0;
 			GPIOA->CRL |= GPIO_CRL_CNF6_1; //Input PushPull
-
+			//GPIOA->CRL &= ~GPIO_CRL_CNF6;
+			
 			ADC1->SMPR2 |= ADC_SMPR2_SMP6; //Sampling rate in channel 6 to 239 cycles
 			ADC1->SQR3 |= ADC_SQR3_SQ2_1 | ADC_SQR3_SQ2_2; //6th Channel
 			ADC1->SQR1 |= ADC_SQR1_L_0; //2 Conversions
@@ -58,16 +63,17 @@ void adcinit(void)
 uint16_t ADCConvert (void)
 {
 	POINT_COLOR=WHITE;
-	LCD_DrawRectangle(22,30,238,318);
+	LCD_DrawRectangle(22,20,lcddev.width-2,lcddev.height-2); //238  318
 	POINT_COLOR=GREEN;
-	LCD_ShowString(1,27,30,20,12,"3.3");
-	LCD_ShowString(1,49,30,20,12,"3V-");
-	LCD_ShowString(1,92,30,20,12,"2.5");
-	LCD_ShowString(1,135,30,20,12,"2V-");
-	LCD_ShowString(1,178,30,20,12,"1.5");
-	LCD_ShowString(1,221,30,20,12,"1V-");
-	LCD_ShowString(1,264,30,20,12,"0.5");
-	LCD_ShowString(1,307,30,12,12,"0V-");		
+	//LCD_ShowString(1,(lcddev.height-20)-((3.6*((lcddev.height-4-26)/3.6))-6),30,20,12,"3.6-");
+	LCD_ShowString(1,(lcddev.height-20)-((3.3*((lcddev.height-10-26)/3.3))-6),30,20,12,"3.3-");
+	LCD_ShowString(1,(lcddev.height-20)-((3*((lcddev.height-10-26)/3.3))-6),30,20,12,"3V-");
+	LCD_ShowString(1,(lcddev.height-20)-((2.5*((lcddev.height-10-26)/3.3))-6),30,20,12,"2.5-");
+	LCD_ShowString(1,(lcddev.height-20)-((2*((lcddev.height-10-26)/3.3))-6),30,20,12,"2V-");
+	LCD_ShowString(1,(lcddev.height-20)-((1.5*((lcddev.height-10-26)/3.3))-6),30,20,12,"1.5-");
+	LCD_ShowString(1,(lcddev.height-20)-((1*((lcddev.height-10-26)/3.3))-6),30,20,12,"1V-");
+	LCD_ShowString(1,(lcddev.height-20)-((0.5*((lcddev.height-10-26)/3.3))-6),30,20,12,"0.5-");
+	LCD_ShowString(1,(lcddev.height-20)-((0*((lcddev.height-10-26)/3.3))-6),30,12,12,"0V-");		
 	
 	ADC1->CR2 |= ADC_CR2_ADON;
 }
@@ -75,41 +81,23 @@ uint16_t ADCConvert (void)
 
 void graph (uint16_t graphdata,uint8_t mode, uint16_t color) 
 {
-	static uint16_t x=24, preval=315,drawdata=0,settingdone=0,x0=24,y0=315,x1=24,y1=315;
-	uint16_t y=315;
+	static uint16_t x=24, preval=0,drawdata=0,settingdone=0,x0=24,y0=0,x1=24,y1=0;
+	uint16_t y=lcddev.height-10;//316;
 	
-	drawdata = graphdata/231;
-	/*
-	if(settingdone == 0)
-		{
-			POINT_COLOR=WHITE;
-			LCD_DrawRectangle(22,30,238,318);
-			POINT_COLOR=GREEN;
-			LCD_ShowString(1,27,30,20,12,"3.3");
-			LCD_ShowString(1,49,30,20,12,"3V-");
-			LCD_ShowString(1,92,30,20,12,"2.5");
-			LCD_ShowString(1,135,30,20,12,"2V-");
-			LCD_ShowString(1,178,30,20,12,"1.5");
-			LCD_ShowString(1,221,30,20,12,"1V-");
-			LCD_ShowString(1,264,30,20,12,"0.5");
-			LCD_ShowString(1,307,30,12,12,"0V-");		
-			//settingdone = 1;	
-		} */
+	drawdata = (graphdata*(lcddev.height-10-26))/4095;//14.5;
+	
 		
-	if(x >= 237)
+	if(x >= lcddev.width-3) //237
 		{
-			LCD_Fill(23,31,237,317,BLACK);
+			LCD_Fill(23,21,lcddev.width-3,lcddev.height-3,BLACK); //237   317
 			x=24;
-			
 			x0=24;
-			y0=316-drawdata;
 			x1=24;
-			y1=316-drawdata;
 	  }
 	if(mode == 0)
 		{
 			POINT_COLOR=color;
-			for(y=316;y>=(316-drawdata);y--)
+			for(y=(lcddev.height-10);y>=((lcddev.height-10)-drawdata);y--)
 				{
 					LCD_DrawPoint(x,y);
 				}
@@ -118,11 +106,11 @@ void graph (uint16_t graphdata,uint8_t mode, uint16_t color)
 	if(mode == 1)
 		{
 			POINT_COLOR = RED;
-			LCD_DrawLine(23,260,237,260);
+			LCD_DrawLine(23,(lcddev.height-20)-((0.5*((lcddev.height-10-26)/3.3))-6),lcddev.width-3,(lcddev.height-20)-((0.5*((lcddev.height-10-26)/3.3))-6)); //237
 			POINT_COLOR=BLACK;
-			LCD_DrawLine(23,316-preval,237,316-preval);
+			LCD_DrawLine(23,y-preval,lcddev.width-3,y-preval); //237
 			POINT_COLOR=color;
-			LCD_DrawLine(23,316-drawdata,237,316-drawdata);
+			LCD_DrawLine(23,y-drawdata,lcddev.width-3,y-drawdata); //237
 			preval = drawdata;
 		}
 	if(mode==2)
@@ -130,8 +118,8 @@ void graph (uint16_t graphdata,uint8_t mode, uint16_t color)
 			if(color==CYAN)
 				{
 					POINT_COLOR=color;
-					LCD_DrawPoint(x,(316-drawdata));
-					LCD_DrawLine(x0,316-y0,x,316-drawdata);
+					//LCD_DrawPoint(x,(316-drawdata));
+					LCD_DrawLine(x0,y-y0,x,y-drawdata);
 					x0=x;
 					y0=drawdata;
 					x++;
@@ -139,8 +127,8 @@ void graph (uint16_t graphdata,uint8_t mode, uint16_t color)
 			if(color==BLUE)
 				{
 					POINT_COLOR=color;
-					LCD_DrawPoint(x,(316-drawdata));
-					LCD_DrawLine(x1,316-y1,x,316-drawdata);
+					//LCD_DrawPoint(x,(316-drawdata));
+					LCD_DrawLine(x1,y-y1,x,y-drawdata);
 					x1=x;
 					y1=drawdata;
 					x++;
@@ -155,16 +143,16 @@ void ADC1_2_IRQHandler(void)
 	POINT_COLOR =BLUE;
 	LCD_ShowString(1,1,150,15,12,"Channel 5:     V");
 	POINT_COLOR=BLACK;
-	LCD_ShowNum(60,1,((Data[0]>>4)*3.3/4095),5,12);
-	graph(Data[0],mode,BLUE);
+	LCD_ShowNum(60,1,(Data[0]>>4),5,12); //((Data[0]>>4)*3.3/4095)
+	graph((Data[0]>>4),mode,BLUE);
 		
 	if(ADC1->SQR1 == (ADC_SQR1_L_0))
 		{
 			POINT_COLOR=CYAN;
-			LCD_ShowString(1,14,150,15,12,"Channel 6:     V ");
+			LCD_ShowString(120,1,150,15,12,"Channel 6:     V ");
 			POINT_COLOR=BLACK;
-			LCD_ShowNum(60,14,(((Data[1]>>4)*3.3)/4095),5,12);
-			graph(Data[1],mode,CYAN);
+			LCD_ShowNum(180,1,(((Data[1]>>4)*3.3)/4095),5,12);
+			graph((Data[1]>>4),mode,CYAN);
 		}
 		
 }

@@ -68,15 +68,33 @@ void choosenext (void)
 								menuchoose(selectvals+4);
 							}
 				}
-				else if (((rem == 2 )||(rem == 3 )||(rem == 4 )||(rem == 5 )||(rem == 6 )))
+				else if (((rem == 2 )||(rem == 3 )||(rem == 5 )||(rem == 6 )))
 					{
 						selectvals=2;
 						selectXmark(selectvals);
 					}
-					else
+					else if(rem == 4 )
 						{
+							uint8_t MAX = 3;  //Max Number of Menus							
+							selectvals++;
+							if(selectvals>MAX)selectvals=MAX;
+							selectXmark(selectvals);
+							if(selectvals==3)
+								{
+									if(lcddev.width==240 && lcddev.height==320)
+										{
+											ONOFFSwitch(140,line12,1);
+										}
+										else 
+											{
+												ONOFFSwitch(140,line12,0);
+											}
+								}
+						}
+						else
+							{
 
-						}		
+							}		
 }
 
 void selectingmenu(void)
@@ -116,7 +134,7 @@ void selectingmenu(void)
 							rem = 10;
 						}
 				}
-				else if (((rem == 2 )||(rem == 3 )||(rem == 4 )||(rem == 5 )||(rem == 6 ))) 
+				else if (((rem == 2 )||(rem == 3 )||(rem == 5 )||(rem == 6 ))) 
 					{
 						if(selectvals==1)
 							{
@@ -124,10 +142,30 @@ void selectingmenu(void)
 								rem=100;
 							}
 					}
-					else
+					else if((rem == 4 ))
 						{
+							if(selectvals==1) {selectvals=2; rem=100;}
+							if(selectvals==3) 
+								{
+									if(lcddev.height==320 && lcddev.width==240)
+										{
+											LCD_Set_Rotation(1);
+											selectvals=2;
+											rem =100;
+										}
+									else
+										{
+											LCD_Set_Rotation(0);
+											selectvals=2;
+											rem =100;
+										}
+								}
+						}			
+						else
+							{
 
-						}	
+							}	
+
 }
 
 void chooseprevious(void)
@@ -159,22 +197,41 @@ void chooseprevious(void)
 							menuchoose(selectvals+4);
 						}				
 			}
-			else if ((rem == 2 )||(rem == 3 )||(rem == 4 )||(rem == 5 )||(rem == 6 ))
-				{
-					selectvals=1;
-					selectXmark(selectvals);
-				}
-				else if((rem == 7) || (rem == 8) || (rem == 9) || (rem == 10))
+			else if((rem == 7) || (rem == 8) || (rem == 9) || (rem == 10))
 					{
 						ADC1->CR2 &= ~ADC_CR2_ADON;
-						rem=1;
 						selectvals=2;
+						rem=1;
 					}
-					else 
+					else if ((rem == 2 )||(rem == 3 )||(rem == 5 )||(rem == 6 ))
+							{
+								selectvals=1;
+								selectXmark(selectvals);
+							}
+				
+					else if((rem == 4 ))
 						{
+							uint8_t MIN = 1;  //Max Number of Menus							
+							selectvals--;
+							if(selectvals<MIN) selectvals=MIN;
+							selectXmark(selectvals);
+							if(selectvals!=3)
+								{
+									if(lcddev.width==240 && lcddev.height==320)
+										{
+											ONOFFSwitch(140,line12,0);
+										}
+										else 
+											{
+												ONOFFSwitch(140,line12,1);
+											}
+								}
+						}
+						else 
+							{
 					
 						
-						}		
+							}		
 }
 
 void EXTI0_IRQHandler(void)

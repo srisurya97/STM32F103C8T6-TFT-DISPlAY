@@ -22,7 +22,7 @@
 	
 typedef struct  
 { 					    
-	uint16_t width;			
+	uint16_t  width;			
 	uint16_t height;		
 	uint16_t id;				//LCD ID
 	uint8_t	wramcmd;		//¿ªÊ¼Ð´gramÖ¸Áî
@@ -79,30 +79,25 @@ typedef struct
 #define LBBLUE           0X2B12 
 	    															  
 void LCD_Init(void);			
-void LCD_DisplayOn(void);	
-void LCD_DisplayOff(void);													
 void LCD_Clear(uint16_t Color);	 												
 void LCD_SetCursor(uint16_t Xpos, uint16_t Ypos);							
 void LCD_DrawPoint(uint16_t x,uint16_t y);										
-void LCD_Fast_DrawPoint(uint16_t x,uint16_t y,uint16_t color);			
 void Draw_Circle(uint16_t x0,uint16_t y0,uint8_t r);								
 void LCD_DrawLine(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);	
 void LCD_DrawRectangle(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
 void LCD_Fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t color);		
-void LCD_Color_Fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t *color);
 void LCD_ShowChar(uint16_t x,uint16_t y,uint8_t num,uint8_t size,uint8_t mode);			
 void LCD_ShowNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size);  			
 void LCD_ShowxNum(uint16_t x,uint16_t y,uint32_t num,uint8_t len,uint8_t size,uint8_t mode);
 void LCD_ShowString(uint16_t x,uint16_t y,uint16_t width,uint16_t height,uint8_t size,uint8_t *p);	
-	  
-void showimage(uint16_t x,uint16_t y); 
+void LCD_Set_Rotation(unsigned char rotation);
+
 void LCD_WriteReg(uint8_t LCD_Reg, uint16_t LCD_RegValue);
 void LCD_WriteRAM_Prepare(void);
 
-void LCD_WR_DATA8(uint8_t da);  //   
- 
-void showhanzi16(unsigned int x,unsigned int y,unsigned char index);
-void showhanzi32(unsigned int x,unsigned int y,unsigned char index);						  		 
+void LCD_WR_DATA8(uint8_t da); 
+void LCD_WR_REG(uint16_t regval); 
+
 #endif  
 	 
 	 
