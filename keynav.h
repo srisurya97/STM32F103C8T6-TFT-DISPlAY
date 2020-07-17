@@ -8,7 +8,7 @@
 //void chooosenext (void);
 void navsupport3key(void);
 
-
+void checkkeys(void);
 
 
 

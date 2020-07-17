@@ -4,6 +4,7 @@
 #include "lcd.h"
 #include "delay.h"
 #include "ADC.h"
+#include "SDCARD.h"
 
 static uint8_t selectvals=2;
 
@@ -11,16 +12,16 @@ void interruptsettings(void)
 {
 	RCC->APB2ENR |= RCC_APB2ENR_AFIOEN;  //setting up alternate function for interrupts
 	EXTI->RTSR |= (EXTI_RTSR_TR0 | EXTI_RTSR_TR1 | EXTI_RTSR_TR2); //rising edge trigger
-	AFIO->EXTICR[0] = AFIO_EXTICR1_EXTI0_PA; //setting up interrupt for lineport A0
-	AFIO->EXTICR[0] = AFIO_EXTICR1_EXTI1_PA; //setting up interrupt for lineport A1
+	//AFIO->EXTICR[0] = AFIO_EXTICR1_EXTI0_PA; //setting up interrupt for lineport A0
+	//AFIO->EXTICR[0] = AFIO_EXTICR1_EXTI1_PA; //setting up interrupt for lineport A1
   AFIO->EXTICR[0] = AFIO_EXTICR1_EXTI2_PA;	//setting up interrupt for lineport A2	
 }
 
 void interruptenable(void)
 {
 	EXTI->IMR |= (EXTI_IMR_MR0 | EXTI_IMR_MR1 | EXTI_IMR_MR2); //enabling the interrupt for the line 0,1,2
-	NVIC_EnableIRQ(EXTI0_IRQn);
-	NVIC_EnableIRQ(EXTI1_IRQn);
+	//NVIC_EnableIRQ(EXTI0_IRQn);
+	//NVIC_EnableIRQ(EXTI1_IRQn);
   NVIC_EnableIRQ(EXTI2_IRQn);
 }
 
@@ -32,6 +33,7 @@ void navsupport3key(void)
 		GPIOA->CRL &= ~(GPIO_CRL_MODE0| GPIO_CRL_MODE1 | GPIO_CRL_MODE2);
 		GPIOA->CRL |= (GPIO_CRL_CNF0_1|GPIO_CRL_CNF1_1 | GPIO_CRL_CNF2_1);
 		GPIOA->CRL &= ~(GPIO_CRL_CNF0_0|GPIO_CRL_CNF1_0 |GPIO_CRL_CNF2_0);
+	
 		//interrupt related
 		interruptsettings();
 		interruptenable();
@@ -39,6 +41,7 @@ void navsupport3key(void)
 
 void choosenext (void)
 {		
+	delay_ms(100);
 	 if(rem == 0) //Choose Next
 			{
 				uint8_t MAX = 4;  //Max Number of Menus
@@ -75,21 +78,12 @@ void choosenext (void)
 					}
 					else if(rem == 4 )
 						{
-							uint8_t MAX = 3;  //Max Number of Menus							
+							uint8_t MAX = 4;  //Max Number of Menus							
 							selectvals++;
 							if(selectvals>MAX)selectvals=MAX;
 							selectXmark(selectvals);
-							if(selectvals==3)
-								{
-									if(lcddev.width==240 && lcddev.height==320)
-										{
-											ONOFFSwitch(140,line12,1);
-										}
-										else 
-											{
-												ONOFFSwitch(140,line12,0);
-											}
-								}
+							menuchoose(selectvals + 10);
+							
 						}
 						else
 							{
@@ -99,10 +93,11 @@ void choosenext (void)
 
 void selectingmenu(void)
 {
+	delay_ms(100);
 	  if (rem == 0)   //Selecting the Submenu 
 			{
-				uint8_t MIN = 1;  //Don't Change
-				uint8_t MAX = 4;  //Max Number of Menus
+				//uint8_t MIN = 1;  //Don't Change
+				//uint8_t MAX = 4;  //Max Number of Menus
 				rem= move;
 			}
 			else if (rem == 1 )
@@ -134,7 +129,7 @@ void selectingmenu(void)
 							rem = 10;
 						}
 				}
-				else if (((rem == 2 )||(rem == 3 )||(rem == 5 )||(rem == 6 ))) 
+				else if (((rem == 2 )||(rem == 5 )||(rem == 6 ))) 
 					{
 						if(selectvals==1)
 							{
@@ -142,29 +137,59 @@ void selectingmenu(void)
 								rem=100;
 							}
 					}
-					else if((rem == 4 ))
+					else if (rem == 3 ) 
 						{
-							if(selectvals==1) {selectvals=2; rem=100;}
-							if(selectvals==3) 
+							if(selectvals==1)
 								{
-									if(lcddev.height==320 && lcddev.width==240)
-										{
-											LCD_Set_Rotation(1);
-											selectvals=2;
-											rem =100;
-										}
-									else
-										{
-											LCD_Set_Rotation(0);
-											selectvals=2;
-											rem =100;
-										}
+									selectvals=2;
+									rem=100;
 								}
-						}			
-						else
+						}
+						else if((rem == 4 ))
 							{
+								if(selectvals==1) {selectvals=2; rem=100;}
+								if(selectvals==3) 
+									{
+										if(lcddev.height==320 && lcddev.width==240)
+											{
+												LCD_Set_Rotation(1);
+												selectvals=2;
+												rem =100;
+											}
+											else
+												{
+													LCD_Set_Rotation(0);
+													selectvals=2;
+													rem =100;
+												}
+									}
+								if(selectvals == 4)
+									{
+										if( sdcard1info.mount == 0 )
+											{
+												POINT_COLOR = WHITE;
+												LCD_ShowString(50,300,220,12,12,"Mounting...");
+												if(SDCardBegin() == 1)
+													{
+														sdcard1info.mount = 1;
+														ONOFFSwitch(140,line13,1);
+												
+													}
+											}
+											else 
+												{
+													sdcard1info.mount = 0;
+													ONOFFSwitch(140,line13,0);
+												}									
+										}
+								POINT_COLOR = BLACK;
+								LCD_ShowString(50,300,220,12,12,"Mounting...");
+									
+							}			
+							else
+								{
 
-							}	
+								}		
 
 }
 
@@ -215,17 +240,8 @@ void chooseprevious(void)
 							selectvals--;
 							if(selectvals<MIN) selectvals=MIN;
 							selectXmark(selectvals);
-							if(selectvals!=3)
-								{
-									if(lcddev.width==240 && lcddev.height==320)
-										{
-											ONOFFSwitch(140,line12,0);
-										}
-										else 
-											{
-												ONOFFSwitch(140,line12,1);
-											}
-								}
+							menuchoose(selectvals+10);
+							
 						}
 						else 
 							{
@@ -234,21 +250,32 @@ void chooseprevious(void)
 							}		
 }
 
-void EXTI0_IRQHandler(void)
+
+void checkkeys(void) //For Polling Use
+{
+	if(GPIOA -> IDR & GPIO_IDR_IDR1){
+		selectingmenu();
+	}
+	if(GPIOA -> IDR & GPIO_IDR_IDR0){
+		choosenext();
+	}
+}
+
+/*void EXTI0_IRQHandler(void)
  {
 	 EXTI->PR |= EXTI_PR_PR0;
 	 static uint8_t debounce=0;
 	 debounce++;
 	 if(debounce ==2) { debounce=0;	choosenext();}
- }
+ }*/
 
- void EXTI1_IRQHandler(void)
+/* void EXTI1_IRQHandler(void)
  {
 	 EXTI->PR |= EXTI_PR_PR1;
 	 static uint8_t debounce=0;
 	 debounce++;
 	 if(debounce ==2)	{ debounce=0; selectingmenu();}
- }
+ }*/
  
  void EXTI2_IRQHandler(void)
  {

@@ -1,6 +1,7 @@
 #include "stm32f10x.h"
 #include "delay.h"
 
+
 int mytick=0;
 
 void delayinit(void)
@@ -37,9 +38,8 @@ void delay_us(uint16_t us)
 	mytick =0;
 	while(mytick<us);
 	TIM4->CR1 &= ~TIM_CR1_CEN;
-	
-
 }
+
 
 
 

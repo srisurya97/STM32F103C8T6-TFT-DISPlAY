@@ -3,48 +3,47 @@
 
 #include "stm32f10x.h"
 
-extern uint8_t rem; //=0; 
-extern uint8_t move; // Dont Change
+extern uint8_t rem; 
+extern uint8_t move; 
 		
 typedef struct
 {
-	uint16_t Hometitle;
+	uint8_t *Hometitle;
 	uint16_t Hometitlebg;
 	uint16_t title;
 	uint16_t titlebg;
 	uint16_t textcolor;
 	uint16_t textcolor1;
 	uint16_t textcolor2;
-	uint16_t hovercolor;
+	uint8_t *hovercolor;
 	uint16_t tilescolor;
 	uint16_t bg;
 	uint16_t subtextcolor;
-	uint16_t menu1;
-	uint16_t menu2;
-	uint16_t menu3;
-	uint16_t menu4;
-	uint16_t menu5;
-	uint16_t menu6;
+	uint8_t *menu1;
+	uint8_t *menu2;
+	uint8_t *menu3;
+	uint8_t *menu4;
+	uint8_t *menu5;
+	uint8_t *menu6;
 	uint16_t menu7;
 	uint16_t menu8;
 	uint16_t menu9;
-	uint16_t ver;
+	uint8_t *ver;
 	uint8_t  submenupaddingv;
 	uint8_t  mainmenupaddingv;
 }setdisplay;
 
-typedef struct
+extern setdisplay defaultvals;
+
+typedef struct 
 {
-	uint8_t tileX;
+  uint8_t  tileX;
 	uint8_t tileY;
 	uint8_t tileExpand; 
-	uint16_t tileColor;
-	uint16_t tileName;
+	uint8_t *tileColor;
+	uint8_t *tileName;
 }tiledefine;
 
-
-
-extern setdisplay defaultvals;
 
 #define lineht 15.9
 #define line1 ((lineht*0)+1)			 //1	

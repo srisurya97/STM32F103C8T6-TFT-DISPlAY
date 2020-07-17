@@ -4,6 +4,7 @@
 #include "MenuFramework.h"
 #include "delay.h"
 #include "keynav.h"
+#include "SDCARD.h"
 
 uint8_t rem =100; 
 uint8_t move = 0; // Dont Change
@@ -17,14 +18,14 @@ tiledefine tile4define;
 void defaultvalsinit(void)
 {
 	//Set your Menu Content titles and more//
-	defaultvals.Hometitle = "H O M E";
-	defaultvals.menu1 = "ADCoperations";
-	defaultvals.menu2 = "Dummy Menu 2";
-	defaultvals.menu3 = "Dummy Menu 3";
-	defaultvals.menu4 = "About System";
-	defaultvals.menu5 = "Dummy Menu 5";
-	defaultvals.menu6 = "Dummy Menu 6";
-	defaultvals.ver = "Ver 0.6";
+	defaultvals.Hometitle = (uint8_t *)"H O M E";
+	defaultvals.menu1 = (uint8_t *)"ADCoperations";
+	defaultvals.menu2 = (uint8_t *)"Dummy Menu 2";
+	defaultvals.menu3 = (uint8_t *)"Directories";
+	defaultvals.menu4 = (uint8_t *)"About System";
+	//defaultvals.menu5 = "Dummy Menu 5";
+	//defaultvals.menu6 = "Dummy Menu 6";
+	defaultvals.ver = (uint8_t *)"Ver 0.7";
 	//Set Text & Background colors
 	defaultvals.Hometitlebg = BLACK;//MetalicGrey;
 	defaultvals.textcolor = WHITE;
@@ -37,26 +38,26 @@ void defaultvalsinit(void)
 	
 	tile1define.tileX= 5;
 	tile1define.tileY= line3;
-	tile1define.tileExpand= (lcddev.width/2)-7;//110
-	tile1define.tileColor= LightRed;
+  tile1define.tileExpand= (lcddev.width/2)-7;//110
+	tile1define.tileColor= (uint8_t *)LightRed;
 	tile1define.tileName = defaultvals.menu1;
 	
 	tile2define.tileX= tile1define.tileX+tile1define.tileExpand+ 5 ;//122;
 	tile2define.tileY= tile1define.tileY;//line3;
 	tile2define.tileExpand= tile1define.tileExpand;//110;
-	tile2define.tileColor= LightRed;
+	tile2define.tileColor= (uint8_t *)LightRed;
 	tile2define.tileName = defaultvals.menu2;
 	
 	tile3define.tileX= tile1define.tileX;//5;
 	tile3define.tileY= tile1define.tileY+(tile1define.tileExpand/2)+5;//line10+4;
 	tile3define.tileExpand= tile1define.tileExpand;//110;
-	tile3define.tileColor= LightRed;
+	tile3define.tileColor= (uint8_t *)LightRed;
 	tile3define.tileName = defaultvals.menu3;
 	
 	tile4define.tileX= tile3define.tileX+tile3define.tileExpand+ 5;//122;
 	tile4define.tileY= tile3define.tileY;//line10+4;
 	tile4define.tileExpand= tile1define.tileExpand;//110;
-	tile4define.tileColor= LightRed;
+	tile4define.tileColor= (uint8_t *)LightRed;
 	tile4define.tileName = defaultvals.menu4;
 }
 
@@ -64,66 +65,65 @@ void splashloadanimation(void)
 {
 	//163
 	static int load = 54;
-	LCD_ShowString(1, lcddev.height-17, 320, 16, 12, "Loading [                    ]"); //line 20
-
 	int abc = load + (113/6);
+	LCD_ShowString(1, lcddev.height-17, 320, 16, 12, (uint8_t *)"Loading [                    ]"); //line 20
 	//Load Animation//
-	for (;load<=abc;load++){
-	LCD_ShowString(load, lcddev.height-17, 320, 16, 12, "|" ); //line 20
-	delay_ms(2);
-	}
-	
+	for(;load<=abc;load++)
+		{
+			LCD_ShowString(load, lcddev.height-17, 320, 16, 12, (uint8_t *)"|" ); //line 20
+			delay_ms(2);
+		}
 }
 
 void splashdisplay(void)
 {
 	//LCD_Clear(BLACK);
 	POINT_COLOR=defaultvals.textcolor;
-	LCD_ShowString(1, line1, 320, 16, 16, "Startup processes:" );
+	LCD_ShowString(1, line1, 320, 16, 16, (uint8_t *)"Startup processes:" );
 	LCD_ShowString(190, line20, 320, 16, 12, defaultvals.ver);
-		splashloadanimation();
-	LCD_ShowString(1, line3, 320, 16, 16, "[  ] Spi Init( );" ); 
-	LCD_ShowString(1, line4, 320, 16, 16, "[  ] Spi Started" );
-	POINT_COLOR=GREEN;
-	LCD_ShowString(1, line4, 320, 16, 16, " OK" );
-	POINT_COLOR=WHITE;
-		splashloadanimation();
-	LCD_ShowString(1, line5, 320, 16, 16, "[  ] Led Init( );" );
-	LCD_ShowString(1, line6, 320, 16, 16, "[  ] Led Started" );
-	POINT_COLOR=GREEN;
-	LCD_ShowString(1, line6, 320, 16, 16, " OK" );
-	POINT_COLOR=WHITE;
-		splashloadanimation();
-	LCD_ShowString(1, line7, 320, 16, 16, "[  ] Lcd Init( );" );
-	LCD_ShowString(1, line8, 320, 16, 16, "[  ] Lcd Started" );
-	POINT_COLOR=GREEN;
-	LCD_ShowString(1, line8, 320, 16, 16, " OK" );
-	POINT_COLOR=WHITE;
 	splashloadanimation();
-	LCD_ShowString(1, line9, 320, 16, 16, "[  ] Defaultvals Init( );" );
-	LCD_ShowString(1, line10, 320, 16, 16, "[  ] Defaultvals Configured" );
+	LCD_ShowString(1, line3, 320, 16, 16, (uint8_t *)"[  ] Spi Init( );" ); 
+	LCD_ShowString(1, line4, 320, 16, 16, (uint8_t *)"[  ] Spi Started" );
 	POINT_COLOR=GREEN;
-	LCD_ShowString(1, line10, 320, 16, 16, " OK" );
-	POINT_COLOR=WHITE;
-		splashloadanimation();
-	LCD_ShowString(1, line11, 320, 16, 16, "[  ] navsupport3key( );" );
-	LCD_ShowString(1, line12, 320, 16, 16, "[  ] navsupport3key Configured" );
-	POINT_COLOR=GREEN;
-	LCD_ShowString(1, line12, 320, 16, 16, " OK" );
-	POINT_COLOR=WHITE;
+	LCD_ShowString(1, line4, 320, 16, 16, (uint8_t *)" OK" );
+	POINT_COLOR=defaultvals.textcolor;
 	splashloadanimation();
-	LCD_ShowString(1, line13, 320, 16, 16, "[  ] Delay Configured" );
+	LCD_ShowString(1, line5, 320, 16, 16, (uint8_t *)"[  ] Led Init( );" );
+	LCD_ShowString(1, line6, 320, 16, 16, (uint8_t *)"[  ] Led Started" );
 	POINT_COLOR=GREEN;
-	LCD_ShowString(1, line13, 320, 16, 16, " OK" );
-	POINT_COLOR=WHITE;
+	LCD_ShowString(1, line6, 320, 16, 16, (uint8_t *)" OK" );
+	POINT_COLOR=defaultvals.textcolor;
+	splashloadanimation();
+	LCD_ShowString(1, line7, 320, 16, 16, (uint8_t *)"[  ] Lcd Init( );" );
+	LCD_ShowString(1, line8, 320, 16, 16, (uint8_t *)"[  ] Lcd Started" );
+	POINT_COLOR=GREEN;
+	LCD_ShowString(1, line8, 320, 16, 16, (uint8_t *)" OK" );
+	POINT_COLOR=defaultvals.textcolor;
+	splashloadanimation();
+	LCD_ShowString(1, line9, 320, 16, 16, (uint8_t *)"[  ] Defaultvals Init( );" );
+	LCD_ShowString(1, line10, 320, 16, 16, (uint8_t *)"[  ] Defaultvals Configured" );
+	POINT_COLOR=GREEN;
+	LCD_ShowString(1, line10, 320, 16, 16, (uint8_t *)" OK" );
+	POINT_COLOR=defaultvals.textcolor;
+		splashloadanimation();
+	LCD_ShowString(1, line11, 320, 16, 16, (uint8_t *)"[  ] navsupport3key( );" );
+	LCD_ShowString(1, line12, 320, 16, 16, (uint8_t *)"[  ] navsupport3key Configured" );
+	POINT_COLOR=GREEN;
+	LCD_ShowString(1, line12, 320, 16, 16, (uint8_t *)" OK" );
+	POINT_COLOR=defaultvals.textcolor;
+	splashloadanimation();
+	LCD_ShowString(1, line13, 320, 16, 16, (uint8_t *)"[  ] Delay Configured" );
+	POINT_COLOR=GREEN;
+	LCD_ShowString(1, line13, 320, 16, 16, (uint8_t *)" OK" );
+	POINT_COLOR=defaultvals.textcolor;
 	delay_ms(93);
 }	
 
-void tiles(uint8_t tileStartX,uint8_t tileStartY,uint8_t tileExpand, uint16_t tileColor,uint8_t *tileName)
+void tiles(uint8_t tileStartX,uint8_t tileStartY,uint8_t tileXYExpand, uint8_t *tileColor,uint8_t *tileName)
 {
-	LCD_Fill(tileStartX, tileStartY, tileStartX+tileExpand, tileStartY+tileExpand/2, tileColor);
+	LCD_Fill(tileStartX, tileStartY, tileStartX+tileXYExpand, tileStartY+tileXYExpand/2, (uint16_t)tileColor);
 	POINT_COLOR=defaultvals.textcolor;
-	LCD_ShowString(tileStartX+4,(tileStartY+(tileExpand/2))-18,tileStartY+tileExpand,tileStartX+tileExpand,16, tileName);
+	LCD_ShowString(tileStartX+4,(tileStartY+tileXYExpand/2)-18,tileStartY+tileXYExpand,tileStartX+tileXYExpand,16, tileName);
 }
 
 void selecttile(uint8_t tileStartX,uint8_t tileStartY,uint8_t tileExpand, uint8_t *selectcolor)
@@ -200,14 +200,12 @@ void menuchoose(uint8_t choose)
 				ONOFFSwitch(100,line3,1);
 			  ONOFFSwitch(100,line6,0);
 				ONOFFSwitch(100,line9,0);
-//			  ONOFFSwitch(100,line12,0);
 				break;
 				
 			case 8:
 				ONOFFSwitch(100,line3,0);
 				ONOFFSwitch(100,line6,1);
 				ONOFFSwitch(100,line9,0);
-//				ONOFFSwitch(100,line12,0);
 				break;
 			
 			case 9:
@@ -223,6 +221,54 @@ void menuchoose(uint8_t choose)
 				ONOFFSwitch(100,line9,0);		
 			  ONOFFSwitch(100,line12,1);
 				break;
+			
+			case 11:
+				break; //Windows X mark
+			
+			case 12:
+				if(lcddev.width==240 && lcddev.height==320){
+							ONOFFSwitch(140,line12,0);
+						}
+						else{
+								ONOFFSwitch(140,line12,1);
+							}
+				if( sdcard1info.mount == 0 ){
+							ONOFFSwitch(140,line13,0);
+						}
+						else{
+								ONOFFSwitch(140,line13,1);
+							}				
+				break; //Window idle select
+			
+			case 13:
+				if(lcddev.width==240 && lcddev.height==320){
+							ONOFFSwitch(140,line12,1);
+						}
+						else{
+								ONOFFSwitch(140,line12,0);
+							}
+				if( sdcard1info.mount == 0 ){
+							ONOFFSwitch(140,line13,0);
+						}
+						else{
+								ONOFFSwitch(140,line13,1);
+							}
+				break;	
+			
+			case 14:
+				if(lcddev.width==240 && lcddev.height==320){
+							ONOFFSwitch(140,line12,0);
+						}
+						else{
+								ONOFFSwitch(140,line12,1);
+							}
+				if( sdcard1info.mount == 0 ){
+								ONOFFSwitch(140,line13,1);
+							}
+							else{
+									ONOFFSwitch(140,line13,0);
+								}
+				break;
 		
 		}
 	}
@@ -232,7 +278,7 @@ void subwindowframe(uint8_t *title)
 		LCD_Clear(BLACK);
 		POINT_COLOR=defaultvals.textcolor;
 		LCD_Fill(0,0,lcddev.width-1,20,defaultvals.titlebg); //239
-		LCD_ShowString(lcddev.width-14,line1+1,20,16,16, "X"); //226
+		LCD_ShowString(lcddev.width-14,line1+1,20,16,16, (uint8_t *)"X"); //226
 		LCD_ShowString(defaultvals.submenupaddingv,line1,320,16,16, title);
 	}
 
@@ -240,15 +286,15 @@ void selectXmark(uint8_t selectvalue)
 {
 	if(selectvalue == 1)
 	{
-	LCD_Fill(lcddev.width-21,0,lcddev.width-1,20,RED);  //219 //239
-	POINT_COLOR=defaultvals.textcolor1;
+		LCD_Fill(lcddev.width-21,0,lcddev.width-1,20,RED);  //219 //239
+		POINT_COLOR=defaultvals.textcolor1;
 	}
 	else
 		{
 			LCD_Fill(lcddev.width-21,0,lcddev.width-1,20,defaultvals.titlebg);    //219 //239
 			POINT_COLOR=WHITE;
 		}
-	LCD_ShowString(lcddev.width-14,line1+1,20,16,16, "X");	 //226
+	LCD_ShowString(lcddev.width-14,line1+1,20,16,16, (uint8_t *)"X");	 //226
 }
 
 void ONOFFSwitch(uint8_t x1,uint8_t y1, uint8_t ONOFF)
@@ -259,8 +305,7 @@ void ONOFFSwitch(uint8_t x1,uint8_t y1, uint8_t ONOFF)
 		LCD_Fill(x1+1,y1+1,x1+37,y1+16,GREEN);
 		LCD_Fill(x1+28,y1-1,x1+38,y1+18,WHITE);
 		POINT_COLOR=BLACK;
-		LCD_ShowString(x1+3,y1,40,16,16,"ON");
-		
+		LCD_ShowString(x1+3,y1,40,16,16,(uint8_t *)"ON");
 	}
 	else
 		{
@@ -268,7 +313,7 @@ void ONOFFSwitch(uint8_t x1,uint8_t y1, uint8_t ONOFF)
 			LCD_Fill(x1+1,y1+1,x1+37,y1+16,RED);
 			LCD_Fill(x1,y1-1,x1+10,y1+18,WHITE);
 			POINT_COLOR=BLACK;
-			LCD_ShowString(x1+14,y1,40,16,16,"OFF");
+			LCD_ShowString(x1+14,y1,40,16,16,(uint8_t *)"OFF");
 		}
 	
 }

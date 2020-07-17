@@ -6,7 +6,7 @@
 extern uint8_t mode;
 
 void adcinit(void);
-uint16_t ADCConvert (void);
+void ADCConvert (void);
 
 
 

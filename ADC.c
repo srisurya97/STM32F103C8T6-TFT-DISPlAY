@@ -60,39 +60,70 @@ void adcinit(void)
 	while ((ADC1->CR2 & ADC_CR2_CAL)==1);	
 }
 
-uint16_t ADCConvert (void)
+void GraphLayout (void)
 {
 	POINT_COLOR=WHITE;
 	LCD_DrawRectangle(22,20,lcddev.width-2,lcddev.height-2); //238  318
 	POINT_COLOR=GREEN;
 	//LCD_ShowString(1,(lcddev.height-20)-((3.6*((lcddev.height-4-26)/3.6))-6),30,20,12,"3.6-");
-	LCD_ShowString(1,(lcddev.height-20)-((3.3*((lcddev.height-10-26)/3.3))-6),30,20,12,"3.3-");
-	LCD_ShowString(1,(lcddev.height-20)-((3*((lcddev.height-10-26)/3.3))-6),30,20,12,"3V-");
-	LCD_ShowString(1,(lcddev.height-20)-((2.5*((lcddev.height-10-26)/3.3))-6),30,20,12,"2.5-");
-	LCD_ShowString(1,(lcddev.height-20)-((2*((lcddev.height-10-26)/3.3))-6),30,20,12,"2V-");
-	LCD_ShowString(1,(lcddev.height-20)-((1.5*((lcddev.height-10-26)/3.3))-6),30,20,12,"1.5-");
-	LCD_ShowString(1,(lcddev.height-20)-((1*((lcddev.height-10-26)/3.3))-6),30,20,12,"1V-");
-	LCD_ShowString(1,(lcddev.height-20)-((0.5*((lcddev.height-10-26)/3.3))-6),30,20,12,"0.5-");
-	LCD_ShowString(1,(lcddev.height-20)-((0*((lcddev.height-10-26)/3.3))-6),30,12,12,"0V-");		
-	
+	LCD_ShowString(1,(lcddev.height-14)-(3.3*((lcddev.height-10-26)/3.3)),30,20,12,"3.3-");
+	LCD_ShowString(1,(lcddev.height-14)-(3.2*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(3.1*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(3*((lcddev.height-10-26)/3.3)),30,20,12," 3V-");
+	LCD_ShowString(1,(lcddev.height-14)-(2.9*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(2.8*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(2.7*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(2.6*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(2.5*((lcddev.height-10-26)/3.3)),30,20,12,"2.5-");
+	LCD_ShowString(1,(lcddev.height-14)-(2.4*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(2.3*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(2.2*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(2.1*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(2*((lcddev.height-10-26)/3.3)),30,20,12," 2V-");
+	LCD_ShowString(1,(lcddev.height-14)-(1.9*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(1.8*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(1.7*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(1.6*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(1.5*((lcddev.height-10-26)/3.3)),30,20,12,"1.5-");
+	LCD_ShowString(1,(lcddev.height-14)-(1.4*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(1.3*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(1.2*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(1.1*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(1*((lcddev.height-10-26)/3.3)),30,20,12," 1V-");
+	LCD_ShowString(1,(lcddev.height-14)-(0.9*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(0.8*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(0.7*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(0.6*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(0.5*((lcddev.height-10-26)/3.3)),30,20,12,"0.5-");
+	LCD_ShowString(1,(lcddev.height-14)-(0.4*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(0.3*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(0.2*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(0.1*((lcddev.height-10-26)/3.3)),30,20,12,"   -");
+	LCD_ShowString(1,(lcddev.height-14)-(0*((lcddev.height-10-26)/3.3)),30,12,12," 0V-");
+	LCD_Fill(23,21,lcddev.width-3,lcddev.height-3,BLACK);
+}
+
+void ADCConvert (void)
+{
+	GraphLayout();
 	ADC1->CR2 |= ADC_CR2_ADON;
 }
 
 
-void graph (uint16_t graphdata,uint8_t mode, uint16_t color) 
+void PlotGraph (uint16_t graphdata,uint8_t mode, uint16_t color) 
 {
-	static uint16_t x=24, preval=0,drawdata=0,settingdone=0,x0=24,y0=0,x1=24,y1=0;
-	uint16_t y=lcddev.height-10;//316;
+	static uint16_t x=24, preval=0,drawdata=0,x0=24,y0=0,x1=24,y1=0;
+	uint16_t y=lcddev.height-10;
 	
 	drawdata = (graphdata*(lcddev.height-10-26))/4095;//14.5;
 	
-		
-	if(x >= lcddev.width-3) //237
+	if(x >= lcddev.width-3)
 		{
-			LCD_Fill(23,21,lcddev.width-3,lcddev.height-3,BLACK); //237   317
 			x=24;
 			x0=24;
 			x1=24;
+			LCD_Fill(23,21,lcddev.width-3,lcddev.height-3,BLACK);
+			
 	  }
 	if(mode == 0)
 		{
@@ -108,9 +139,9 @@ void graph (uint16_t graphdata,uint8_t mode, uint16_t color)
 			POINT_COLOR = RED;
 			LCD_DrawLine(23,(lcddev.height-20)-((0.5*((lcddev.height-10-26)/3.3))-6),lcddev.width-3,(lcddev.height-20)-((0.5*((lcddev.height-10-26)/3.3))-6)); //237
 			POINT_COLOR=BLACK;
-			LCD_DrawLine(23,y-preval,lcddev.width-3,y-preval); //237
+			LCD_DrawLine(23,y-preval,lcddev.width-3,y-preval); 
 			POINT_COLOR=color;
-			LCD_DrawLine(23,y-drawdata,lcddev.width-3,y-drawdata); //237
+			LCD_DrawLine(23,y-drawdata,lcddev.width-3,y-drawdata);
 			preval = drawdata;
 		}
 	if(mode==2)
@@ -118,7 +149,6 @@ void graph (uint16_t graphdata,uint8_t mode, uint16_t color)
 			if(color==CYAN)
 				{
 					POINT_COLOR=color;
-					//LCD_DrawPoint(x,(316-drawdata));
 					LCD_DrawLine(x0,y-y0,x,y-drawdata);
 					x0=x;
 					y0=drawdata;
@@ -127,7 +157,6 @@ void graph (uint16_t graphdata,uint8_t mode, uint16_t color)
 			if(color==BLUE)
 				{
 					POINT_COLOR=color;
-					//LCD_DrawPoint(x,(316-drawdata));
 					LCD_DrawLine(x1,y-y1,x,y-drawdata);
 					x1=x;
 					y1=drawdata;
@@ -139,24 +168,22 @@ void graph (uint16_t graphdata,uint8_t mode, uint16_t color)
 
 void ADC1_2_IRQHandler(void)
 {
-	Data[0]=ADC1->DR;
+	if(mode ==0 || (mode == 2 && rem == 10 ))	Data[0]=ADC1->DR;
 	POINT_COLOR =BLUE;
 	LCD_ShowString(1,1,150,15,12,"Channel 5:     V");
 	POINT_COLOR=BLACK;
-	LCD_ShowNum(60,1,(Data[0]>>4),5,12); //((Data[0]>>4)*3.3/4095)
-	graph((Data[0]>>4),mode,BLUE);
+	LCD_ShowNum(60,1,((Data[0]>>4)*3.3/4095),5,12);
+	PlotGraph((Data[0]>>4),mode,BLUE);
 		
 	if(ADC1->SQR1 == (ADC_SQR1_L_0))
 		{
 			POINT_COLOR=CYAN;
-			LCD_ShowString(120,1,150,15,12,"Channel 6:     V ");
+			LCD_ShowString(105,1,150,15,12,"Channel 6:     V ");
 			POINT_COLOR=BLACK;
-			LCD_ShowNum(180,1,(((Data[1]>>4)*3.3)/4095),5,12);
-			graph((Data[1]>>4),mode,CYAN);
+			LCD_ShowNum(165,1,(((Data[1]>>4)*3.3)/4095),5,12);
+			PlotGraph((Data[1]>>4),mode,CYAN);
 		}
 		
 }
-
-
 
 

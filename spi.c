@@ -2,15 +2,15 @@
 #include "stm32f10x.h"
 
 void GPIO_SetBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
-{
-   GPIOx->BSRR = GPIO_Pin;
-}
+	{
+		GPIOx->BSRR = GPIO_Pin;
+	}
 
 
 void GPIO_ResetBit(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
-{
-   GPIOx->BRR = GPIO_Pin;
-}
+	{
+		GPIOx->BRR = GPIO_Pin;
+	}
                          /////////////////ports settings for SPI with TFT & Initialization/////////////////
 void SPI1_Init(void)
 	{  
@@ -76,7 +76,7 @@ void SPI1_Init(void)
 		
 		SPI1->CR1 |= ((uint16_t)0x0304);  //0x0307
 		SPI1->CR2 |= ((uint16_t)0x00C0);  //Interrupt flag enable
-		SPI1->CR1 |= ((uint16_t)0x0040);  //Enable SPI1 
+		SPI1->CR1 |= ((uint16_t)0x0040);  //Enable SPI1  //fclk/2@32MHz//
 		
 		//	SPI_BaudRatePrescaler_2    (36M@sys 72M)
 		//  SPI_BaudRatePrescaler_8    (9M)
@@ -85,7 +85,7 @@ void SPI1_Init(void)
 	}
 	
 	
-	uint8_t SPI_WriteByte(SPI_TypeDef* SPIx,uint8_t Byte)
+uint8_t SPI_WriteByte(SPI_TypeDef* SPIx,uint8_t Byte)
 	{
 		while((SPIx->SR&SPI_SR_TXE)==RESET);		
 		SPIx->DR=Byte; 

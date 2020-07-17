@@ -79,53 +79,53 @@ void LCD_Init(void)
 		delay_ms(50); // delay 20 ms 
    	SPILCD_RST_SET ;   //LCD_REST=1;		 
 		delay_ms(50); // delay 20 ms 
-
+    
 		lcddev.width=240;
 		lcddev.height=320;
 		lcddev.wramcmd=0X2C;
 		lcddev.setxcmd=0X2A;
 		lcddev.setycmd=0X2B; 	
-
+    
 		LCD_WR_REG(0xCF);  
 		LCD_WR_DATA8(0x00); 
 		LCD_WR_DATA8(0xD9); 
 		LCD_WR_DATA8(0X30); 
-	 
+	  
 		LCD_WR_REG(0xED);  
 		LCD_WR_DATA8(0x64); 
 		LCD_WR_DATA8(0x03); 
 		LCD_WR_DATA8(0X12); 
 		LCD_WR_DATA8(0X81); 
-	 
+	  
 		LCD_WR_REG(0xE8);  
 		LCD_WR_DATA8(0x85); 
 		LCD_WR_DATA8(0x10); 
 		LCD_WR_DATA8(0x78); 
-	 
+	  
 		LCD_WR_REG(0xCB);  
 		LCD_WR_DATA8(0x39); 
 		LCD_WR_DATA8(0x2C); 
 		LCD_WR_DATA8(0x00); 
 		LCD_WR_DATA8(0x34); 
 		LCD_WR_DATA8(0x02); 
-	 
+	  
 		LCD_WR_REG(0xF7);  
 		LCD_WR_DATA8(0x20); 
-	 
+	  
 		LCD_WR_REG(0xEA);  
 		LCD_WR_DATA8(0x00); 
 		LCD_WR_DATA8(0x00); 
-	 
+	  
 		LCD_WR_REG(0xC0);    //Power control 
 		LCD_WR_DATA8(0x21);   //VRH[5:0] 
-	 
+	  
 		LCD_WR_REG(0xC1);    //Power control 
 		LCD_WR_DATA8(0x12);   //SAP[2:0];BT[3:0] 
-	 
+	  
 		LCD_WR_REG(0xC5);    //VCM control 
 		LCD_WR_DATA8(0x32); 
 		LCD_WR_DATA8(0x3C); 
-	 
+	  
 		LCD_WR_REG(0xC7);    //VCM control2 
 		LCD_WR_DATA8(0XC1); 
 	 
@@ -407,20 +407,20 @@ void LCD_ShowChar(uint16_t x,uint16_t y,uint8_t num,uint8_t size,uint8_t mode)
 			{
 				for(t=0;t<size;t++)
 				{   
-					if(size==12)temp=asc2_1206[num][t];  //调用1206字体
-					else temp=asc2_1608[num][t];		 //调用1608字体         
+					if(size==12)temp=asc2_1206[num][t]; 
+					else temp=asc2_1608[num][t];		
 	
 	        for(t1=0;t1<8;t1++)
 					{			    
 		        if(temp&0x80)LCD_DrawPoint(x,y); 
 						temp<<=1;
 						y++;
-						if(y>=lcddev.height){POINT_COLOR=colortemp;return;}//超区域了
+						if(y>=lcddev.height){POINT_COLOR=colortemp;return;}
 						if((y-y0)==size)
 							{
 								y=y0;
 								x++;
-								if(x>=lcddev.width){POINT_COLOR=colortemp;return;}//超区域了
+								if(x>=lcddev.width){POINT_COLOR=colortemp;return;}
 								break;
 							}
 					}  	 
