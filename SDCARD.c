@@ -464,8 +464,13 @@ uint16_t SDCardBegin (void)
 			
 		if(retry == 5)
 			{
-				LCD_ShowString(130,1,85,40,16,"SDCard Not Found!");	
-			}	
+				POINT_COLOR = WHITE;
+				LCD_ShowString(150,300,85,40,12,"SDCard Not Found!");	
+				delay_ms(200);
+				POINT_COLOR = BLACK;
+				LCD_ShowString(150,300,85,40,12,"SDCard Not Found!");	
+				POINT_COLOR = WHITE;
+			}			
 			else
 				{
 					retry = 0;	
@@ -615,8 +620,9 @@ uint16_t SDCardBegin (void)
 							{
 								LCD_ShowString(200,160,50,16,16,"CMD16");	
 							}
-						SDFATGetInfo();
-						return 1;
+						if(SDFATGetInfo() == 1){
+						return 1;}
+						return 0;
 				}
 }
 

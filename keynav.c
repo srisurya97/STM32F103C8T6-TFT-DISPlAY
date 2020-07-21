@@ -5,6 +5,7 @@
 #include "delay.h"
 #include "ADC.h"
 #include "SDCARD.h"
+#include "Fat.h"
 
 static uint8_t selectvals=2;
 
@@ -71,10 +72,18 @@ void choosenext (void)
 								menuchoose(selectvals+4);
 							}
 				}
-				else if (((rem == 2 )||(rem == 3 )||(rem == 5 )||(rem == 6 )))
+				else if (((rem == 2 )||(rem == 5 )||(rem == 6 )))
 					{
 						selectvals=2;
 						selectXmark(selectvals);
+					}
+					else if (rem == 3 ){
+						uint8_t MAX = SizeCount;  //Max Number of Menus							
+						selectvals++;
+						if(selectvals >= MAX)selectvals=MAX;
+						selectXmark(selectvals);
+						LCD_Fill(20,0,40,20,defaultvals.titlebg);
+						LCD_ShowxNum(20,0,selectvals-1,2,16,1);
 					}
 					else if(rem == 4 )
 						{
@@ -143,6 +152,10 @@ void selectingmenu(void)
 								{
 									selectvals=2;
 									rem=100;
+								}
+								else{
+									SDlocateDir(selectvals - 1);
+									rem = 11;
 								}
 						}
 						else if((rem == 4 ))
@@ -228,13 +241,23 @@ void chooseprevious(void)
 						selectvals=2;
 						rem=1;
 					}
-					else if ((rem == 2 )||(rem == 3 )||(rem == 5 )||(rem == 6 ))
+					else if ((rem == 2 )||(rem == 5 )||(rem == 6 ))
 							{
 								selectvals=1;
 								selectXmark(selectvals);
 							}
-				
-					else if((rem == 4 ))
+					else if (rem == 3 ){
+						int8_t MIN = 1;  //Max Number of Menus							
+						selectvals--;
+						if(selectvals<MIN) selectvals=MIN;
+						selectXmark(selectvals);
+						LCD_Fill(20,0,40,20,defaultvals.titlebg);
+						LCD_ShowxNum(20,0,selectvals-1,2,16,1);
+					}
+							else if( rem == 11){
+								rem = 3;
+							}
+					else if(rem == 4 )
 						{
 							uint8_t MIN = 1;  //Max Number of Menus							
 							selectvals--;
@@ -254,9 +277,11 @@ void chooseprevious(void)
 void checkkeys(void) //For Polling Use
 {
 	if(GPIOA -> IDR & GPIO_IDR_IDR1){
+		delay_ms(100);
 		selectingmenu();
 	}
 	if(GPIOA -> IDR & GPIO_IDR_IDR0){
+		delay_ms(100);
 		choosenext();
 	}
 }

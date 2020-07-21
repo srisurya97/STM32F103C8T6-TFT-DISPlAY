@@ -21,7 +21,7 @@ void defaultvalsinit(void)
 	defaultvals.Hometitle = (uint8_t *)"H O M E";
 	defaultvals.menu1 = (uint8_t *)"ADCoperations";
 	defaultvals.menu2 = (uint8_t *)"Dummy Menu 2";
-	defaultvals.menu3 = (uint8_t *)"Directories";
+	defaultvals.menu3 = (uint8_t *)"File Manager";
 	defaultvals.menu4 = (uint8_t *)"About System";
 	//defaultvals.menu5 = "Dummy Menu 5";
 	//defaultvals.menu6 = "Dummy Menu 6";

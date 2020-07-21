@@ -10,6 +10,7 @@
 #include "images.h"
 #include "PWM.h"
 #include "SDCARD.h"
+#include "Fat.h"
 
 int main()
 	{
@@ -19,8 +20,9 @@ int main()
 		SPI1_Init();
 		LED_Init();			     
 		LCD_Init();
-		//if(SDCardBegin() == 1){
-		//sdcard1info.mount = 1;}
+		if(SDCardBegin() == 1){
+			sdcard1info.mount = 1;}
+		else { sdcard1info.mount = 0; }
 		//PWMinit();
 		//LCD_Set_Rotation(0);
 		defaultvalsinit();
@@ -137,10 +139,10 @@ int main()
 				
 				if (rem == 3)			///when menu3 selected
 					{
-						subwindowframe(defaultvals.menu3);
+						//subwindowframe(defaultvals.menu3);
 						if(sdcard1info.mount == 1)
 						{
-							SDlocateDir();
+							SDlocateDir(0);
 						}
 						else{
 							LCD_ShowString(50,150,240,16,16,"SDCard Not Mounted.");
@@ -151,7 +153,10 @@ int main()
 							{ 
 								checkkeys();
 								//////////////////////////////////
-							}	
+							}
+						while(rem == 11){
+								checkkeys();
+							}							
 						}
 						
 	/////////////// ///////////////////////////    //////////////////////////			

@@ -108,12 +108,12 @@ uint8_t SDMBRRead (void)
 }
 
 
-void SDFATGetInfo(void)
+uint8_t SDFATGetInfo(void)
 {
 	uint16_t tempcode=0;
 	uint8_t returndata=0,i=0;
 	
-	SDMBRRead();
+	if(SDMBRRead() == 1){
 	
 	SDCARD_CS(0);
 	for( ;i<16; i++){SDCARDWrite(0xFF);}
@@ -275,7 +275,9 @@ void SDFATGetInfo(void)
 			else if(MBRStruct.PartitionType == FAT_32_CHS || MBRStruct.PartitionType == FAT_32_LBA){
 					RootDirAddress= LBSBaseAddress+ (Fat32.BPB_FATSz32*FatCommon.BPB_NumFATs)+FatCommon.BPB_RsvdSecCnt ;
 					}else{ LCD_ShowString(2,2,240,16,16,(uint8_t *)"Unsupported FileSystem."); }	
-
+		return 1;	
+		}else{
+	return 0;}
 }
 
 
@@ -588,13 +590,14 @@ void DisplayDir (DirStruct *TempFile)
 {
 	DirStruct *File2;
 	uint16_t FileNumber = 40;
-	LCD_Clear(BLACK);
+	//LCD_Clear(BLACK);
+	subwindowframe(" ");
 	LCD_ShowString(1,1,240,16,16,(uint8_t *)"./"); 
 	if(TempFile[0].FileAttributes == DIRECTORY){ LCD_ShowString(20,1,240,16,16,TempFile[0].DOSFilename); }		
 	LCD_ShowString(1,20,240,16,16,(uint8_t *)"No  Name    Ext     Size  Clus");
-	for(uint8_t i = 1 ; ;i++)
+	for(uint8_t i = 1 ; i < SizeCount ;i++)
 				{
-					if(TempFile[i].FileAttributes == 0x00){break;}
+					//if(TempFile[i].FileAttributes == 0x00){break;}
 					if(TempFile[i].FileAttributes == DIRECTORY){TempFile[i].DOSFileExtension[0] = 'D', 
 																											TempFile[i].DOSFileExtension[1] = 'I',
 																											TempFile[i].DOSFileExtension[2] = 'R'; }
@@ -711,18 +714,21 @@ void writetoexistingfile ( DirStruct * TempFolder, uint8_t *Data)
 
 
 
-void SDlocateDir (void)
+void SDlocateDir (uint8_t Entry)
 {
 	//uint8_t w = 0;
 	DirStruct *FolderPtr;
 	
-	
 	FolderPtr = LoadDirEntries((uint8_t *)RootDirAddress);
+	if(Entry == 0){
 	DisplayDir(FolderPtr);		
+	}else{
+		OpenEntry(FolderPtr,Entry);
+	}
 	
 	//writetoexistingfile(&FolderPtr[1],"I AM SRISURYA OF PLANET EARTH. 0123456789");
 	
-  OpenEntry(FolderPtr,1);
+  //OpenEntry(FolderPtr,1);
 	
 	free(FolderPtr);
 	FolderPtr = NULL;

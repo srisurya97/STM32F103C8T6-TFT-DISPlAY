@@ -115,13 +115,14 @@ extern uint64_t LBSBaseAddress;
 //extern BootSectorFatCommon FatCommon;
 //extern BootSectorFat12_16 Fat16;
 //extern BootSectorFat32 Fat32;
+extern uint16_t SizeCount;
 
 void SDDisplayonLCD(uint8_t *address,uint8_t M_BL);
 
 void SDDisplayRaw(uint8_t *address,uint8_t M_BL);
-void SDFATGetInfo(void);
+uint8_t SDFATGetInfo(void);
 void SDFatDisplayInfo(void);
-void SDlocateDir (void);
+void SDlocateDir (uint8_t);
 uint8_t SDMBRRead(void);
 
 
