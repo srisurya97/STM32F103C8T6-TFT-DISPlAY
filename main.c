@@ -16,15 +16,12 @@ int main()
 	{
 		//uint32_t m=0;
 		delayinit();
-		delay_ms(100); //for proper lcd initialization
 		SPI1_Init();
-		LED_Init();			     
 		LCD_Init();
+		LED_Init();			     
 		if(SDCardBegin() == 1){
 			sdcard1info.mount = 1;}
 		else { sdcard1info.mount = 0; }
-		//PWMinit();
-		//LCD_Set_Rotation(0);
 		defaultvalsinit();
 		splashdisplay();
 		navsupport3key();
@@ -33,7 +30,7 @@ int main()
 				if (rem == 100)
 					{
 						LCD_Clear(BLACK);
-						//defaultvalsinit();
+						defaultvalsinit();
 						Displaymenu(); //MainMenu & selection & Navigation//
 						rem = 0;
 					}
@@ -142,7 +139,7 @@ int main()
 						//subwindowframe(defaultvals.menu3);
 						if(sdcard1info.mount == 1)
 						{
-							SDlocateDir(0);
+							SDlocateDir(100);
 						}
 						else{
 							LCD_ShowString(50,150,240,16,16,"SDCard Not Mounted.");
@@ -153,9 +150,6 @@ int main()
 							{ 
 								checkkeys();
 								//////////////////////////////////
-							}
-						while(rem == 11){
-								checkkeys();
 							}							
 						}
 						

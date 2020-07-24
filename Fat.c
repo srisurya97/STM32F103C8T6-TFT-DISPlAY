@@ -581,8 +581,8 @@ void OpenAsTXTFile ( DirStruct *File)
 			}
 		for(uint16_t i = 0; i< 512; i++){SDCARDWrite(0xFF);}
 	}
-		LCD_ShowString(2,300,240,16,16,"File Size:           Bytes.");
-		LCD_ShowxNum(84,300,Sizecount,10,16,1);
+		LCD_ShowString(2,lcddev.height - 18,240,16,16,"File Size:           Bytes.");
+		LCD_ShowxNum(84,lcddev.height - 18,Sizecount,10,16,1);
 	SDCARD_CS(1);
 }
 
@@ -610,7 +610,7 @@ void DisplayDir (DirStruct *TempFile)
 					LCD_ShowxNum(200,FileNumber,File2->StartClus,5,12,1);
 					
 					FileNumber = FileNumber + 12;
-					if(FileNumber >= 300){LCD_ShowString(20,FileNumber,150,12,12,(uint8_t *)"& More File/Folders."); break;}																							
+					if(FileNumber >= ((lcddev.height) - 20)){LCD_ShowString(20,FileNumber,150,12,12,(uint8_t *)"& More File/Folders."); break;}																							
 				  //if(FileNumber >= 300){FileNumber = 40; LCD_Clear(BLACK); LCD_ShowString(1,20,240,16,16,(uint8_t *)"No  Name    Ext     Size  Clus");}																									
 				}
 }
@@ -671,14 +671,12 @@ DirStruct* LoadSUBDirEntries (DirStruct *TempFolder,uint8_t DirectoryNumber)
 	uint8_t DirName[8];
 	for(uint8_t x=0;x<8;x++){	DirName[x] = TempDirectory->DOSFilename[x];}
 	
-	if(TempDirectory->StartClus == 0)
-			{
-				RootClus = RootDirAddress; 
-			}
-			else
-				{	
-					RootClus = RootDirAddress + (FatCommon.BPB_RootEntCnt*32 ) + ((TempDirectory->StartClus - 2) * FatCommon.BPB_SecPerClus * FatCommon.BPB_BytsPerSec);
-				}
+	if(TempDirectory -> StartClus == 0){
+		RootClus = RootDirAddress;
+	}
+	else{
+	RootClus = RootDirAddress + (FatCommon.BPB_RootEntCnt*32 ) + ((TempDirectory->StartClus - 2) * FatCommon.BPB_SecPerClus * FatCommon.BPB_BytsPerSec);
+	}
 	free(TempFolder);		
 	TempFolder = NULL;
 					 
@@ -708,29 +706,21 @@ void writetoexistingfile ( DirStruct * TempFolder, uint8_t *Data)
 	if(MBRStruct.PartitionType == FAT_32_LBA || MBRStruct.PartitionType == FAT_32_CHS){FatCommon.BPB_BytsPerSec = 1;}
 	FileLocation = RootDirAddress + (FatCommon.BPB_RootEntCnt * 32 ) + ((TempFolder->StartClus - 2) * FatCommon.BPB_SecPerClus * FatCommon.BPB_BytsPerSec);
 	SDWritedata2b( Data, (uint8_t *)(FileLocation),0xFFFF);
-	
-	//SDWritedata2b(newsize,TempFolder->FileSize,0xFF);
 }
 
-
+DirStruct *FolderPtr;
 
 void SDlocateDir (uint8_t Entry)
 {
-	//uint8_t w = 0;
-	DirStruct *FolderPtr;
-	
-	FolderPtr = LoadDirEntries((uint8_t *)RootDirAddress);
-	if(Entry == 0){
+	//static DirStruct *FolderPtr = NULL;
+	if(Entry == 100){
+	FolderPtr = LoadDirEntries((uint8_t *)RootDirAddress);		
 	DisplayDir(FolderPtr);		
 	}else{
 		OpenEntry(FolderPtr,Entry);
 	}
 	
-	//writetoexistingfile(&FolderPtr[1],"I AM SRISURYA OF PLANET EARTH. 0123456789");
-	
-  //OpenEntry(FolderPtr,1);
-	
-	free(FolderPtr);
+	/*free(FolderPtr);
 	FolderPtr = NULL;
-	
+	*/
 }

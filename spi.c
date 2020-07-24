@@ -90,6 +90,7 @@ uint8_t SPI_WriteByte(SPI_TypeDef* SPIx,uint8_t Byte)
 		while((SPIx->SR&SPI_SR_TXE)==RESET);		
 		SPIx->DR=Byte; 
 		while((SPIx->SR&SPI_SR_RXNE)==RESET);
+		while((SPIx->SR & SPI_SR_BSY)==1);
 		return SPIx->DR;          	   
 	}
 

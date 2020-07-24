@@ -67,7 +67,7 @@ typedef struct
 #define line19 ((lineht*18)+1)		 //289
 #define line20 ((lineht*19)+1)		 //305 use this line for size12font //Max for lineht15.9
 
-
+void displaydirnav(uint8_t selectvals);
 void defaultvalsinit(void);
 void splashdisplay(void);
 void Displaymenu (void);

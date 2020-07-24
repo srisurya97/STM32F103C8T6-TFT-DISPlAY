@@ -116,6 +116,7 @@ extern uint64_t LBSBaseAddress;
 //extern BootSectorFat12_16 Fat16;
 //extern BootSectorFat32 Fat32;
 extern uint16_t SizeCount;
+extern DirStruct *FolderPtr;
 
 void SDDisplayonLCD(uint8_t *address,uint8_t M_BL);
 

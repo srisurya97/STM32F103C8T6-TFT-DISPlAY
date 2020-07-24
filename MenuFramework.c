@@ -25,7 +25,7 @@ void defaultvalsinit(void)
 	defaultvals.menu4 = (uint8_t *)"About System";
 	//defaultvals.menu5 = "Dummy Menu 5";
 	//defaultvals.menu6 = "Dummy Menu 6";
-	defaultvals.ver = (uint8_t *)"Ver 0.7";
+	defaultvals.ver = (uint8_t *)"Ver 1.0";
 	//Set Text & Background colors
 	defaultvals.Hometitlebg = BLACK;//MetalicGrey;
 	defaultvals.textcolor = WHITE;
@@ -65,7 +65,7 @@ void splashloadanimation(void)
 {
 	//163
 	static int load = 54;
-	int abc = load + (113/6);
+	int abc = load + (113/7);
 	LCD_ShowString(1, lcddev.height-17, 320, 16, 12, (uint8_t *)"Loading [                    ]"); //line 20
 	//Load Animation//
 	for(;load<=abc;load++)
@@ -115,6 +115,15 @@ void splashdisplay(void)
 	LCD_ShowString(1, line13, 320, 16, 16, (uint8_t *)"[  ] Delay Configured" );
 	POINT_COLOR=GREEN;
 	LCD_ShowString(1, line13, 320, 16, 16, (uint8_t *)" OK" );
+	POINT_COLOR=defaultvals.textcolor;
+	splashloadanimation();
+	LCD_ShowString(1, line14, 320, 16, 16, (uint8_t *)"[  ] SD Configured" );
+	POINT_COLOR=GREEN;
+	if(sdcard1info.mount == 1){
+	LCD_ShowString(1, line14, 320, 16, 16, (uint8_t *)" OK" );}
+	else{
+			LCD_ShowString(1, line14, 320, 16, 16, (uint8_t *)" NO" );
+	}
 	POINT_COLOR=defaultvals.textcolor;
 	delay_ms(93);
 }	
@@ -326,6 +335,19 @@ void Displaymenu (void)
 				menumain();         //Display MainMenu
 				menuchoose(move);		//Chooses SubMenu		
 		}
+		
+void displaydirnav(uint8_t selectvals)
+{
+	LCD_Fill(120,0,140,20,defaultvals.titlebg);
+	if( selectvals != 1){
+		if((selectvals - 2) != 0) { 
+				LCD_ShowxNum(120,0,selectvals-2,2,16,1);
+			}
+			else{
+				LCD_ShowString(120,0,240,16,16,"<-");
+				}	
+			}else;
+}	
 /*
 void livetiles(void)
 {						

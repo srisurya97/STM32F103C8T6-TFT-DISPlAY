@@ -78,12 +78,11 @@ void choosenext (void)
 						selectXmark(selectvals);
 					}
 					else if (rem == 3 ){
-						uint8_t MAX = SizeCount;  //Max Number of Menus							
+						uint8_t MAX = SizeCount + 1;  //Max Number of Menus							
 						selectvals++;
-						if(selectvals >= MAX)selectvals=MAX;
+						if(selectvals > MAX)selectvals= MAX;
 						selectXmark(selectvals);
-						LCD_Fill(20,0,40,20,defaultvals.titlebg);
-						LCD_ShowxNum(20,0,selectvals-1,2,16,1);
+						displaydirnav(selectvals);
 					}
 					else if(rem == 4 )
 						{
@@ -152,13 +151,16 @@ void selectingmenu(void)
 								{
 									selectvals=2;
 									rem=100;
+									free(FolderPtr);
+									FolderPtr = NULL;
 								}
 								else{
-									SDlocateDir(selectvals - 1);
-									rem = 11;
+										SDlocateDir((selectvals - 2));
+										selectvals = 3; 
+										LCD_ShowxNum(120,0,selectvals-2,2,16,1);
 								}
 						}
-						else if((rem == 4 ))
+						else if(rem == 4 )
 							{
 								if(selectvals==1) {selectvals=2; rem=100;}
 								if(selectvals==3) 
@@ -247,17 +249,14 @@ void chooseprevious(void)
 								selectXmark(selectvals);
 							}
 					else if (rem == 3 ){
-						int8_t MIN = 1;  //Max Number of Menus							
+						uint8_t MIN = 1;  //Max Number of Menus							
 						selectvals--;
 						if(selectvals<MIN) selectvals=MIN;
 						selectXmark(selectvals);
-						LCD_Fill(20,0,40,20,defaultvals.titlebg);
-						LCD_ShowxNum(20,0,selectvals-1,2,16,1);
-					}
-							else if( rem == 11){
-								rem = 3;
-							}
-					else if(rem == 4 )
+						displaydirnav(selectvals);
+						
+						}
+						else if(rem == 4 )
 						{
 							uint8_t MIN = 1;  //Max Number of Menus							
 							selectvals--;
