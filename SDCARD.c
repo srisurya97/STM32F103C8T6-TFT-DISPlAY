@@ -622,7 +622,7 @@ uint16_t SDCardBegin (void)
 							}
 						if(SDFATGetInfo() == 1){
 						return 1;}
-						return 0;
 				}
+				return 0;
 }
 

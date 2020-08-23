@@ -65,8 +65,8 @@ void splashloadanimation(void)
 {
 	//163
 	static int load = 54;
-	int abc = load + (113/7);
-	LCD_ShowString(1, lcddev.height-17, 320, 16, 12, (uint8_t *)"Loading [                    ]"); //line 20
+	int abc = load + (113/8);
+	LCD_ShowString(1, lcddev.height-17, 320, 16, 12, (uint8_t *)"Loading [                     ]"); //line 20
 	//Load Animation//
 	for(;load<=abc;load++)
 		{
@@ -122,8 +122,14 @@ void splashdisplay(void)
 	if(sdcard1info.mount == 1){
 	LCD_ShowString(1, line14, 320, 16, 16, (uint8_t *)" OK" );}
 	else{
+			POINT_COLOR=RED;
 			LCD_ShowString(1, line14, 320, 16, 16, (uint8_t *)" NO" );
 	}
+	POINT_COLOR=defaultvals.textcolor;
+	splashloadanimation();
+	LCD_ShowString(1, line15, 320, 16, 16, (uint8_t *)"[  ] RTC Configured" );
+	POINT_COLOR=GREEN;
+	LCD_ShowString(1, line15, 320, 16, 16, (uint8_t *)" OK" );
 	POINT_COLOR=defaultvals.textcolor;
 	delay_ms(93);
 }	
@@ -137,7 +143,7 @@ void tiles(uint8_t tileStartX,uint8_t tileStartY,uint8_t tileXYExpand, uint8_t *
 
 void selecttile(uint8_t tileStartX,uint8_t tileStartY,uint8_t tileExpand, uint8_t *selectcolor)
 {
-	POINT_COLOR = selectcolor;
+	POINT_COLOR = (uint16_t)selectcolor;
 	LCD_DrawRectangle(tileStartX,tileStartY,tileStartX+tileExpand,tileStartY+tileExpand/2);
 	LCD_DrawRectangle(tileStartX+1,tileStartY+1,tileStartX+tileExpand-1,(tileStartY+tileExpand/2)-1);
 	LCD_DrawRectangle(tileStartX+2,tileStartY+2,tileStartX+tileExpand-2,(tileStartY+tileExpand/2)-2);
