@@ -1,16 +1,16 @@
-#include "led.h"
-#include "delay.h"
-#include "lcd.h"
-#include "spi.h"	
-#include "LCDFunctions.h"
 #include "stm32f10x.h"
+#include "delay.h"
+#include "spi.h"	
+#include "led.h"
+#include "lcd.h"
+#include "LCDFunctions.h"
 #include "MenuFramework.h"
 #include "keynav.h"
 #include "ADC.h"
-#include "images.h"
-#include "PWM.h"
+//#include "images.h"
 #include "SDCARD.h"
 #include "Fat.h"
+#include "RTC.h"
 
 int main()
 	{
@@ -25,6 +25,11 @@ int main()
 		defaultvalsinit();
 		splashdisplay();
 		navsupport3key();
+		RTCinit();
+		//uint8_t seconds = 0;
+		//uint8_t minutes = 0;
+		//uint8_t hours = 0;
+		//uint8_t days = 0;
 		while(1)
 			{
 				if (rem == 100)
@@ -38,6 +43,7 @@ int main()
 				while(rem == 0)
 					{
 						checkkeys();
+												
 					// can be used for live tiles in home menu
 					//livetiles();
 					
@@ -152,6 +158,12 @@ int main()
 								//////////////////////////////////
 							}							
 						}
+					if(rem == 11)
+					{
+						while(rem == 11){
+							//for applications to run from SDCard.
+						}
+					}
 						
 	/////////////// ///////////////////////////    //////////////////////////			
 					if (rem == 4)      ///when menu1 selected 
@@ -166,7 +178,7 @@ int main()
 						LCD_ShowString(defaultvals.submenupaddingv,line8,320,16,16, (uint8_t *)"DISPLAY   ->2.8 TFT SPI LCD");	
 						LCD_ShowString(defaultvals.submenupaddingv,line9,320,16,16, (uint8_t *)"DISPLAY RESOLUTION->240*320");	
 						LCD_ShowString(defaultvals.submenupaddingv,line10,320,16,16,(uint8_t *)"CORE TEMPERATURE:");	
-						LCD_ShowString(defaultvals.submenupaddingv,line11,320,16,16, (uint8_t *)"SYSTEM UPTIME:");	
+						LCD_ShowString(defaultvals.submenupaddingv,line11,320,16,16, (uint8_t *)"SYSTEM UPTIME:Secs");	
 						LCD_ShowString(defaultvals.submenupaddingv,line12,320,16,16, (uint8_t *)"SCREEN ROTATION");
 						LCD_ShowString(defaultvals.submenupaddingv,line13,320,16,16, (uint8_t *)"SDCard");
 						
@@ -193,6 +205,26 @@ int main()
 						while( rem == 4)
 							{
 								checkkeys();
+								POINT_COLOR = DARKBLUE;
+								/*LCD_ShowxNum(130,line11,days,2,16,1);
+								LCD_ShowxNum(130,line11,hours,4,16,1);
+								LCD_ShowxNum(130,line11,minutes,8,16,1);
+								LCD_ShowxNum(130,line11,seconds,10,16,1);
+								if(RTC->CNTL%60 != 0){
+									seconds++;
+									if(seconds % 60 == 0){
+										minutes++;
+										if(minutes % 60 == 0){
+												hours++;
+												if(hours % 24 == 0){
+														days++;
+												}
+											}	
+										}
+									}*/
+								LCD_ShowxNum(160,line11,RTC->CNTL,5,16,1);
+								delay_ms(80);
+								LCD_Fill(160,line11,210,line12-2,BLACK);
 									///////////////////////////
 							}	
 					}
@@ -216,9 +248,7 @@ int main()
 				if(rem == 6)				///when menu5 selected
 						{ 
 							subwindowframe(defaultvals.menu6);
-
 							
-
 	
 							while( rem == 6)
 								{
